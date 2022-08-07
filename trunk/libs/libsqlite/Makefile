@@ -1,7 +1,8 @@
-SRC_NAME=sqlite-autoconf-3360000
-SRC_URL=https://www.sqlite.org/2021/$(SRC_NAME).tar.gz
+SRC_NAME=sqlite-autoconf-3390200
+SRC_URL=https://www.sqlite.org/2022/$(SRC_NAME).tar.gz
 
-all: download_test extract_test config_test
+#all: download_test extract_test config_test
+all: extract_test config_test
 	$(MAKE) -j$(HOST_NCPU) -C $(SRC_NAME)
 
 download_test:
