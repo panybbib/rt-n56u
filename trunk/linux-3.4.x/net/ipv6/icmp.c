@@ -436,8 +436,8 @@ void icmpv6_send(struct sk_buff *skb, u8 type, u8 code, __u32 info)
 	 *	Never answer to a ICMP packet.
 	 */
 	if (is_ineligible(skb)) {
-		LIMIT_NETDEBUG(KERN_DEBUG "icmpv6_send: no reply to icmp error\n");
-		return;
+	/*	LIMIT_NETDEBUG(KERN_DEBUG "icmpv6_send: no reply to icmp error\n");
+	 */	return;
 	}
 
 	mip6_addr_swap(skb);
