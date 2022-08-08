@@ -714,10 +714,11 @@ static VOID APPeerAuthReqAtIdleAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 				pEntry->bIAmBadAtheros = FALSE;
 			}
 
+			ASSERT(pEntry->Aid == Elem->Wcid);
+
 #ifdef DOT11_N_SUPPORT
 			BASessionTearDownALL(pAd, pEntry->wcid);
 #endif /* DOT11_N_SUPPORT */
-			ASSERT(pEntry->Aid == Elem->Wcid);
 		}
 	}
 
