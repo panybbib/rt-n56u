@@ -442,7 +442,7 @@ function showMRULESList(){
 										<tr> <th>缓存大小</th>
 											<td>
 												<input type="text" maxlength="64" class="input" size="15" name="sdns_cache" style="width: 200px" value="<% nvram_get_x("", "sdns_cache"); %>">
-												<div><span style="color:#888;">缓存DNS的结果，缓存大小，配置零则不缓存</span></div>
+												<div><span style="color:#888;">缓存DNS的结果，缓存大小，配置0则不缓存</span></div>
 											</td>
 										</tr>
 										<tr> <th>域名TTL</th>
