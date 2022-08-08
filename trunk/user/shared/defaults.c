@@ -847,7 +847,7 @@ struct nvram_pair router_defaults[] = {
 	{ "sdns_www", "0" },
 	{ "sdns_exp", "0" },
 	{ "sdns_redirect", "0" },
-	{ "sdns_cache", "0" },
+	{ "sdns_cache", "4096" },
 	{ "sdns_ttl", "300" },
 	{ "sdns_ttl_min", "60" },
 	{ "sdns_ttl_max", "86400" },
