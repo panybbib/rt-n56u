@@ -1,5 +1,5 @@
 SRC_NAME=libxml2-2.9.14
-SRC_URL=http://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.14/libxml2-v2.9.14.tar.gz
+SRC_URL=http://download.gnome.org/sources/libxml2/2.9/$(SRC_NAME).tar.xz
 
 all: config_test
 	$(MAKE) -j$(HOST_NCPU) -C $(SRC_NAME)
