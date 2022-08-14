@@ -59,6 +59,7 @@ char rt2880_cmdline[] = CONFIG_CMDLINE;
 
 #if defined (CONFIG_MTD_NETGEAR_LAYOUT) /* netgear parts */
 #define MTD_ROOTFS_DEV	"/dev/mtdblock3 rootfstype=squashfs"
+#elif defined (CONFIG_MTD_NAND_USE_XIAOMI_PART) /* xiaomi parts */
 #define MTD_ROOTFS_DEV	"/dev/mtdblock5 rootfstype=squashfs"
 #elif (defined (CONFIG_MTD_NAND_RALINK) || defined (CONFIG_MTD_NAND_MTK)) && !defined (CONFIG_MTD_CONFIG_PART_BELOW) /* nand parts (normal) */
 #define MTD_ROOTFS_DEV	"/dev/mtdblock5 rootfstype=squashfs"
