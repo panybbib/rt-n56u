@@ -222,7 +222,7 @@ struct nvram_pair router_defaults[] = {
 	{ "wl_greenap", "0" },
 	{ "wl_ldpc", "2" },
 	{ "wl_HT_RDG", "0" },
-#if defined (USE_WID_5G) && (USE_WID_5G==7615)
+#if defined (USE_WID_5G) && (USE_WID_5G==7615 || USE_WID_5G==7915)
 	{ "wl_HT_AMSDU", "1" },
 	{ "wl_HT_BAWinSize", "256" },
 	{ "wl_mumimo", "0" },
@@ -332,7 +332,7 @@ struct nvram_pair router_defaults[] = {
 	{ "rt_HT_80211KV", "0" },
 	{ "rt_HT_80211R", "0" },
 	{ "rt_HT_MpduDensity", "5" },
-#if defined (USE_WID_2G) && (USE_WID_2G==7615)
+#if defined (USE_WID_2G) && (USE_WID_2G==7615 || USE_WID_2G==7915)
 	{ "rt_HT_BAWinSize", "256" },
 	{ "rt_ldpc", "1" },
 	{ "rt_turbo_qam", "1" },
@@ -1089,7 +1089,7 @@ struct nvram_pair router_defaults[] = {
 #endif
 
 #if defined(CONFIG_RALINK_MT7621) || (defined(CONFIG_RALINK_MT7620) && !defined(BOARD_N14U))
-#if defined(USE_MT7615_AP) // hwnat is disabled by default
+#if defined(USE_MT7615_AP) || (USE_MT7915_AP) // hwnat is disabled by default
 	{ "hw_nat_mode", "2" },
 #else
 	{ "hw_nat_mode", "4" },

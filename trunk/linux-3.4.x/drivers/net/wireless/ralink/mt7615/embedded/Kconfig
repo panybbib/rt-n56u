@@ -339,47 +339,6 @@ config FDB_SUPPORT
        depends on WIFI_DRIVER
        default n
 
-choice
-        prompt "PA LNA Type of 1st Card"
-		depends on ! RT_FIRST_IF_NONE
-		
-		config FIRST_IF_EPAELNA
-		bool "ePAeLNA"
-		config FIRST_IF_IPAILNA
-		bool "iPAiLNA"		
-		config FIRST_IF_IPAELNA
-		bool "iPAeLNA"
-#		config FIRST_IF_EPAILNA
-#		bool "ePAiLNA"
-endchoice
-choice
-        prompt "PA LNA Type of 2nd Card"
-		depends on ! RT_SECOND_IF_NONE
-		
-		config SECOND_IF_EPAELNA
-		bool "ePAeLNA"
-		config SECOND_IF_IPAILNA
-		bool "iPAiLNA"		
-		config SECOND_IF_IPAELNA
-		bool "iPAeLNA"
-#		config SECOND_IF_EPAILNA
-#		bool "ePAiLNA"
-endchoice
-choice
-        prompt "PA LNA Type of 3rd Card"
-		depends on ! RT_THIRD_IF_NONE
-		
-		config THIRD_IF_EPAELNA
-		bool "ePAeLNA"
-		config THIRD_IF_IPAILNA
-		bool "iPAiLNA"		
-		config THIRD_IF_IPAELNA
-		bool "iPAeLNA"
-#		config THIRD_IF_EPAILNA
-#		bool "ePAiLNA"
-endchoice
-#### PA_LNA_Type choice END 
-
 #
 # Section for chip architectures
 #
@@ -414,7 +373,7 @@ config RTMP_PCI_SUPPORT
     	bool
 
 config RTMP_USB_SUPPORT
-		bool
+	bool
 
 config RTMP_RBUS_SUPPORT
     	bool
@@ -438,12 +397,11 @@ menu "WiFi Operation Modes"
 				tristate "APSTA"
 				select MT_AP_SUPPORT
 				select MT_STA_SUPPORT
-    endchoice
+	endchoice
 
     if WIFI_MODE_AP || WIFI_MODE_BOTH
 		source "drivers/net/wireless/ralink/mt7615_ap/Kconfig"
     endif
-
 endmenu	
 
 endif
