@@ -5,6 +5,7 @@ if [ -z "$1" ] || [ "$EUID" != 0 ]; then
 	echo "For Windows Subsystem for Linux(WSL), use 'fakeroot-tcp' instead of 'fakeroot', or run with sudo"
 	exit 1
 fi
+
 if [ -z "$2" ];then
 if [ ! -f configs/templates/$1.config ] ; then
 	echo "configs/templates/$1.config not found!"
@@ -12,6 +13,7 @@ if [ ! -f configs/templates/$1.config ] ; then
 fi
 
 cp -f configs/templates/$1.config .config
+
 sed -i 's/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=y/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n/g' .config
 sed -i 's/CONFIG_FIRMWARE_INCLUDE_MENTOHUST=y/CONFIG_FIRMWARE_INCLUDE_MENTOHUST=n/g' .config
 sed -i 's/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=y/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n/g' .config
@@ -69,8 +71,8 @@ export ROOTDIR=$ROOTDIR
 kernel_id="3.4.x"
 kernel_cf=""
 kernel_tf=""
-busybox_id="1.24.x"
-busybox_cf="$ROOTDIR/configs/boards/busybox.config"
+busybox_id="1.34.1"
+busybox_cf="$ROOTDIR/configs/boards/busybox_${busybox_id}.config"
 busybox_tf="$ROOTDIR/user/busybox/busybox-${busybox_id}/.config"
 board_h=""
 board_mk=""
@@ -105,21 +107,14 @@ func_disable_busybox_param()
 		sed -i "s/$1=y/\# $1 is not set/" $busybox_tf
 	fi
 }
-
-if [ ! -f "$ROOTDIR/.config" ] ; then
-	cp -fv "$ROOTDIR/configs/templates/n56u_dlna.config" "$ROOTDIR/.config"
-fi
-
-if [ ! -f "$ROOTDIR/.config" ] ; then
-	echo "Project config file .config not found! Terminate."
-	exit 1
-fi
+. $ROOTDIR/toolchain.inc
+echo "CONFIG_TOOLCHAIN_DIR=${CONFIG_TOOLCHAIN_DIR}" >> .config
 
 # load project root config
 . $ROOTDIR/.config
 
-if [ ! -f "$ROOTDIR/vendors/Ralink/$CONFIG_PRODUCT/config.arch" ] ; then
-	echo "Project product dir ($CONFIG_PRODUCT) not found! Terminate."
+if [ ! -f "$ROOTDIR/vendors/Ralink/config.arch" ] ; then
+	echo "Project product dir not found! Terminate."
 	exit 1
 fi
 
@@ -175,7 +170,7 @@ mkdir -p $ROOTDIR/images
 
 echo --------------------------COPY-CONFIG-----------------------------
 ######################### FOR-ALL-DEVICES #############################
-ln -sf vendors/Ralink/$CONFIG_PRODUCT/config.arch config.arch
+ln -sf vendors/Ralink/config.arch config.arch
 cp -fL "$kernel_cf" "$kernel_tf"
 cp -fL "$busybox_cf" "$busybox_tf"
 cp -fL "$board_mk" "$ROOTDIR/user/shared/board.mk"
@@ -194,11 +189,14 @@ rm -rf "$dir_wifi_dst/mt76x2"
 rm -rf "$dir_wifi_dst/mt76x3"
 rm -rf "$dir_wifi_dst/mt7628"
 rm -rf "$dir_wifi_dst/mt7615"
+rm -rf "$dir_wifi_dst/mt7915"
 
 mkdir -p "$dir_wifi_dst/mt76x3"
 cp -f "$dir_wifi_src/rtpci/4.1.X.X/mt76x3/Kconfig" "$dir_wifi_dst/mt76x3/Kconfig"
 mkdir -p "$dir_wifi_dst/mt7615/embedded"
 cp -f "$dir_wifi_src/rtpci/5.0.4.0/mt7615/embedded/Kconfig" "$dir_wifi_dst/mt7615/embedded/Kconfig"
+mkdir -p "$dir_wifi_dst/mt7915/embedded"
+cp -f "$dir_wifi_src/rtpci/7.3.0.1/mt7915/embedded/Kconfig" "$dir_wifi_dst/mt7915/embedded/Kconfig"
 
 if [ -n "$CONFIG_RT2860V2_AP" ] ; then
 	dir_wifi_ver="2.7.X.X"
@@ -271,14 +269,19 @@ if [ -n "$CONFIG_MT7628_AP" ] ; then
 	cp -rfL "$dir_wifi_src/rtsoc/$dir_wifi_ver/mt7628_ap" "$dir_wifi_dst/"
 fi
 if [ -n "$CONFIG_MT7615_AP" ] ; then
-	dir_wifi_ver="4.4.2.1"
-	if [ "$CONFIG_FIRMWARE_WIFI_DRIVER" = "5.0.4.0" ] || \
-		[ "$CONFIG_FIRMWARE_WIFI2_DRIVER" = "5.0.4.0" ] || \
-		[ "$CONFIG_FIRMWARE_WIFI5_DRIVER" = "5.0.4.0" ]; then
-		dir_wifi_ver="5.0.4.0"
+	dir_wifi_ver="5.0.4.0"
+	if [ "$CONFIG_FIRMWARE_WIFI_DRIVER" = "4.4.2.1" ] || \
+		[ "$CONFIG_FIRMWARE_WIFI2_DRIVER" = "4.4.2.1" ] || \
+		[ "$CONFIG_FIRMWARE_WIFI5_DRIVER" = "4.4.2.1" ]; then
+		dir_wifi_ver="4.4.2.1"
 	fi
 	cp -rfL "$dir_wifi_src/rtpci/$dir_wifi_ver/mt7615" "$dir_wifi_dst/"
 	cp -rfL "$dir_wifi_src/rtpci/$dir_wifi_ver/mt7615_ap" "$dir_wifi_dst/"
+fi
+if [ -n "$CONFIG_MT7915_AP" ] ; then
+	dir_wifi_ver="7.3.0.1"
+	cp -rfL "$dir_wifi_src/rtpci/$dir_wifi_ver/mt7915" "$dir_wifi_dst/"
+	cp -rfL "$dir_wifi_src/rtpci/$dir_wifi_ver/mt7915_ap" "$dir_wifi_dst/"
 fi
 ############################ HWNAT ####################################
 dir_ppe_src="$ROOTDIR/proprietary/rt_ppe"
@@ -402,7 +405,6 @@ if [ "$CONFIG_FIRMWARE_ENABLE_USB" != "y" ] || [ -z "$CONFIG_USB_SUPPORT" ] ; th
 #		func_disable_kernel_param "CONFIG_TUN"
 #		func_disable_kernel_param "CONFIG_HOTPLUG"
 #	fi
-	CONFIG_FIRMWARE_INCLUDE_NFSD=n
 else
 ############################# UFSD ####################################
 if [ "$CONFIG_FIRMWARE_ENABLE_UFSD" != "y" ] ; then
