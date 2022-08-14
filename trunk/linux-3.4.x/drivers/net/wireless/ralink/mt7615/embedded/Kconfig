@@ -75,14 +75,6 @@ config MT_DFS_SUPPORT
         bool "Dynamic Frequency Selection Support"	
         depends on WIFI_DRIVER
         default y
-
-config DPP_SUPPORT
-	bool "DPP Support"
-	depends on WIFI_DRIVER
-	depends on MT_AP_SUPPORT
-	select DOT11W_PMF_SUPPORT
-	default n
-
 config MTK_OFFCHANNEL_SCAN_FEATURE
 	bool "Channel Quality Monitor"
 	depends on MTK_WIFI_DRIVER
@@ -381,24 +373,6 @@ config RTMP_RBUS_SUPPORT
 endmenu
 
 menu "WiFi Operation Modes"
-	choice
-		prompt "Main Mode"
-		default WIFI_MODE_AP
-
-		config WIFI_MODE_AP
-				tristate "AP"
-				select MT_AP_SUPPORT
-
-		config WIFI_MODE_STA
-				tristate "STA"
-				select MT_STA_SUPPORT
-
-		config WIFI_MODE_BOTH
-				tristate "APSTA"
-				select MT_AP_SUPPORT
-				select MT_STA_SUPPORT
-	endchoice
-
     if WIFI_MODE_AP || WIFI_MODE_BOTH
 		source "drivers/net/wireless/ralink/mt7615_ap/Kconfig"
     endif
