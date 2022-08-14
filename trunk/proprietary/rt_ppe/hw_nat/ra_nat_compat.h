@@ -88,9 +88,7 @@
 #endif
 
 #if defined (CONFIG_DBDC_MODE) 
-#if defined (CONFIG_RT_SECOND_IF_NONE)
 #define HWNAT_USE_IF_DBDC
-#endif
 #endif
 
 #endif
