@@ -1228,7 +1228,6 @@
 	};
 #endif
 
-
 /*#if defined(APP_NVPPROXY)
 	struct variable variables_NvpproxyConf[] = {
 			{"nvpproxy_enable", "", NULL, EVM_RESTART_NVPPROXY},
