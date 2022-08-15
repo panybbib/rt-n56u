@@ -10,8 +10,7 @@ xray_SED_ARGS += \
 	s/_ "xray.com\/core\/main\/json"/\/\/ &/;
 xray_VERSION := 1.5.5
 xray_URL := https://codeload.github.com/xtls/xray-core/tar.gz/v$(xray_VERSION)
-xray_dir = xray-core/xray-core-$(xray_VERSION)/main
-ifeq ($(GITHUB_ACTION),n)
+
 all:download_xray build_extract build_xray
 
 download_xray:
@@ -40,8 +39,4 @@ clean:
 	rm -rf $(THISDIR)/bin
 	
 romfs:
-ifeq ($(GITHUB_ACTION),n)	
 	$(ROMFSINST) -p +x $(THISDIR)/bin/xray /usr/bin/v2ray
-else
-	$(ROMFSINST) -p +x $(THISDIR)/xray /usr/bin/v2ray
-endif
