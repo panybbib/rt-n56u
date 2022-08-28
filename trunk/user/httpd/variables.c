@@ -1228,14 +1228,14 @@
 	};
 #endif
 
-/*#if defined(APP_NVPPROXY)
+#if defined(APP_NVPPROXY)
 	struct variable variables_NvpproxyConf[] = {
 			{"nvpproxy_enable", "", NULL, EVM_RESTART_NVPPROXY},
 			{"nvpproxy_wan_port", "", NULL, EVM_RESTART_SMARTDNS},
 			{"nvpproxy_vpn_port", "", NULL, EVM_RESTART_SMARTDNS},
 			{0,0,0,0}
 	};
-#endif*/
+#endif
 
 #if defined(APP_WIREGUARD)
 	struct variable variables_WIREGUARD[] = {
@@ -1443,9 +1443,9 @@
 #if defined(APP_SMARTDNS)
 		{"SmartdnsConf",	variables_SmartdnsConf},
 #endif
-/*#if defined(APP_NVPPROXY)
+#if defined(APP_NVPPROXY)
 		{"NvpproxyConf",	variables_NvpproxyConf},
-#endif*/
+#endif
 #if defined(APP_WIREGUARD)
 		{"WIREGUARD",		variables_WIREGUARD},
 #endif
