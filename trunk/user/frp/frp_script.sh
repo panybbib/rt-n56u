@@ -1,5 +1,5 @@
 #!/bin/sh
-#from hiboy
+
 killall frpc frps
 mkdir -p /tmp/frp
 #启动frp功能后会运行以下脚本
