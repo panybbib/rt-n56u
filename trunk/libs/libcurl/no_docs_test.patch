@@ -1,7 +1,7 @@
 diff -rupw curl.orig/Makefile.am curl/Makefile.am
 --- curl.orig/Makefile.am	2020-08-07 23:38:12.000000000 +0800
 +++ curl/Makefile.am	2020-08-19 20:57:35.661728998 +0800
-@@ -158,6 +158,6 @@ bin_SCRIPTS = curl-config
+@@ -159,6 +159,6 @@ bin_SCRIPTS = curl-config
  
  SUBDIRS = lib src
 -DIST_SUBDIRS = $(SUBDIRS) tests packages scripts include docs
@@ -9,32 +9,26 @@ diff -rupw curl.orig/Makefile.am curl/Makefile.am
  
  pkgconfigdir = $(libdir)/pkgconfig
  pkgconfig_DATA = libcurl.pc
-@@ -269,8 +269,6 @@ cygwinbin:
- 	$(MAKE) -C packages/Win32/cygwin cygwinbin
- 
- # We extend the standard install with a custom hook:
- install-data-hook:
- 	(cd include && $(MAKE) install)
+@@ -274,6 +274,4 @@ install-data-hook:
+	(cd include && $(MAKE) install)
 -	(cd docs && $(MAKE) install)
 -	(cd docs/libcurl && $(MAKE) install)
  
+ # We extend the standard uninstall with a custom hook:
+ uninstall-hook:
 diff -rupw curl.orig/Makefile.in curl/Makefile.in
 --- curl.orig/Makefile.in	2020-08-19 15:38:16.000000000 +0800
 +++ curl/Makefile.in	2020-08-19 20:58:06.895062329 +0800
-@@ -677,6 +677,6 @@  $(VC14_30_LIBVCXPROJ) $(VC14_30_SRCVCXPROJ)
- 
- bin_SCRIPTS = curl-config
+@@ -680,4 +680,4 @@ bin_SCRIPTS = curl-config
  SUBDIRS = lib src
 -DIST_SUBDIRS = $(SUBDIRS) tests packages scripts include docs
 +DIST_SUBDIRS = $(SUBDIRS) packages include
  pkgconfigdir = $(libdir)/pkgconfig
  pkgconfig_DATA = libcurl.pc
-@@ -1766,8 +1766,6 @@ cygwinbin:
- 	$(MAKE) -C packages/Win32/cygwin cygwinbin
- 
- # We extend the standard install with a custom hook:
- install-data-hook:
+@@ -1771,6 +1771,4 @@ install-data-hook:
  	(cd include && $(MAKE) install)
 -	(cd docs && $(MAKE) install)
 -	(cd docs/libcurl && $(MAKE) install)
  
+ # We extend the standard uninstall with a custom hook:
+ uninstall-hook:
