@@ -68,8 +68,8 @@ function initial(){
 	showTab(getHash());
 	showMRULESList();
 	showmenu();
+	sdns_ip_change_changed(1);
 	fill_status(smartdns_status());
-	change_aliddns_enable_bridge(1);
 }
 
 function applyRule(){
