@@ -153,6 +153,7 @@ function show_aliyundrive_dir(){
 								<div id="tabMenu" class="submenuBlock"></div>
 									<div class="alert alert-info" style="margin: 10px;">
 										<p>阿里云盘 WebDAV<br>
+										登录阿里云盘:<a href="https://www.aliyundrive.com/drive">https://www.aliyundrive.com/drive,控制台执行"JSON.parse(localStorage.token).refresh_token"</a>
 										</p>
 									</div>
 								<table width="100%" cellpadding="4" cellspacing="0" class="table">
