@@ -69,6 +69,7 @@ function initial(){
 	showMRULESList();
 	showmenu();
 	fill_status(smartdns_status());
+	change_aliddns_enable_bridge(1);
 }
 
 function applyRule(){
@@ -157,9 +158,9 @@ function markGroupRULES(o, c, b) {
 function showmenu(){
 showhide_div('adglink', found_app_adguardhome());
 }
-function sdns_ip_change_changed(){
-	var v = document.form.sdns_ip_change[0].checked;
-	showhide_div('row_sdns_ip_change_time', v);
+function sdns_ip_change_changed(mflag){
+	var m = document.form.sdns_ip_change[0].checked;
+	showhide_div("row_sdns_ip_change_time", m);
 }
 function showMRULESList(){
 	var code = '<table width="100%" cellspacing="0" cellpadding="3" class="table table-list">';
@@ -356,8 +357,8 @@ function showMRULESList(){
 												</div>
 												</div>
 												<div style="position: absolute; margin-left: -10000px;">
-													<input type="radio" value="1" name="sdns_ip_change" id="sdns_ip_change_1" class="input" onclick="sdns_ip_change_changed();" <% nvram_match_x("", "sdns_ip_change", "1", "checked"); %>/><#checkbox_Yes#>
-													<input type="radio" value="0" name="sdns_ip_change" id="sdns_ip_change_0" class="input" onclick="sdns_ip_change_changed();" <% nvram_match_x("", "sdns_ip_change", "0", "checked"); %>/><#checkbox_No#>
+													<input type="radio" value="1" name="sdns_ip_change" id="sdns_ip_change_1" class="input" value="1" onclick="sdns_ip_change_changed(1);" <% nvram_match_x("", "sdns_ip_change", "1", "checked"); %>/><#checkbox_Yes#>
+													<input type="radio" value="0" name="sdns_ip_change" id="sdns_ip_change_0" class="input" value="0" onclick="sdns_ip_change_changed(1);" <% nvram_match_x("", "sdns_ip_change", "0", "checked"); %>/><#checkbox_No#>
 												</div>
 											</td>
 										</tr>
@@ -378,7 +379,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="sdns_ipv6" id="sdns_ipv6_1" <% nvram_match_x("", "sdns_ipv6", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="sdns_ipv6" id="sdns_ipv6_0" <% nvram_match_x("", "sdns_ipv6", "0", "checked"); %>><#checkbox_No#>
 												</div>
-												<div><span style="color:#888;">启用"双栈IP优选"不要禁用IPV6解析</span></div>
+												<div><span style="color:#888;">启用"双栈IP优选"时不要禁用IPV6解析</span></div>
 											</td>
 										</tr>
 										<tr> <th>域名预加载</th>
