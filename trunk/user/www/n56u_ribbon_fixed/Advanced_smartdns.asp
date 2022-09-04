@@ -157,6 +157,10 @@ function markGroupRULES(o, c, b) {
 function showmenu(){
 showhide_div('adglink', found_app_adguardhome());
 }
+function sdns_ip_change_changed(){
+	var v = document.form.sdns_ip_change[0].checked;
+	showhide_div('row_sdns_ip_change_time', v);
+}
 function showMRULESList(){
 	var code = '<table width="100%" cellspacing="0" cellpadding="3" class="table table-list">';
 	if(m_list.length == 0)
@@ -344,6 +348,25 @@ function showMRULESList(){
 												</div>
 											</td>
 										</tr>
+										<tr> <th>双栈IP优选</th>
+											<td>
+												<div class="main_itoggle">
+												<div id="sdns_ip_change_on_of">
+													<input type="checkbox" id="sdns_ip_change_fake" <% nvram_match_x("", "sdns_ip_change", "1", "value=1 checked"); %><% nvram_match_x("", "sdns_ip_change", "0", "value=0"); %>>
+												</div>
+												</div>
+												<div style="position: absolute; margin-left: -10000px;">
+													<input type="radio" value="1" name="sdns_ip_change" id="sdns_ip_change_1" onclick="sdns_ip_change_changed();" <% nvram_match_x("", "sdns_ip_change", "1", "checked"); %>><#checkbox_Yes#>
+													<input type="radio" value="0" name="sdns_ip_change" id="sdns_ip_change_0" onclick="sdns_ip_change_changed();" <% nvram_match_x("", "sdns_ip_change", "0", "checked"); %>><#checkbox_No#>
+												</div>
+											</td>
+										</tr>
+										<tr id="row_sdns_ip_change_time" style="display:none;">
+										<th width="50%">双栈IP优选阈值</th>
+											<td>
+												<input type="text" maxlength="64" class="input" size="64" name="sdns_ip_change_time" style="width: 50px" value="<% nvram_get_x("", "sdns_ip_change_time"); %>"> 毫秒（0-1000）
+											</td>
+										</tr>
 										<tr> <th>禁用IPV6解析</th>
 											<td>
 												<div class="main_itoggle">
@@ -355,24 +378,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="sdns_ipv6" id="sdns_ipv6_1" <% nvram_match_x("", "sdns_ipv6", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="sdns_ipv6" id="sdns_ipv6_0" <% nvram_match_x("", "sdns_ipv6", "0", "checked"); %>><#checkbox_No#>
 												</div>
-											</td>
-										</tr>
-										<tr> <th>双栈IP优选</th>
-											<td>
-												<div class="main_itoggle">
-												<div id="sdns_ip_change_on_of">
-													<input type="checkbox" id="sdns_ip_change_fake" <% nvram_match_x("", "sdns_ip_change", "1", "value=1 checked"); %><% nvram_match_x("", "sdns_ip_change", "0", "value=0"); %>>
-												</div>
-												</div>
-												<div style="position: absolute; margin-left: -10000px;">
-													<input type="radio" value="1" name="sdns_ip_change" id="sdns_ip_change_1" <% nvram_match_x("", "sdns_ip_change", "1", "checked"); %>><#checkbox_Yes#>
-													<input type="radio" value="0" name="sdns_ip_change" id="sdns_ip_change_0" <% nvram_match_x("", "sdns_ip_change", "0", "checked"); %>><#checkbox_No#>
-												</div>
-											</td>
-										</tr>
-										<tr> <th width="50%">双栈IP优选阈值</th>
-											<td>
-												<input type="text" maxlength="64" class="input" size="64" name="sdns_ip_change_time" style="width: 50px" value="<% nvram_get_x("", "sdns_ip_change_time"); %>"> 毫秒（0-1000）
+												<div><span style="color:#888;">启用"双栈IP优选"时不能禁用</span></div>
 											</td>
 										</tr>
 										<tr> <th>域名预加载</th>
@@ -412,7 +418,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="ss_white" id="ss_white_1" <% nvram_match_x("", "ss_white", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="ss_white" id="ss_white_0" <% nvram_match_x("", "ss_white", "0", "checked"); %>><#checkbox_No#>
 												</div>
-												<div><span style="color:#888;">此项可配合科学上网来实现大陆IP才走国内DNS</span></div>
+												<div><span style="color:#888;">可通过[-blacklist-ip]实现"国内DNS"只解析大陆IP地址</span></div>
 											</td>
 										</tr>
 										<tr> <th>加载ChnrouteIP为黑名单</th>
@@ -426,7 +432,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="ss_black" id="ss_black_1" <% nvram_match_x("", "ss_black", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="ss_black" id="ss_black_0" <% nvram_match_x("", "ss_black", "0", "checked"); %>><#checkbox_No#>
 												</div>
-												<div><span style="color:#888;">此项可配合科学上网来实现大陆IP禁止走国外DNS</span></div>
+												<div><span style="color:#888;">可通过[-whitelist-ip]实现"国外DNS"不解析大陆IP地址</span></div>
 											</td>
 										</tr>
 										<tr>
