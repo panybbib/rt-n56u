@@ -356,8 +356,8 @@ function showMRULESList(){
 												</div>
 												</div>
 												<div style="position: absolute; margin-left: -10000px;">
-													<input type="radio" value="1" name="sdns_ip_change" id="sdns_ip_change_1" onclick="sdns_ip_change_changed();" <% nvram_match_x("", "sdns_ip_change", "1", "checked"); %>><#checkbox_Yes#>
-													<input type="radio" value="0" name="sdns_ip_change" id="sdns_ip_change_0" onclick="sdns_ip_change_changed();" <% nvram_match_x("", "sdns_ip_change", "0", "checked"); %>><#checkbox_No#>
+													<input type="radio" value="1" name="sdns_ip_change" id="sdns_ip_change_1" class="input" onclick="sdns_ip_change_changed();" <% nvram_match_x("", "sdns_ip_change", "1", "checked"); %>/><#checkbox_Yes#>
+													<input type="radio" value="0" name="sdns_ip_change" id="sdns_ip_change_0" class="input" onclick="sdns_ip_change_changed();" <% nvram_match_x("", "sdns_ip_change", "0", "checked"); %>/><#checkbox_No#>
 												</div>
 											</td>
 										</tr>
