@@ -248,7 +248,7 @@ function show_aliyundrive_dir(){
 									<tr>
 									<th>密码</th>
 										<td>
-											<input type="text" class="input" name="ald_auth_password" id="ald_auth_password" style="width: 200px" value="<% nvram_get_x("","ald_auth_password"); %>" />
+											<input type="password" class="input" name="ald_auth_password" id="ald_auth_password" style="width: 200px" value="<% nvram_get_x("","ald_auth_password"); %>" />
 											<button style="margin-left: -5px;" class="btn" type="button" onclick="passwordShowHide('ald_auth_password')"><i class="icon-eye-close"></i></button>
 										</td>
 									</tr>
