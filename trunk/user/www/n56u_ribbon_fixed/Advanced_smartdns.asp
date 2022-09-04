@@ -29,7 +29,7 @@ $j(document).ready(function(){
 	init_itoggle('sdns_enable');
 	init_itoggle('sdns_tcp_server');
 	init_itoggle('sdns_ipv6_server');
-	init_itoggle('sdns_ip_change');
+	init_itoggle('sdns_ip_change', sdns_ip_change_changed);
 	init_itoggle('sdns_www');
 	init_itoggle('sdns_ipv6');
 	init_itoggle('sdns_exp');
