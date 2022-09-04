@@ -378,7 +378,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="sdns_ipv6" id="sdns_ipv6_1" <% nvram_match_x("", "sdns_ipv6", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="sdns_ipv6" id="sdns_ipv6_0" <% nvram_match_x("", "sdns_ipv6", "0", "checked"); %>><#checkbox_No#>
 												</div>
-												<div><span style="color:#888;">启用"双栈IP优选"时不能禁用</span></div>
+												<div><span style="color:#888;">启用"双栈IP优选"不要禁用IPV6解析</span></div>
 											</td>
 										</tr>
 										<tr> <th>域名预加载</th>
@@ -418,7 +418,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="ss_white" id="ss_white_1" <% nvram_match_x("", "ss_white", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="ss_white" id="ss_white_0" <% nvram_match_x("", "ss_white", "0", "checked"); %>><#checkbox_No#>
 												</div>
-												<div><span style="color:#888;">可通过[-blacklist-ip]实现"国内DNS"只解析大陆IP地址</span></div>
+												<div><span style="color:#888;">可通过[-whitelist-ip]参数实现"国内DNS"只解析大陆IP地址</span></div>
 											</td>
 										</tr>
 										<tr> <th>加载ChnrouteIP为黑名单</th>
@@ -432,7 +432,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="ss_black" id="ss_black_1" <% nvram_match_x("", "ss_black", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="ss_black" id="ss_black_0" <% nvram_match_x("", "ss_black", "0", "checked"); %>><#checkbox_No#>
 												</div>
-												<div><span style="color:#888;">可通过[-whitelist-ip]实现"国外DNS"不解析大陆IP地址</span></div>
+												<div><span style="color:#888;">可通过[-blacklist-ip]参数实现"国外DNS"不解析大陆IP地址</span></div>
 											</td>
 										</tr>
 										<tr>
@@ -578,7 +578,7 @@ function showMRULESList(){
 												</div>
 											</td>
 										</tr>
-										<tr> <th>跳过双栈优选</th>
+										<tr> <th>跳过双栈IP优选</th>
 											<td>
 												<div class="main_itoggle">
 												<div id="sdnse_ipc_on_of">
@@ -591,7 +591,7 @@ function showMRULESList(){
 												</div>
 											</td>
 										</tr>
-										<tr> <th>跳过cache</th>
+										<tr> <th>跳过Cache</th>
 											<td>
 												<div class="main_itoggle">
 												<div id="sdnse_cache_on_of">
