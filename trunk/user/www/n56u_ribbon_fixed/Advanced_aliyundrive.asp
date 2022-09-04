@@ -347,7 +347,7 @@ function show_aliyundrive_dir(){
 										<td colspan="2">
 											<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script2')"><span>Aliyundrive脚本</span></a>
 											<div id="script2">
-												<textarea rows="18" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.aliyundrive_script.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.aliyundrive_script.sh",""); %></textarea>
+												<textarea rows="10" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.aliyundrive_script.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.aliyundrive_script.sh",""); %></textarea>
 											</div>
 										</td>
 									</tr>
