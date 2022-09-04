@@ -151,12 +151,11 @@ function show_aliyundrive_dir(){
 							</div>
 							<div class="row-fluid">
 								<div id="tabMenu" class="submenuBlock"></div>
-									<div class="alert alert-info" style="margin: 10px;">
-										<p>阿里云盘 WebDAV<br>
-										登录阿里云盘:<a href="https://www.aliyundrive.com/drive">https://www.aliyundrive.com/drive</a>,控制台执行"JSON.parse(localStorage.token).refresh_token"</p>
+									<div class="alert alert-info" style="margin: 10px;">阿里云盘 WebDAV<br>
+									获取 refresh token: 登录阿里云盘 <a href="https://www.aliyundrive.com/drive">https://www.aliyundrive.com/drive</a>，控制台执行"JSON.parse(localStorage.token).refresh_token"
 									</div>
-								<table width="100%" cellpadding="4" cellspacing="0" class="table">
 
+								<table width="100%" cellpadding="4" cellspacing="0" class="table">
 									<tr>
 									<th><#running_status#></th>
 										<td id="aliyundrive_status" colspan="2">
@@ -179,9 +178,9 @@ function show_aliyundrive_dir(){
 									</tr>
 
 									<tr>
-									<th>获取 refresh token</th>
+									<th>使用说明</th>
 										<td>
-											<input type="button" class="btn btn-success" value="查看获取 refresh token 的方法" onclick="window.open('https://github.com/messense/aliyundrive-webdav')" size="0">
+											<input type="button" class="btn btn-success" value="查看使用说明" onclick="window.open('https://github.com/messense/aliyundrive-webdav')" size="0">
 										</td>
 									</tr>
 
