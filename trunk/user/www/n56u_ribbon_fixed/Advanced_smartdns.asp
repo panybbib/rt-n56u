@@ -419,7 +419,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="ss_white" id="ss_white_1" <% nvram_match_x("", "ss_white", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="ss_white" id="ss_white_0" <% nvram_match_x("", "ss_white", "0", "checked"); %>><#checkbox_No#>
 												</div>
-												<div><span style="color:#888;">可通过[-whitelist-ip]参数实现"国内DNS"只解析大陆IP地址</span></div>
+												<div><span style="color:#888;">启用后国内DNS设置[-whitelist-ip]参数则只解析大陆IP</span></div>
 											</td>
 										</tr>
 										<tr> <th>加载ChnrouteIP为黑名单</th>
@@ -433,7 +433,7 @@ function showMRULESList(){
 													<input type="radio" value="1" name="ss_black" id="ss_black_1" <% nvram_match_x("", "ss_black", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="ss_black" id="ss_black_0" <% nvram_match_x("", "ss_black", "0", "checked"); %>><#checkbox_No#>
 												</div>
-												<div><span style="color:#888;">可通过[-blacklist-ip]参数实现"国外DNS"不解析大陆IP地址</span></div>
+												<div><span style="color:#888;">启用后国外DNS设置[-blacklist-ip]参数则不解析大陆IP</span></div>
 											</td>
 										</tr>
 										<tr>
