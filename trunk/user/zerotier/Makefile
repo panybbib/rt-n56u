@@ -1,20 +1,21 @@
-SRC_NAME = ZeroTierOne-1.4.6
+SRC_NAME = ZeroTierOne-1.10.2
 THISDIR = $(shell pwd)
 FLAGS := DEFS=""
-CFLAGS := -O3 -ffunction-sections -fdata-sections
+CFLAGS := -Os -ffunction-sections -fdata-sections
 LDFLAGS := -Wl,--gc-sections,--as-needed
 
 all: extract_test
 	$(MAKE) -j$(HOST_NCPU) -C $(SRC_NAME)
 
 extract_test:
-	if [ ! -d $(SRC_NAME) ]; then \
+	 if [ ! -d $(SRC_NAME) ] ; then \
 		tar xf $(SRC_NAME).tar.gz ; \
 		patch -d $(SRC_NAME) -p1 -i ../0002-remove-pie.patch; \
-	fi
+		patch -d $(SRC_NAME) -p1 -i ../0007-add-cerrno-header-for-str-errno.patch ; \
+		patch -d $(SRC_NAME) -p1 -i ../0009-fix-set-mac-and-change-confpath.patch ; \
+	 fi ;
 
 config_test:
-
 clean:
 	if [ -f $(SRC_NAME)/Makefile ] ; then \
 		$(MAKE) -C $(SRC_NAME) distclean ; \
