@@ -1,4 +1,4 @@
-SRC_NAME = ZeroTierOne-1.4.6
+SRC_NAME = ZeroTierOne-1.10.2
 THISDIR = $(shell pwd)
 FLAGS := DEFS=""
 CFLAGS := -Os -ffunction-sections -fdata-sections
@@ -11,8 +11,8 @@ extract_test:
 	 if [ ! -d $(SRC_NAME) ] ; then \
 		tar xf $(SRC_NAME).tar.gz ; \
 		patch -d $(SRC_NAME) -p1 -i ../0002-remove-pie.patch; \
-		#patch -d $(SRC_NAME) -p1 -i ../0007-add-cerrno-header-for-str-errno.patch ; \
-		#patch -d $(SRC_NAME) -p1 -i ../0009-fix-set-mac-and-change-confpath.patch ; \
+		patch -d $(SRC_NAME) -p1 -i ../0007-add-cerrno-header-for-str-errno.patch ; \
+		patch -d $(SRC_NAME) -p1 -i ../0009-fix-set-mac-and-change-confpath.patch ; \
 	 fi ;
 
 config_test:
@@ -27,3 +27,4 @@ romfs:
 	ln -sf zerotier-one $(ROMFSDIR)/usr/bin/zerotier-cli
 	ln -sf zerotier-one $(ROMFSDIR)/usr/bin/zerotier-idtool
 	cp -fP $(CONFIG_CROSS_COMPILER_ROOT)/mipsel-linux-uclibc/sysroot/lib/libstdc++.so* $(ROMFSDIR)/lib
+
