@@ -245,13 +245,13 @@ BOOLEAN PeerAddBARspActionSanity(
 	pAddFrame->StatusCode = cpu2le16(pAddFrame->StatusCode);
 	pAddFrame->TimeOutValue = cpu2le16(pAddFrame->TimeOutValue);
 
-	if (pAddFrame->BaParm.TID >= NUM_OF_TID) {
-		MTWF_LOG(DBG_CAT_PROTO, CATPROTO_BA, DBG_LVL_ERROR, ("Wrong TID %d!\n", pAddFrame->BaParm.TID));
+	if (pAddFrame->BaParm.BAPolicy != IMMED_BA) {
+		MTWF_LOG(DBG_CAT_MLME, DBG_SUBCAT_ALL, RT_DEBUG_TRACE, ("%s(): ADDBA Resp Ba Policy[%d] not support\n", __func__, pAddFrame->BaParm.BAPolicy));
 		return FALSE;
 	}
 
-	if (pAddFrame->BaParm.BAPolicy != IMMED_BA) {
-		MTWF_LOG(DBG_CAT_MLME, DBG_SUBCAT_ALL, RT_DEBUG_TRACE, ("%s(): ADDBA Resp Ba Policy[%d] not support\n", __func__, pAddFrame->BaParm.BAPolicy));
+	if (pAddFrame->BaParm.TID >= NUM_OF_TID) {
+		MTWF_LOG(DBG_CAT_PROTO, CATPROTO_BA, RT_DEBUG_TRACE, ("Wrong TID %d!\n", pAddFrame->BaParm.TID));
 		return FALSE;
 	}
 
