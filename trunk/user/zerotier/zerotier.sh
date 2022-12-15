@@ -41,7 +41,7 @@ start_instance() {
 	fi
 
 	add_join "$(nvram get zerotier_id)"
-	$PROG $args $config_path >/dev/null 2>&1 &
+	$PROG $args $config_path >/dev/null 2>&1
 	rules
 
 	if [ -n "$moonid" ]; then
