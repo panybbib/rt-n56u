@@ -246,18 +246,18 @@ BOOLEAN PeerAddBARspActionSanity(
 	pAddFrame->TimeOutValue = cpu2le16(pAddFrame->TimeOutValue);
 
 	if (pAddFrame->BaParm.BAPolicy != IMMED_BA) {
-		MTWF_LOG(DBG_CAT_MLME, DBG_SUBCAT_ALL, RT_DEBUG_TRACE, ("%s(): ADDBA Resp Ba Policy[%d] not support\n", __func__, pAddFrame->BaParm.BAPolicy));
+		MTWF_LOG(DBG_CAT_MLME, DBG_SUBCAT_ALL, DBG_LVL_TRACE, ("%s(): ADDBA Resp Ba Policy[%d] not support\n", __func__, pAddFrame->BaParm.BAPolicy));
 		return FALSE;
 	}
 
 	if (pAddFrame->BaParm.TID >= NUM_OF_TID) {
-		MTWF_LOG(DBG_CAT_PROTO, CATPROTO_BA, RT_DEBUG_TRACE, ("Wrong TID %d!\n", pAddFrame->BaParm.TID));
+		MTWF_LOG(DBG_CAT_PROTO, CATPROTO_BA, DBG_LVL_TRACE, ("Wrong TID %d!\n", pAddFrame->BaParm.TID));
 		return FALSE;
 	}
 
 	/* SPEC define the buffer size of add ba resp should be at least 1 */
 	if (pAddFrame->BaParm.BufSize == 0) {
-		MTWF_LOG(DBG_CAT_PROTO, CATPROTO_BA, RT_DEBUG_TRACE, ("illegal BA buffer size = %d\n", pAddFrame->BaParm.BufSize));
+		MTWF_LOG(DBG_CAT_PROTO, CATPROTO_BA, DBG_LVL_TRACE, ("illegal BA buffer size = %d\n", pAddFrame->BaParm.BufSize));
 		return FALSE;
 	}
 
