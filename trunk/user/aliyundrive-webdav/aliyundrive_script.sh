@@ -21,7 +21,7 @@ if [ ! -f $alibin ];then
 	[ ! -d "$app_dir" ] && mkdir -p $app_dir
 	logger -t "【阿里云webdav】" "未发现程序，稍后自动下载，不同网络情况所需时长不同，请耐心等待!"
 	if [ ! -f /tmp/ald_webdav.tar.gz ]; then
-		if [ "$(ping 114.114.114.114 -c 1 -w 10 | grep -o ttl)" ] || [ "$(ping 114.114.115.115 -c 1 -w 10 | grep -o ttl)" ];then
+		if [ "$(ping 114.114.114.114 -c 1 -w 10 | grep -o ttl)" ] || [ "$(ping 8.8.8.8 -c 1 -w 10 | grep -o ttl)" ];then
 			logger -t "【阿里云webdav】" "网络已联接，正在下载程序，请稍后..."
 			ver="v1.10.4"
 			url="https://github.com/messense/$NAME/releases/download/$ver/$NAME-$ver.mipsel-unknown-linux-musl.tar.gz"
