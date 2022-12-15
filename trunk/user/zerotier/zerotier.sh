@@ -81,6 +81,7 @@ rules() {
 		ip_segment="$(ip route | grep "dev $zt0  proto kernel" | awk '{print $1}')"
 		iptables -t nat -A POSTROUTING -s "${ip_segment}" -j MASQUERADE
 		zero_route "add" "$zt0"
+		logger -t "zerotier" "zerotier nat start"
 	fi
 }
 
