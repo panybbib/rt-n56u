@@ -42,7 +42,6 @@ start_instance() {
 
 	add_join "$(nvram get zerotier_id)"
 	$PROG $args $config_path >/dev/null 2>&1
-	rules
 
 	if [ -n "$moonid" ]; then
 		$PROGCLI -D$config_path orbit $moonid $moonid
@@ -58,6 +57,9 @@ start_instance() {
 			remove_moon
 		fi
 	fi
+
+	sleep 10
+	iprules
 }
 
 add_join() {
@@ -66,7 +68,7 @@ add_join() {
 		touch $config_path/networks.d/$1.conf
 }
 
-rules() {
+iprules() {
 	while [ "$(ifconfig | grep zt | awk '{print $1}')" = "" ]; do
 		sleep 1
 	done
