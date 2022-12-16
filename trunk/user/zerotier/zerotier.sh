@@ -50,7 +50,7 @@ start_instance() {
 	fi
 
 	if [ -n "$enablemoonserv" ]; then
-		if [ "$enablemoonserv" -eq "1" ]; then
+		if [ "$enablemoonserv" -eq 1 ]; then
 			logger -t "zerotier" "creat moon start"
 			creat_moon
 		else
@@ -111,9 +111,11 @@ zero_route(){
 }
 
 start_zero() {
-	logger -t "zerotier" "正在启动zerotier"
-	kill_z
-	start_instance 'zerotier' &
+	if [ "$(nvram get zerotier_enable)" -eq 1 ]; then
+		logger -t "zerotier" "正在启动zerotier"
+		kill_z
+		start_instance 'zerotier' &
+	fi
 }
 
 kill_z() {
