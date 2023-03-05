@@ -162,8 +162,8 @@ start_adg() {
 }
 
 stop_adg() {
-rm -rf /tmp/AdGuardHome
 killall -9 AdGuardHome
+[ -z "$(pidof AdGuardHome)" ] && rm -rf /tmp/AdGuardHome
 del_dns
 clear_iptable
 }
