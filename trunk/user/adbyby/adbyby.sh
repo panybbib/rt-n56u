@@ -86,7 +86,7 @@ add_rules()
 	if [ "$lazy_online"x == "$lazy_local"x -a "$video_online"x == "$video_local"x ]; then
 	echo "New rules MD5 match!"
 	mv /tmp/lazy.txt $PROG_PATH/data/lazy.txt
-	#mv /tmp/video.txt $PROG_PATH/data/video.txt
+	mv /tmp/video.txt $PROG_PATH/data/video.txt
 	echo $(date +"%Y-%m-%d %H:%M:%S") > /tmp/adbyby.updated
 	fi
 	else
