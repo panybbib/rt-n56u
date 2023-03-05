@@ -136,24 +136,24 @@ fi
 }
 
 dl_adg() {
-logger -t "AdGuardHome" "下载AdGuardHome"
-curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-logger -t "AdGuardHome" "AdGuardHome下载失败，请检查是否能正常访问github!程序将退出。"
-nvram set adg_enable=0
-exit 0
-else
-logger -t "AdGuardHome" "AdGuardHome下载成功。"
-chmod +x /tmp/AdGuardHome/AdGuardHome
+    logger -t "AdGuardHome" "下载AdGuardHome"
+    curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome
+    if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
+    logger -t "AdGuardHome" "AdGuardHome下载失败，请检查是否能正常访问github!程序将退出。"
+    nvram set adg_enable=0
+    exit 0
+    else
+    logger -t "AdGuardHome" "AdGuardHome下载成功。"
+    chmod +x /tmp/AdGuardHome/AdGuardHome
+    fi
 fi
 }
 
 start_adg() {
   mkdir -p /tmp/AdGuardHome
   mkdir -p /etc/storage/AdGuardHome
-  if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-  dl_adg
-  fi
+  [ ! -f "/tmp/AdGuardHome/AdGuardHome" ] && dl_adg
   getconfig
   change_dns
   set_iptable
