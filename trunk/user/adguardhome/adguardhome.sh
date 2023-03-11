@@ -11,7 +11,7 @@ change_dns() {
 		server=127.0.0.1#5335
 		EOF
 		/sbin/restart_dhcpd
-		logger -t "AdGuardHome" "Ìí¼ÓDNS×ª·¢µ½5335¶Ë¿Ú"
+		logger -t "AdGuardHome" "æ·»åŠ DNSè½¬å‘åˆ°5335ç«¯å£"
 	fi
 }
 
@@ -36,7 +36,7 @@ set_iptable() {
 			ip6tables -t nat -A PREROUTING -p tcp -d $IP --dport 53 -j REDIRECT --to-ports 5335 >/dev/null 2>&1
 			ip6tables -t nat -A PREROUTING -p udp -d $IP --dport 53 -j REDIRECT --to-ports 5335 >/dev/null 2>&1
 		done
-		logger -t "AdGuardHome" "ÖØ¶¨Ïò53¶Ë¿Ú"
+		logger -t "AdGuardHome" "é‡å®šå‘53ç«¯å£"
 	fi
 }
 
@@ -59,17 +59,17 @@ clear_iptable() {
 
 start_adg() {
 	if [ -z "$(pidof $NAME)" ]; then
-		logger -t "AdGuardHome" "³ÌÐò¼ÓÔØÖÐ£¬ÇëÉÔµÈ..."
+		logger -t "AdGuardHome" "ç¨‹åºåŠ è½½ä¸­ï¼Œè¯·ç¨ç­‰..."
 		/etc/storage/adguardhome_script.sh
 		if [ $? -ne 0 ]; then
-			logger -t "AdGuardHome" "¼ÓÔØÊ§°Ü£¬¿ÉÄÜÊÇ³ÌÐòÏÂÔØ³ö´í£¡"
+			logger -t "AdGuardHome" "åŠ è½½å¤±è´¥ï¼Œå¯èƒ½æ˜¯ç¨‹åºä¸‹è½½å‡ºé”™ï¼"
 			stop_adg
 			exit 1
 		fi
 	fi
 	change_dns
 	set_iptable
-	logger -t "AdGuardHome" "ÔËÐÐAdGuardHome"
+	logger -t "AdGuardHome" "è¿è¡ŒAdGuardHome"
 	eval "/tmp/AdGuardHome/AdGuardHome -c /etc/storage/adg.sh -w /tmp/AdGuardHome -v" &
 	sleep 10
 	[ "$(nvram get sdns_enable)" -eq 1 ] && /usr/bin/smartdns.sh start &
@@ -78,7 +78,7 @@ start_adg() {
 stop_adg() {
 	adg_process=$(pidof $NAME)
 	if [ -n "$adg_process" ]; then
-		logger -t "AdGuardHome" "¹Ø±Õ³ÌÐò..."
+		logger -t "AdGuardHome" "å…³é—­ç¨‹åº..."
 		killall -q $NAME >/dev/null 2>&1
 		kill -9 "$adg_process" >/dev/null 2>&1
 	fi
