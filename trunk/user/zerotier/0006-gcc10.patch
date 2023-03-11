@@ -1,6 +1,6 @@
 --- a/osdep/Binder.hpp
 +++ b/osdep/Binder.hpp
-@@ -444,9 +444,9 @@
+@@ -453,9 +453,9 @@
  					}
  #endif	 // __LINUX__
  					if (_bindingCount < ZT_BINDER_MAX_BINDINGS) {
