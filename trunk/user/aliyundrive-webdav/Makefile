@@ -1,7 +1,7 @@
 SRC_NAME = aliyundrive-webdav
 THISDIR = $(shell pwd)
 
-all: 
+all:
 
 config_test:
 

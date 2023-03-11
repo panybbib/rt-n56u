@@ -64,6 +64,7 @@ function fill_status(status_code){
 		stext = "<#Running#>";
 	$("aliyundrive_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
 }
+
 function applyRule(){
 	showLoading();
 	

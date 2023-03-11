@@ -1,21 +1,18 @@
 #!/bin/sh
+
 mkdir -p /etc/ssl
 tar -xzf /etc_ro/certs.tgz -C /etc/ssl
-if [ ! -f "/etc/storage/koolproxy_rules_script.sh" ] ; then
-cp -rf /etc_ro/koolproxy_rules_script.sh /etc/storage/
-chmod 755 "/etc/storage/koolproxy_rules_script.sh"
-fi
-if [ ! -f "/etc/storage/koolproxy_rules_list.sh" ] ; then
-cp -rf /etc_ro/koolproxy_rules_list.sh /etc/storage/
-chmod 755 "/etc/storage/koolproxy_rules_list.sh"
-fi
 if [ ! -f "/etc/storage/ad_config_script.sh" ] ; then
 cp -rf /etc_ro/ad_config_script.sh /etc/storage/
 chmod 755 "/etc/storage/ad_config_script.sh"
 fi
-if [ ! -f "/etc/storage/frp_script.sh" ] ; then
-cp -rf /etc_ro/frp_script.sh /etc/storage/
-chmod 755 "/etc/storage/frp_script.sh"
+if [ ! -f "/etc/storage/adguardhome_script.sh" ] ; then
+cp -rf /etc_ro/adguardhome_script.sh /etc/storage/
+chmod 755 "/etc/storage/adguardhome_script.sh"
+fi
+if [ ! -f "/etc/storage/adg.sh" ] ; then
+cp -rf /etc_ro/adg.sh /etc/storage/
+chmod 755 "/etc/storage/adg.sh"
 fi
 if [ ! -f "/etc/storage/aliyundrive_script.sh" ] ; then
 cp -rf /etc_ro/aliyundrive_script.sh /etc/storage/
@@ -24,6 +21,18 @@ fi
 if [ ! -f "/etc/storage/caddy_script.sh" ] ; then
 cp -rf /etc_ro/caddy_script.sh /etc/storage/
 chmod 755 "/etc/storage/caddy_script.sh"
+fi
+if [ ! -f "/etc/storage/frp_script.sh" ] ; then
+cp -rf /etc_ro/frp_script.sh /etc/storage/
+chmod 755 "/etc/storage/frp_script.sh"
+fi
+if [ ! -f "/etc/storage/koolproxy_rules_script.sh" ] ; then
+cp -rf /etc_ro/koolproxy_rules_script.sh /etc/storage/
+chmod 755 "/etc/storage/koolproxy_rules_script.sh"
+fi
+if [ ! -f "/etc/storage/koolproxy_rules_list.sh" ] ; then
+cp -rf /etc_ro/koolproxy_rules_list.sh /etc/storage/
+chmod 755 "/etc/storage/koolproxy_rules_list.sh"
 fi
 if [ ! -f "/etc/storage/smartdns_address.conf" ] ; then
 cp -rf /etc_ro/smartdns_address.conf /etc/storage/

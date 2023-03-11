@@ -21,16 +21,15 @@
 <script type="text/javascript" src="/popup.js"></script>
 <script type="text/javascript" src="/help.js"></script>
 <script type="text/javascript" src="/help_b.js"></script>
+
 <script>
 var $j = jQuery.noConflict();
-
 $j(document).ready(function() {
 	init_itoggle('adg_enable');
 });
-
 </script>
-<script>
 
+<script>
 <% login_state_hook(); %>
 
 function initial(){
@@ -39,6 +38,12 @@ function initial(){
 	showmenu();
 	show_footer();
 
+	if (!login_safe())
+		textarea_scripts_enabled(0);
+}
+
+function textarea_scripts_enabled(v){
+	inputCtrl(document.form['scripts.adguardhome_script.sh'], v);
 }
 
 function applyRule(){
@@ -199,4 +204,3 @@ function done_validating(action){
 </div>
 </body>
 </html>
-
