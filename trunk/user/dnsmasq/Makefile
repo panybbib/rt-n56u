@@ -22,7 +22,6 @@ all:
 
 clean:
 	$(MAKE) -C $(SRC_NAME) clean
-	rm -f dnsmasq
 
 romfs:
 	cp $(SRC_NAME)/src/dnsmasq .
