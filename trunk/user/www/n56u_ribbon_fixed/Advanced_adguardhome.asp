@@ -21,16 +21,16 @@
 <script type="text/javascript" src="/popup.js"></script>
 <script type="text/javascript" src="/help.js"></script>
 <script type="text/javascript" src="/help_b.js"></script>
+
 <script>
 var $j = jQuery.noConflict();
-
+<% adguardhome_status(); %>
 $j(document).ready(function() {
 	init_itoggle('adg_enable');
 });
-
 </script>
-<script>
 
+<script>
 <% login_state_hook(); %>
 
 function initial(){
@@ -38,7 +38,22 @@ function initial(){
 	show_menu(5,16);
 	showmenu();
 	show_footer();
+	fill_status(adguardhome_status());
+	if (!login_safe())
+		textarea_scripts_enabled(0);
+}
 
+function textarea_scripts_enabled(v){
+	inputCtrl(document.form['scripts.adguardhome_script.sh'], v);
+}
+
+function fill_status(status_code){
+	var stext = "Unknown";
+	if (status_code == 0)
+		stext = "<#Stopped#>";
+	else if (status_code == 1)
+		stext = "<#Running#>";
+	$("adguardhome_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
 }
 
 function applyRule(){
@@ -135,6 +150,11 @@ function done_validating(action){
 									</div>
 
 									<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table">
+									<tr> 
+										<th><#running_status#></th>
+                                        	<td id="adguardhome_status" colspan="2">
+										</td>
+                                    </tr>
 										<tr>
 											<th width="30%" style="border-top: 0 none;">启用AdGuardHome</th>
 											<td style="border-top: 0 none;">
@@ -170,7 +190,7 @@ function done_validating(action){
 
 										<tr id="row_post_wan_script">
 											<td colspan="2">
-												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script2')"><span>AdGuardHome脚本</span></a>
+												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script2')"><span>AdGuardHome配置脚本</span></a>
 												<div id="script2">
 													<textarea rows="10" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adguardhome_script.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adguardhome_script.sh",""); %></textarea>
 												</div>
@@ -199,4 +219,3 @@ function done_validating(action){
 </div>
 </body>
 </html>
-

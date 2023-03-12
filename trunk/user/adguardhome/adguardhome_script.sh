@@ -59,7 +59,7 @@ filters:
   url: https://anti-ad.net/easylist.txt
   name: anti-AD
   id: 3
-- enabled: true
+- enabled: false
   url: https://www.malwaredomainlist.com/hostslist/hosts.txt
   name: MalwareDomainList.com Hosts List
   id: 4
@@ -103,7 +103,7 @@ else
 fi
 }
 
-sdns_adg() {
+rst_adg() {
 if [ "$(nvram get sdns_enable)" -eq 1 ]; then
 	/usr/bin/smartdns.sh start &
 else
@@ -118,8 +118,8 @@ conf)
 dl)
 	dl_adg
 	;;
-sdns)
-	sdns_adg
+rst)
+	rst_adg
 	;;
 *)
 	echo "check"
