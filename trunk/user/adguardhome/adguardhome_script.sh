@@ -1,8 +1,6 @@
 #!/bin/sh
 #mount -t tmpfs -o remount,rw,size=40M tmpfs /tmp
 
-[ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
-
 getconfig() {
 adg_file="/etc/storage/adg.sh"
 
@@ -86,6 +84,8 @@ chmod 755 "$adg_file"
 }
 
 dl_adg() {
+[ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
+chmod 777 /tmp/AdGuardHome/
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 	if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
 		tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
