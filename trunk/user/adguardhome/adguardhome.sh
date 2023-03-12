@@ -1,6 +1,5 @@
 #!/bin/sh
 
-[ -d "/etc/storage/AdGuardHome" ] || mkdir -p /etc/storage/AdGuardHome
 adgscp=/etc/storage/adguardhome_script.sh
 
 change_dns() {
@@ -90,7 +89,7 @@ stop_adg() {
 case $1 in
 start)
 	start_adg
-	$adgscp rst
+	#$adgscp rst
 	;;
 stop)
 	stop_adg
