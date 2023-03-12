@@ -99,7 +99,7 @@ if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 	exit 1
 else
 	logger -t "AdGuardHome" "AdGuardHome加载成功。"
-	chmod +x /tmp/AdGuardHome/AdGuardHome
+	chmod 755 /tmp/AdGuardHome/AdGuardHome
 fi
 }
 
