@@ -1,5 +1,7 @@
 #!/bin/sh
 
+[ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
+
 getconfig() {
 adg_file="/etc/storage/adg.sh"
 
@@ -83,8 +85,6 @@ chmod 755 "$adg_file"
 }
 
 dl_adg() {
-[ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
-
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 	logger -t "AdGuardHome" "下载AdGuardHome"
 	url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
