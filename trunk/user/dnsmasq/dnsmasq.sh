@@ -15,4 +15,3 @@ sed -i '/min-ttl/d' /etc/storage/dnsmasq/dnsmasq.conf
 cat >>/etc/storage/dnsmasq/dnsmasq.conf <<EOF
 min-ttl=$min_ttl
 EOF
-
