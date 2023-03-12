@@ -1,4 +1,5 @@
 #!/bin/sh
+#mount -t tmpfs -o remount,rw,size=40M tmpfs /tmp
 
 [ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
 
@@ -86,15 +87,19 @@ chmod 755 "$adg_file"
 
 dl_adg() {
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-	logger -t "AdGuardHome" "下载AdGuardHome"
-	url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
+	if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
+		tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
+	else
+		logger -t "AdGuardHome" "下载AdGuardHome"
+		url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
 
-	wget --no-check-certificate -q -t 3 -O /tmp/AdGuardHome/AdGuardHome $url
-	#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
+		wget --no-check-certificate -q -t 3 -O /tmp/AdGuardHome/AdGuardHome $url
+		#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
+	fi
 fi
 
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-	logger -t "AdGuardHome" "AdGuardHome下载失败，请检查是否能正常访问github!程序将退出。"
+	logger -t "AdGuardHome" "AdGuardHome加载失败，请检查是否能正常访问github!程序将退出。"
 	nvram set adg_enable=0
 	exit 1
 else

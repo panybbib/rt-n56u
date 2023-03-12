@@ -24,7 +24,6 @@
 
 <script>
 var $j = jQuery.noConflict();
-<% adguardhome_status(); %>
 $j(document).ready(function() {
 	init_itoggle('adg_enable');
 });
@@ -38,22 +37,12 @@ function initial(){
 	show_menu(5,16);
 	showmenu();
 	show_footer();
-	fill_status(adguardhome_status());
 	if (!login_safe())
 		textarea_scripts_enabled(0);
 }
 
 function textarea_scripts_enabled(v){
 	inputCtrl(document.form['scripts.adguardhome_script.sh'], v);
-}
-
-function fill_status(status_code){
-	var stext = "Unknown";
-	if (status_code == 0)
-		stext = "<#Stopped#>";
-	else if (status_code == 1)
-		stext = "<#Running#>";
-	$("adguardhome_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
 }
 
 function applyRule(){
@@ -151,11 +140,6 @@ function done_validating(action){
 
 									<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table">
 									<tr> 
-										<th><#running_status#></th>
-                                        	<td id="adguardhome_status" colspan="2">
-										</td>
-                                    </tr>
-										<tr>
 											<th width="30%" style="border-top: 0 none;">启用AdGuardHome</th>
 											<td style="border-top: 0 none;">
 													<div class="main_itoggle">
