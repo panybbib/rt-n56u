@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NAME=AdGuardHome
+[ -d "/etc/storage/AdGuardHome" ] || mkdir -p /etc/storage/AdGuardHome
 
 change_dns() {
 	if [ "$(nvram get adg_redirect)" = 1 ]; then
@@ -58,31 +58,32 @@ clear_iptable() {
 }
 
 start_adg() {
-	if [ -z "$(pidof $NAME)" ]; then
+	if [ -z "$(pidof AdGuardHome)" ]; then
 		logger -t "AdGuardHome" "程序加载中，请稍等..."
-		/etc/storage/adguardhome_script.sh
+		/etc/storage/adguardhome_script.sh dl
 		if [ $? -ne 0 ]; then
 			logger -t "AdGuardHome" "加载失败，可能是程序下载出错！"
 			stop_adg
 			exit 1
 		fi
 	fi
+	/etc/storage/adguardhome_script.sh conf
 	change_dns
 	set_iptable
 	logger -t "AdGuardHome" "运行AdGuardHome"
 	eval "/tmp/AdGuardHome/AdGuardHome -c /etc/storage/adg.sh -w /tmp/AdGuardHome -v" &
 	sleep 10
-	[ "$(nvram get sdns_enable)" -eq 1 ] && /usr/bin/smartdns.sh start &
+	/etc/storage/adguardhome_script.sh sdns &
 }
 
 stop_adg() {
-	adg_process=$(pidof $NAME)
+	logger -t "AdGuardHome" "关闭程序..."
+	killall -q AdGuardHome >/dev/null 2>&1
+	adg_process=$(pidof AdGuardHome)
 	if [ -n "$adg_process" ]; then
-		logger -t "AdGuardHome" "关闭程序..."
-		killall -q $NAME >/dev/null 2>&1
 		kill -9 "$adg_process" >/dev/null 2>&1
 	fi
-	[ -z "$(pidof $NAME)" ] && rm -rf /tmp/AdGuardHome
+	[ -z "$(pidof AdGuardHome)" ] && rm -rf /tmp/AdGuardHome/AdGuardHome
 	del_dns
 	clear_iptable
 }
