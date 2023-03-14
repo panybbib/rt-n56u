@@ -2856,7 +2856,6 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		"function found_app_smartdns() { return %d;}\n"
 		"function found_app_frp() { return %d;}\n"
 		"function found_app_nvpproxy() { return %d;}\n"
-		"function found_app_npc() { return %d;}\n"
 		"function found_app_wyy() { return %d;}\n"
 		"function found_app_zerotier() { return %d;}\n"
 		"function found_app_ddnsto() { return %d;}\n"
