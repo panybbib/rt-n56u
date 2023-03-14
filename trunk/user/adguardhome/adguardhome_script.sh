@@ -1,5 +1,5 @@
 #!/bin/sh
-#mount -t tmpfs -o remount,rw,size=40M tmpfs /tmp
+#mount -t tmpfs -o remount,rw,size=60M tmpfs /tmp
 
 getconfig() {
 adg_file="/etc/storage/adg.sh"
