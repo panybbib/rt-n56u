@@ -47,18 +47,6 @@ function textarea_scripts_enabled(v){
 	inputCtrl(document.form['scripts.adguardhome_script.sh'], v);
 }
 
-function applyRule(){
-//	if(validForm()){
-		showLoading();
-		
-		document.form.action_mode.value = " Restart ";
-		document.form.current_page.value = "/Advanced_adguardhome.asp";
-		document.form.next_page.value = "";
-		
-		document.form.submit();
-//	}
-}
-
 function fill_status(status_code){
 	var stext = "Unknown";
 	if (status_code == 0)
@@ -67,8 +55,19 @@ function fill_status(status_code){
 		stext = "<#Running#>";
 	$("adguardhome_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
 }
+
 function showmenu(){
 showhide_div('sdnslink', found_app_smartdns());
+}
+
+function applyRule(){
+		showLoading();
+		
+		document.form.action_mode.value = " Restart ";
+		document.form.current_page.value = "/Advanced_adguardhome.asp";
+		document.form.next_page.value = "";
+		
+		document.form.submit();
 }
 
 function done_validating(action){
@@ -80,6 +79,8 @@ function done_validating(action){
 
 <body onload="initial();" onunLoad="return unload_body();">
 
+<div id="Loading" class="popup_bg"></div>
+
 <div class="wrapper">
 	<div class="container-fluid" style="padding-right: 0px">
 		<div class="row-fluid">
@@ -89,8 +90,6 @@ function done_validating(action){
 			</div>
 		</div>
 	</div>
-
-	<div id="Loading" class="popup_bg"></div>
 
 	<iframe name="hidden_frame" id="hidden_frame" src="" width="0" height="0" frameborder="0"></iframe>
 
@@ -143,18 +142,19 @@ function done_validating(action){
 						<div class="row-fluid">
 							<div id="tabMenu" class="submenuBlock"></div>
 								<div class="alert alert-info" style="margin: 10px;">
-									<p>AdGuard Home 是一款全网广告拦截与反跟踪软件。在您将其安装完毕后，它将保护您所有家用设备，同时您不再需要安装任何客户端软件。随着物联网与连接设备的兴起，掌控您自己的整个网络环境变得越来越重要。
-									</p>
+									<p>AdGuard Home 是一款全网广告拦截与反跟踪软件。在您将其安装完毕后，它将保护您所有家用设备，同时您不再需要安装任何客户端软件。随着物联网与连接设备的兴起，掌控您自己的整个网络环境变得越来越重要。</p>
 									AdGuard Home  主页<a href="https://adguard.com/" target="blank"><i><u>https://adguard.com/</u></i></a>
 								</div>
 
 							<table width="100%" cellpadding="4" cellspacing="0" class="table">
-								<tr> <th width="50%"><#running_status#></th>
-									<td id="adguardhome_status" colspan="2">\
+									<tr>
+									<th><#running_status#></th>
+										<td id="adguardhome_status" colspan="2">
 									</td>
 								</tr>	
 
-								<tr> <th width="30%" style="border-top: 0 none;">启用AdGuardHome</th>
+									<tr>
+									<th width="30%" style="border-top: 0 none;">启用AdGuardHome</th>
 										<td style="border-top: 0 none;">
 											<div class="main_itoggle">
 												<div id="adg_enable_on_of">
@@ -166,31 +166,31 @@ function done_validating(action){
 													<input type="radio" value="0" name="adg_enable" id="adg_enable_0" class="input" value="0" <% nvram_match_x("", "adg_enable", "0", "checked"); %> /><#checkbox_No#>
 											</div>
 										</td>
-								</tr>
+									</tr>
 
-                                         <tr>
-											<th><a class="help_tooltip" href="javascript: void(0)" onmouseover="openTooltip(this, 1, 1);">DNS重定向</a></th>
-											<td>
-												<select name="adg_redirect" class="input" style="width: 200px">
-													<option value="0" <% nvram_match_x("","adg_redirect", "0","selected"); %>>无</option>
-													<option value="1" <% nvram_match_x("","adg_redirect", "1","selected"); %>>作为dnsmasq的上游服务器</option>
-													<option value="2" <% nvram_match_x("","adg_redirect", "2","selected"); %>>重定向53端口到AdGuardHome</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<th>WEB管理地址:</th>
-											<td>
+									<tr>
+									<th><a class="help_tooltip" href="javascript: void(0)" onmouseover="openTooltip(this, 1, 1);">DNS重定向</a></th>
+										<td>
+											<select name="adg_redirect" class="input" style="width: 200px">
+												<option value="0" <% nvram_match_x("","adg_redirect", "0","selected"); %>>无</option>
+												<option value="1" <% nvram_match_x("","adg_redirect", "1","selected"); %>>作为dnsmasq的上游服务器</option>
+												<option value="2" <% nvram_match_x("","adg_redirect", "2","selected"); %>>重定向53端口到AdGuardHome</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+									<th>WEB管理地址:</th>
+										<td>
 											<a href="http://<% nvram_get_x("", "lan_ipaddr"); %>:3030">http://<% nvram_get_x("", "lan_ipaddr"); %>:3030</a>
-											</td>
-										</tr>
+										</td>
+									</tr>
 										
 
 										<tr id="row_post_wan_script">
 											<td colspan="2">
 												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script2')"><span>AdGuardHome配置脚本</span></a>
 												<div id="script2">
-													<textarea rows="12" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adguardhome_script.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adguardhome_script.sh",""); %></textarea>
+													<textarea rows="15" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adguardhome_script.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adguardhome_script.sh",""); %></textarea>
 												</div>
 											</td>
 										</tr>

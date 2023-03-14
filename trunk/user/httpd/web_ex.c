@@ -2283,6 +2283,15 @@ static int adbyby_status_hook(int eid, webs_t wp, int argc, char **argv)
 }
 #endif
 
+#if defined (APP_ADGUARDHOME)
+static int adguardhome_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int adguardhome_status_code = pids("AdGuardHome");
+	websWrite(wp, "function adguardhome_status() { return %d;}\n", adguardhome_status_code);
+	return 0;
+}
+#endif
+
 #if defined (APP_SHADOWSOCKS)
 static int pdnsd_status_hook(int eid, webs_t wp, int argc, char **argv)
 {
@@ -2384,7 +2393,7 @@ static int update_action_hook(int eid, webs_t wp, int argc, char **argv)
 	char *up_action = websGetVar(wp, "connect_action", "");
 	
 	if (!strcmp(up_action, "bigtmp")) {
-		system("mount -t tmpfs -o remount,rw,size=50M tmpfs /tmp");
+		system("mount -t tmpfs -o remount,rw,size=60M tmpfs /tmp");
 	}
 	return 0;
 }
@@ -2885,7 +2894,6 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		found_app_smartdns,
 		found_app_frp,
 		found_app_nvpproxy,
-		0,
 		found_app_wyy,
 		found_app_zerotier,
 		found_app_ddnsto,
@@ -2929,8 +2937,8 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		"function support_2g_turbo_qam() { return %d;}\n"
 		"function support_2g_airtimefairness() { return %d;}\n"
 		"function support_5g_txbf() { return %d;}\n"
-		"function support_5g_band_steering() { return %d;}\n"
 		"function support_5g_mumimo() { return %d;}\n"
+		"function support_5g_band_steering() { return %d;}\n"
 		"function support_sfe() { return %d;}\n"
 		"function support_lan_ap_isolate() { return %d;}\n"
 		"function support_5g_160mhz() { return %d;}\n"
@@ -2941,8 +2949,8 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		has_ipv4_ppe,
 		has_peap_ssl,
 		has_http_ssl,
-		has_openssl_ec,
 		has_ddns_ssl,
+		has_openssl_ec,
 		MIN_EXT_VLAN_VID,
 		max_conn,
 		has_mtd_rwfs,
@@ -4683,6 +4691,9 @@ struct ej_handler ej_handlers[] =
 #if defined (APP_ADBYBY)
 	{ "adbyby_action", adbyby_action_hook},
 	{ "adbyby_status", adbyby_status_hook},
+#endif
+#if defined (APP_ADGUARDHOME)
+	{ "adguardhome_status", adguardhome_status_hook},
 #endif
 #if defined (APP_SMARTDNS)
 	{ "smartdns_status", smartdns_status_hook},
