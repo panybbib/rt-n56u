@@ -95,17 +95,17 @@ if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 	if [ $? -ne 0 ]; then
 		logger -t "AdGuardHome" "目标URL连接受阻"
 		if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
-			logger -t "AdGuardHome" "使用内置AdGuardHome"
+			logger -t "AdGuardHome" "使用内置AdGuardHome程序"
 			tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
 		fi
 	fi
 fi
 
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-	logger -t "AdGuardHome" "AdGuardHome加载失败，请检查是否能正常访问Github!程序将退出。"
+	logger -t "AdGuardHome" "AdGuardHome加载失败，请检查是否能正常访问Github!程序将退出"
 	nvram set adg_enable=0 && exit 1
 else
-	logger -t "AdGuardHome" "AdGuardHome加载成功。"
+	logger -t "AdGuardHome" "AdGuardHome加载成功"
 	chmod 755 /tmp/AdGuardHome/AdGuardHome
 fi
 }
