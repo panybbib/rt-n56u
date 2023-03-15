@@ -58,20 +58,23 @@ clear_iptable() {
 }
 
 start_adg() {
-	if [ -z "$(pidof AdGuardHome)" ]; then
-		logger -t "AdGuardHome" "程序加载中，请稍等..."
-		$adgscp dl
-		if [ $? -ne 0 ]; then
-			logger -t "AdGuardHome" "加载失败，可能是程序下载出错！"
-			stop_adg
-			exit 1
+	if [ "$(nvram get adg_enable)" = 1 ]; then
+		if [ -z "$(pidof AdGuardHome)" ]; then
+			logger -t "AdGuardHome" "程序加载中，请稍等..."
+			$adgscp dl
+			if [ $? -ne 0 ]; then
+				logger -t "AdGuardHome" "加载失败，请检查网络后重试！"
+				stop_adg
+				nvram set adg_enable=0 && exit 1
+			else
+				$adgscp conf
+				change_dns
+				set_iptable
+				logger -t "AdGuardHome" "运行AdGuardHome"
+				eval "/tmp/AdGuardHome/AdGuardHome -c /etc/storage/adg.sh -w /tmp/AdGuardHome -v" &
+			fi
 		fi
 	fi
-	$adgscp conf
-	change_dns
-	set_iptable
-	logger -t "AdGuardHome" "运行AdGuardHome"
-	eval "/tmp/AdGuardHome/AdGuardHome -c /etc/storage/adg.sh -w /tmp/AdGuardHome -v" &
 }
 
 stop_adg() {
@@ -89,7 +92,7 @@ stop_adg() {
 case $1 in
 start)
 	start_adg
-	#$adgscp rst
+	$adgscp rst
 	;;
 stop)
 	stop_adg

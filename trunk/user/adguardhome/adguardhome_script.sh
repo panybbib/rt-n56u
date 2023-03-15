@@ -103,7 +103,7 @@ fi
 
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 	logger -t "AdGuardHome" "AdGuardHome加载失败，请检查是否能正常访问Github!程序将退出"
-	nvram set adg_enable=0 && exit 1
+	exit 1
 else
 	logger -t "AdGuardHome" "AdGuardHome加载成功"
 	chmod 755 /tmp/AdGuardHome/AdGuardHome
@@ -112,9 +112,9 @@ fi
 
 rst_adg() {
 if [ "$(nvram get sdns_enable)" -eq 1 ]; then
-	/usr/bin/smartdns.sh start &
+	/usr/bin/smartdns.sh start
 else
-	/sbin/restart_dhcpd &
+	/sbin/restart_dhcpd
 fi
 }
 
