@@ -52,7 +52,7 @@ filters:
   url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
   name: AdGuard Simplified Domain Names filter
   id: 1
-- enabled: true
+- enabled: false
   url: https://adaway.org/hosts.txt
   name: AdAway
   id: 2
@@ -87,21 +87,23 @@ dl_adg() {
 [ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
 chmod 777 /tmp/AdGuardHome/
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-	if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
-		tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
-	else
-		logger -t "AdGuardHome" "下载AdGuardHome"
-		url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
+	logger -t "AdGuardHome" "下载AdGuardHome"
+	url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
 
-		wget --no-check-certificate -q -t 3 -O /tmp/AdGuardHome/AdGuardHome $url
-		#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
+	wget --no-check-certificate -q -t 3 -O /tmp/AdGuardHome/AdGuardHome $url
+	#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
+	if [ $? -ne 0 ]; then
+		logger -t "AdGuardHome" "目标URL连接受阻"
+		if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
+			logger -t "AdGuardHome" "使用内置AdGuardHome"
+			tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
+		fi
 	fi
 fi
 
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-	logger -t "AdGuardHome" "AdGuardHome加载失败，请检查是否能正常访问github!程序将退出。"
-	nvram set adg_enable=0
-	exit 1
+	logger -t "AdGuardHome" "AdGuardHome加载失败，请检查是否能正常访问Github!程序将退出。"
+	nvram set adg_enable=0 && exit 1
 else
 	logger -t "AdGuardHome" "AdGuardHome加载成功。"
 	chmod 755 /tmp/AdGuardHome/AdGuardHome
