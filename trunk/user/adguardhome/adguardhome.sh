@@ -63,7 +63,6 @@ start_adg() {
 			logger -t "AdGuardHome" "程序加载中，请稍等..."
 			$adgscp dl
 			if [ $? -ne 0 ]; then
-				logger -t "AdGuardHome" "加载失败，请检查网络后重试！"
 				stop_adg
 				nvram set adg_enable=0 && exit 1
 			else

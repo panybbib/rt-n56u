@@ -86,7 +86,7 @@ chmod 755 "$adg_file"
 dl_adg() {
 [ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
 chmod 777 /tmp/AdGuardHome/
-if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
+if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
 	logger -t "AdGuardHome" "下载AdGuardHome"
 	url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
 
