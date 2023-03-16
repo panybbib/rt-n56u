@@ -90,7 +90,6 @@ stop_adg() {
 case $1 in
 start)
 	start_adg
-	/sbin/restart_dhcpd
 	;;
 stop)
 	stop_adg
