@@ -220,6 +220,7 @@ server=127.0.0.1#$sdns_port
 EOF
 /sbin/restart_dhcpd
 logger -t "SmartDNS" "添加DNS转发到$sdns_port端口"
+[ "$(nvram get adg_enable)" = 1 ] && /usr/bin/adguardhome.sh dnss
 }
 del_dns() {
 sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
