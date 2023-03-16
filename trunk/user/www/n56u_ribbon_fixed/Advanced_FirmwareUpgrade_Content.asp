@@ -181,10 +181,11 @@ function submitInternet(v){
                                             <li><#FW_desc4#></li>
                                             <li><#FW_desc5#></li>
                                             <li><#FW_desc6#></li>
-											<li>固件失败日志提示:Firmware update: Firmware image is corrupted! Please check free space in /tmp!
-											请点击右边按钮，临时增加tmp空间，再上传固件即可！<input id="bigtmp" class="btn btn-success" style="width:50px display:none;" type="button" name="bigtmp" value="扩大/tmp" onclick="submitInternet('bigtmp');" /></li>
+                                            <li>固件失败日志提示:Firmware update: Firmware image is corrupted! Please check free space in /tmp!
+                                            请点击右边按钮，临时增加tmp空间，再上传固件即可(mount -t tmpfs -o remount,rw,size=60M tmpfs /tmp)！
+					    <input id="bigtmp" class="btn btn-success" style="width:50px display:none;" type="button" name="bigtmp" value="扩大/tmp" onclick="submitInternet('bigtmp');" /></li>
                                         </ol>
-										</div>
+                                    </div>
 
                                     <table width="100%" cellpadding="4" cellspacing="0" class="table">
                                         <tr>
