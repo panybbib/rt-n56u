@@ -96,13 +96,13 @@ if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
 
 		wget --no-check-certificate -q -t 3 -O /tmp/AdGuardHome/AdGuardHome $url
 		#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
+		if [ $? -ne 0 ]; then
+			logger -t "AdGuardHome" "网络URL连接受阻，AdGuardHome下载失败"
+			exit 1
+		else
+			logger -t "AdGuardHome" "AdGuardHome下载完成"
+		fi
 	fi
-fi
-
-if [ ! -s "/tmp/AdGuardHome/AdGuardHome" ]; then
-	exit 1
-else
-	logger -t "AdGuardHome" "AdGuardHome加载成功"
 	chmod 755 /tmp/AdGuardHome/AdGuardHome
 fi
 }
