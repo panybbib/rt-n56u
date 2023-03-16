@@ -1,5 +1,4 @@
 #!/bin/sh
-#mount -t tmpfs -o remount,rw,size=60M tmpfs /tmp
 
 getconfig() {
 adg_file="/etc/storage/adg.sh"
@@ -48,7 +47,7 @@ tls:
   certificate_chain: ""
   private_key: ""
 filters:
-- enabled: true
+- enabled: false
   url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
   name: AdGuard Simplified Domain Names filter
   id: 1
@@ -60,9 +59,9 @@ filters:
   url: https://anti-ad.net/easylist.txt
   name: anti-AD
   id: 3
-- enabled: false
-  url: https://www.malwaredomainlist.com/hostslist/hosts.txt
-  name: MalwareDomainList.com Hosts List
+- enabled: true
+  url: https://cdn.jsdelivr.net/gh/o0HalfLife0o/list@master/ad.txt
+  name: HalfLife
   id: 4
 user_rules: []
 dhcp:
