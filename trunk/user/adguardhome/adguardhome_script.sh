@@ -107,23 +107,12 @@ if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
 fi
 }
 
-rst_adg() {
-if [ "$(nvram get sdns_enable)" -eq 1 ]; then
-	/usr/bin/smartdns.sh start
-else
-	/sbin/restart_dhcpd
-fi
-}
-
 case $1 in
 conf)
 	getconfig
 	;;
 dl)
 	dl_adg
-	;;
-rst)
-	rst_adg
 	;;
 *)
 	echo "check"
