@@ -83,7 +83,6 @@ stop_adg() {
 	if [ -n "$adg_process" ]; then
 		kill -9 "$adg_process" >/dev/null 2>&1
 	fi
-	#[ -z "$(pidof AdGuardHome)" ] && rm -rf /tmp/AdGuardHome
 	del_dns
 	clear_iptable
 }
@@ -91,11 +90,13 @@ stop_adg() {
 case $1 in
 start)
 	start_adg
-	$adgscp rst
 	;;
 stop)
 	stop_adg
 	rm -rf /tmp/AdGuardHome
+	;;
+dnss)
+	change_dns
 	;;
 *)
 	echo "check"
