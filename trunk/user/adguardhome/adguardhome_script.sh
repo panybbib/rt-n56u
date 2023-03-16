@@ -87,22 +87,19 @@ dl_adg() {
 [ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
 chmod 777 /tmp/AdGuardHome/
 if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
-	logger -t "AdGuardHome" "下载AdGuardHome"
-	url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
+	if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
+		logger -t "AdGuardHome" "使用内置AdGuardHome程序"
+		tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
+	else
+		logger -t "AdGuardHome" "下载AdGuardHome"
+		url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
 
-	wget --no-check-certificate -q -t 3 -O /tmp/AdGuardHome/AdGuardHome $url
-	#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
-	if [ $? -ne 0 ]; then
-		logger -t "AdGuardHome" "目标URL连接受阻"
-		if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
-			logger -t "AdGuardHome" "使用内置AdGuardHome程序"
-			tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
-		fi
+		wget --no-check-certificate -q -t 3 -O /tmp/AdGuardHome/AdGuardHome $url
+		#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
 	fi
 fi
 
-if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-	logger -t "AdGuardHome" "AdGuardHome加载失败，请检查是否能正常访问Github!程序将退出"
+if [ ! -s "/tmp/AdGuardHome/AdGuardHome" ]; then
 	exit 1
 else
 	logger -t "AdGuardHome" "AdGuardHome加载成功"
