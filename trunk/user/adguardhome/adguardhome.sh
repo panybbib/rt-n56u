@@ -93,7 +93,7 @@ start)
 	;;
 stop)
 	stop_adg
-	rm -rf /tmp/AdGuardHome
+	[ -d "/tmp/AdGuardHome/data" ] && /rm -rf /tmp/AdGuardHome
 	;;
 dnss)
 	change_dns
