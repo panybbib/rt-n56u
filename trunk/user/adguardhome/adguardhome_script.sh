@@ -89,7 +89,7 @@ if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
 	if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
 		logger -t "AdGuardHome" "使用内置AdGuardHome程序"
 		tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
-	else
+	elif [ ! -s "/tmp/AdGuardHome/AdGuardHome" ]; then
 		logger -t "AdGuardHome" "下载AdGuardHome"
 		url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
 
