@@ -8,6 +8,7 @@ bind_host: 0.0.0.0
 bind_port: 3030
 auth_name: admin
 auth_pass: admin
+web_session_ttl: 168
 language: zh-cn
 rlimit_nofile: 0
 dns:
@@ -15,9 +16,13 @@ dns:
   port: 5335
   protection_enabled: true
   filtering_enabled: true
-  blocking_mode: nxdomain
-  blocked_response_ttl: 10
+  parental_sensitivity: 0
+  parental_enabled: false
+  safesearch_enabled: false
+  safebrowsing_enabled: false
   querylog_enabled: true
+  querylog_interval: 1
+  statistics_interval: 7
   ratelimit: 20
   ratelimit_whitelist: []
   refuse_any: true
@@ -25,25 +30,32 @@ dns:
   - 223.5.5.5
   - 119.29.29.29
   all_servers: true
-  allowed_clients: []
-  disallowed_clients: []
-  blocked_hosts: []
-  parental_sensitivity: 0
-  parental_enabled: false
-  safesearch_enabled: false
-  safebrowsing_enabled: false
-  resolveraddress: ""
+  fastest_addr: false
   upstream_dns:
   - 114.114.114.114
   - https://dns.alidns.com/dns-query
   - tls://dns.alidns.com:853
   - quic://i.passcloud.xyz:784
+  blocking_mode: nxdomain
+  blocked_response_ttl: 10
+  edns_client_subnet: false
+  enable_dnssec: false
+  aaaa_disabled: false
+  cache_size: 4194304
+  cache_ttl_min: 60
+  cache_ttl_max: 86400
+  cache_optimistic: true
+  allowed_clients: []
+  disallowed_clients: []
+  blocked_hosts: []
+  resolveraddress: ""
 tls:
   enabled: false
   server_name: ""
   force_https: false
   port_https: 443
   port_dns_over_tls: 853
+  port_dns_over_quic: 853
   certificate_chain: ""
   private_key: ""
 filters:
@@ -76,7 +88,7 @@ dhcp:
 clients: []
 log_file: ""
 verbose: false
-schema_version: 3
+schema_version: 11
 EEE
 
 chmod 755 "$adg_file"
