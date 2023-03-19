@@ -67,8 +67,8 @@ start_adg() {
 				nvram set adg_enable=0 && exit 1
 			else
 				$adgscp conf
-				change_dns
 				set_iptable
+				change_dns
 				logger -t "AdGuardHome" "运行AdGuardHome"
 				eval "/tmp/AdGuardHome/AdGuardHome -c /etc/storage/adg.sh -w /tmp/AdGuardHome -v" &
 			fi
@@ -83,19 +83,20 @@ stop_adg() {
 	if [ -n "$adg_process" ]; then
 		kill -9 "$adg_process" >/dev/null 2>&1
 	fi
-	#[ -z "$(pidof AdGuardHome)" ] && rm -rf /tmp/AdGuardHome
-	del_dns
 	clear_iptable
+	del_dns
 }
 	
 case $1 in
 start)
 	start_adg
-	$adgscp rst
 	;;
 stop)
 	stop_adg
-	rm -rf /tmp/AdGuardHome
+	[ -d "/tmp/AdGuardHome/data" ] && rm -rf /tmp/AdGuardHome
+	;;
+dnss)
+	change_dns
 	;;
 *)
 	echo "check"
