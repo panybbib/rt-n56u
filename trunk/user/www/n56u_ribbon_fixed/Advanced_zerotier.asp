@@ -333,7 +333,7 @@ function showMRULESList(){
                                          <th><input type="text" maxlength="255" class="span12" style="width: 200px" size="200" name="zero_ip_x_0" value="<% nvram_get_x("", "zero_ip_x_0"); %>"/>
                                             </th>
                                          <th>
-                                                <input type="text" maxlength="255" class="span12" style="width: 200px" size="200" name="zero_route_x_0" value="<% nvram_get_x("", "zero_route_x_0"); %>" />
+                                                <input type="text" maxlength="255" class="span12" style="width: 200px" size="200" name="zero_route_x_0" value="<% nvram_get_x("", "zero_route_x_0"); %>"/>
                                             </th>
                                          <th>
                                                 <button class="btn" style="max-width: 219px" type="submit" onclick="return markGroupRULES(this, 64, ' Add ');" name="markGroupRULES2" value="<#CTL_add#>" size="12"><i class="icon icon-plus"></i></button>
