@@ -14,6 +14,7 @@ auth_pswd=$(nvram get ald_auth_password)
 upload_buffer_size=$(nvram get ald_upload_buffer_size)
 domain_id=$(nvram get ald_domain_id)
 
+ver="v1.11.0"
 NAME=aliyundrive-webdav
 app_dir="$aliyundrive_dir/aliyun"
 alibin="$app_dir/$NAME"
@@ -23,7 +24,6 @@ if [ ! -f $alibin ];then
 	if [ ! -f /tmp/ald_webdav.tar.gz ]; then
 		if [ "$(ping 114.114.114.114 -c 1 -w 10 | grep -o ttl)" ] || [ "$(ping 8.8.8.8 -c 1 -w 10 | grep -o ttl)" ];then
 			logger -t "【阿里云webdav】" "网络已联接，正在下载程序，请稍后..."
-			ver="v1.10.4"
 			url="https://github.com/messense/$NAME/releases/download/$ver/$NAME-$ver.mipsel-unknown-linux-musl.tar.gz"
 			wget --no-check-certificate -q -t 3 -O "/tmp/ald_webdav.tar.gz" $url
 			if [ $? -ne 0 ]; then
