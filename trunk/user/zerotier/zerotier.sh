@@ -130,8 +130,9 @@ kill_z() {
 
 stop_zero() {
 	logger -t "zerotier" "关闭进程..."
-	del_rules
-	zero_route "del" "$(ifconfig | grep zt | awk '{print $1}')"
+	zt0="$(ifconfig | grep zt | awk '{print $1}')"
+	del_rules "$zt0"
+	zero_route "del" "$zt0"
 	kill_z
 	rm -rf $config_path
 }
