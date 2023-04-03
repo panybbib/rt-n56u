@@ -112,19 +112,19 @@ zero_route(){
 	done
 }
 
-start_zero() {
-	if [ "$(nvram get zerotier_enable)" -eq 1 ]; then
-		logger -t "zerotier" "正在启动zerotier"
-		kill_z
-		start_instance 'zerotier' &
-	fi
-}
-
 kill_z() {
 	killall -9 zerotier-one >/dev/null 2>&1
 	zerotier_process="$(pidof zerotier-one)"
 	if [ -n "$zerotier_process" ]; then
 		kill -9 "$zerotier_process" >/dev/null 2>&1
+	fi
+}
+
+start_zero() {
+	if [ "$(nvram get zerotier_enable)" -eq 1 ]; then
+		logger -t "zerotier" "正在启动zerotier"
+		kill_z
+		start_instance 'zerotier' &
 	fi
 }
 
@@ -190,8 +190,7 @@ creat_moon(){
 
 remove_moon(){
 	zmoonid="$(nvram get zerotiermoon_id)"
-	
-	if [ ! -n "$zmoonid"]; then
+	if [ ! -n "$zmoonid" ]; then
 		rm -f $config_path/moons.d/000000$zmoonid.moon
 		rm -f $config_path/moon.json
 		nvram set zerotiermoon_id=""
