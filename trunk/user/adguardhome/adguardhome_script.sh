@@ -21,7 +21,7 @@ dns:
   safesearch_enabled: false
   safebrowsing_enabled: false
   querylog_enabled: true
-  querylog_interval: 1
+  querylog_interval: 7
   statistics_interval: 7
   ratelimit: 20
   ratelimit_whitelist: []
@@ -94,14 +94,21 @@ EEE
 chmod 755 "$adg_file"
 }
 
+ro_adg() {
+if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
+	logger -t "AdGuardHome" "使用内置AdGuardHome程序"
+	tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
+	return 0
+else
+	return 1
+fi
+}
+
 dl_adg() {
 [ -d "/tmp/AdGuardHome" ] || mkdir -p /tmp/AdGuardHome
 chmod 777 /tmp/AdGuardHome/
 if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
-	if [ -f "/etc_ro/AdGuardHome.tar.bz2" ]; then
-		logger -t "AdGuardHome" "使用内置AdGuardHome程序"
-		tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
-	elif [ ! -s "/tmp/AdGuardHome/AdGuardHome" ]; then
+	if [ ! -s "/tmp/AdGuardHome/AdGuardHome" ]; then
 		if [ "$(ping 114.114.114.114 -c 1 -w 10 | grep -o ttl)" ] || [ "$(ping 8.8.8.8 -c 1 -w 10 | grep -o ttl)" ]; then
 			logger -t "AdGuardHome" "下载AdGuardHome"
 			ver="v0.107.27"
@@ -110,18 +117,22 @@ if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
 			wget --no-check-certificate -q -t 3 -O "/tmp/AdGuardHome.tar.gz" $url
 			#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
 			if [ $? -ne 0 ]; then
-				logger -t "AdGuardHome" "网络URL连接受阻，AdGuardHome下载失败" && exit 1
+				logger -t "AdGuardHome" "网络URL连接受阻，AdGuardHome下载失败" && dlerr=1
 			else
-				logger -t "AdGuardHome" "AdGuardHome下载完成"
+				logger -t "AdGuardHome" "AdGuardHome下载完成" && dlerr=0
 			fi
 		else
-			logger -t "AdGuardHome" "设备未联网，无法下载程序,请检查网络连接后再尝试!" && exit 1
+			logger -t "AdGuardHome" "设备未联网，无法下载程序,请检查网络连接后再尝试!" && dlerr=1
 		fi
-		if [ -s /tmp/AdGuardHome.tar.gz ]; then
+		if [ $dlerr -eq 0 ]; then
 			tar -zxvf /tmp/AdGuardHome.tar.gz -C /tmp
 			rm -f /tmp/AdGuardHome.tar.gz
 		else
-			logger -t "AdGuardHome" "无法解压程序，请手动下载或检查网络连接后再尝试!" && exit 1
+			ro_adg
+			if [ $? -ne 0 ]; then
+				logger -t "AdGuardHome" "无法加载AdGuardHome程序,请尝试手动加载!" && exit 1
+			fi
+
 		fi
 	fi
 	chmod 755 /tmp/AdGuardHome/AdGuardHome
