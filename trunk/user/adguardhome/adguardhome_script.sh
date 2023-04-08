@@ -102,16 +102,26 @@ if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
 		logger -t "AdGuardHome" "使用内置AdGuardHome程序"
 		tar -jxvf /etc_ro/AdGuardHome.tar.bz2 -C /tmp/AdGuardHome/
 	elif [ ! -s "/tmp/AdGuardHome/AdGuardHome" ]; then
-		logger -t "AdGuardHome" "下载AdGuardHome"
-		url="https://raw.githubusercontent.com/panybbib/rt-n56u/master/trunk/user/adguardhome/AdGuardHome"
+		if [ "$(ping 114.114.114.114 -c 1 -w 10 | grep -o ttl)" ] || [ "$(ping 8.8.8.8 -c 1 -w 10 | grep -o ttl)" ]; then
+			logger -t "AdGuardHome" "下载AdGuardHome"
+			ver="v0.107.27"
+			url="https://github.com/AdguardTeam/AdGuardHome/releases/download/$ver/AdGuardHome_linux_mipsle_softfloat.tar.gz"
 
-		wget --no-check-certificate -q -t 3 -O /tmp/AdGuardHome/AdGuardHome $url
-		#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
-		if [ $? -ne 0 ]; then
-			logger -t "AdGuardHome" "网络URL连接受阻，AdGuardHome下载失败"
-			exit 1
+			wget --no-check-certificate -q -t 3 -O "/tmp/AdGuardHome.tar.gz" $url
+			#curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 $url
+			if [ $? -ne 0 ]; then
+				logger -t "AdGuardHome" "网络URL连接受阻，AdGuardHome下载失败" && exit 1
+			else
+				logger -t "AdGuardHome" "AdGuardHome下载完成"
+			fi
 		else
-			logger -t "AdGuardHome" "AdGuardHome下载完成"
+			logger -t "AdGuardHome" "设备未联网，无法下载程序,请检查网络连接后再尝试!" && exit 1
+		fi
+		if [ -s /tmp/AdGuardHome.tar.gz ]; then
+			tar -zxvf /tmp/AdGuardHome.tar.gz -C /tmp
+			rm -f /tmp/AdGuardHome.tar.gz
+		else
+			logger -t "AdGuardHome" "无法解压程序，请手动下载或检查网络连接后再尝试!" && exit 1
 		fi
 	fi
 	chmod 755 /tmp/AdGuardHome/AdGuardHome
