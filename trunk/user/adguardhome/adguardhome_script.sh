@@ -111,7 +111,7 @@ if [ ! -x "/tmp/AdGuardHome/AdGuardHome" ]; then
 	if [ ! -s "/tmp/AdGuardHome/AdGuardHome" ]; then
 		if [ "$(ping 114.114.114.114 -c 1 -w 10 | grep -o ttl)" ] || [ "$(ping 8.8.8.8 -c 1 -w 10 | grep -o ttl)" ]; then
 			logger -t "AdGuardHome" "下载AdGuardHome"
-			ver="v0.107.27"
+			ver="v0.107.36"
 			url="https://github.com/AdguardTeam/AdGuardHome/releases/download/$ver/AdGuardHome_linux_mipsle_softfloat.tar.gz"
 
 			wget --no-check-certificate -q -t 3 -O "/tmp/AdGuardHome.tar.gz" $url
