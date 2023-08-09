@@ -9,7 +9,7 @@
 #define BOARD_BOOT_TIME		30
 #define BOARD_FLASH_TIME	120
 #define BOARD_GPIO_BTN_RESET	18
-#define  BOARD_GPIO_BTN_WPS	  7
+#define  BOARD_GPIO_BTN_WPS	 7
 #undef  BOARD_GPIO_LED_ALL
 #undef  BOARD_GPIO_LED_WIFI
 #define BOARD_GPIO_LED_POWER	16		/* sys_blue: 16, sys_yellow: 14 */
