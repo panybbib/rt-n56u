@@ -57,7 +57,7 @@
 
 #define max(a, b) (a > b ? a : b)
 
-SVCXPRT **__svc_xports;
+static SVCXPRT **__svc_xports;
 int __svc_maxrec;
 
 /*
@@ -192,21 +192,6 @@ __xprt_do_unregister (xprt, dolock)
     }
   if (dolock)
     rwlock_unlock (&svc_fd_lock);
-}
-
-int
-svc_open_fds()
-{
-	int ix;
-	int nfds = 0;
-
-	rwlock_rdlock (&svc_fd_lock);
-	for (ix = 0; ix < svc_max_pollfd; ++ix) {
-		if (svc_pollfd[ix].fd != -1)
-			nfds++;
-	}
-	rwlock_unlock (&svc_fd_lock);
-	return (nfds);
 }
 
 /*

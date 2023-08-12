@@ -41,7 +41,7 @@ _rpc_dtablesize(void)
 	static int size;
 
 	if (size == 0) {
-		size = sysconf(_SC_OPEN_MAX);
+		size = getdtablesize();
 	}
 	return (size);
 }
