@@ -1,4 +1,4 @@
-SRC_NAME="igmpproxy-0.3"
+SRC_NAME=igmpproxy-0.3
 
 all:	config_test
 	$(MAKE) -C $(SRC_NAME)
