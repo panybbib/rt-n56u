@@ -2,8 +2,8 @@ THISDIR = $(shell pwd)
 v2ray_dir="v2ray.com/core/main"
 export GO111MODULE=on
 export GOPROXY=https://goproxy.cn
-V2ray_VERSION := 4.45.2
-V2ray_URL := https://codeload.github.com/v2ray/v2ray-core/tar.gz/v$(V2ray_VERSION)
+V2ray_VERSION := 5.3.0
+V2ray_URL := https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$(V2ray_VERSION)
 V2RAY_SED_ARGS:=
 V2RAY_SED_ARGS += \
 	s/_ "v2ray.com\/core\/main\/json"/\/\/ &/; \
@@ -11,8 +11,8 @@ V2RAY_SED_ARGS += \
 V2RAY_SED_ARGS += \
 	s/_ "v2ray.com\/core\/main\/json"/\/\/ &/;
 
-#all:download_v2 build_extract build_v2ray
-all:build_extract build_v2ray
+all:download_v2 build_extract build_v2ray
+#all:download_v2 
 
 download_v2:
 	( if [ ! -f $(THISDIR)/v2ray-core-$(V2ray_VERSION).tar.gz ]; then \
@@ -36,8 +36,8 @@ build_v2ray:
 	)
 
 clean:
-	rm -rf $(THISDIR)/v2ray.com
-	rm -rf $(THISDIR)/bin
+	#rm -rf $(THISDIR)/v2ray.com
+	#rm -rf $(THISDIR)/bin
 
 romfs:
 	$(ROMFSINST) -p +x $(THISDIR)/bin/v2ray /usr/bin/v2ray
