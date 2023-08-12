@@ -310,18 +310,18 @@
 		function switch_dns() {
 			var b = document.form.pdnsd_enable.value;
 			if (b == "0") {
-				showhide_div('row_china_dns', 1);
-				showhide_div('row_tunnel_forward', 1);
+				showhide_div('row_china_dns', 0);
+				showhide_div('row_tunnel_forward', 0);
 				showhide_div('row_ssp_dns_ip', 0);
-				showhide_div('row_ssp_dns_port', 0);
+				showhide_div('row_ssp_dns_port', 0);	
 			} else if (b == "1") {
 				showhide_div('row_china_dns', 0);
 				showhide_div('row_tunnel_forward', 0);
 				showhide_div('row_ssp_dns_ip', 1);
 				showhide_div('row_ssp_dns_port', 1);
 			} else if (b == "2") {
-				showhide_div('row_china_dns', 0);
-				showhide_div('row_tunnel_forward', 0);
+				showhide_div('row_china_dns', 1);
+				showhide_div('row_tunnel_forward', 1);
 				showhide_div('row_ssp_dns_ip', 0);
 				showhide_div('row_ssp_dns_port', 0);
 			}
@@ -1571,7 +1571,7 @@
 													</tr>
 													</th>
 													</tr>
-													<tr id="row_pdnsd_run">
+													<tr id="row_dns2tcp_run">
 														<th>dns2tcp<#running_status#>
 														</th>
 														<td id="dns2tcp_status"></td>
@@ -1700,13 +1700,13 @@
 														<td>
 															<select name="pdnsd_enable" id="pdnsd_enable" class="input"
 																style="width: 200px;" onchange="switch_dns()">
-																<option value="0">使用dns2tcp查询</option>
-																<option value="1">使用其它服务器查询</option>
+																<option value="2">使用dns2tcp查询</option>
+																<option value="0">使用其它服务器查询</option>
 															</select>
 														</td>
 													</tr>
 													<tr>
-														<th>加载chinadns-ng(仅绕过模式生效)</th>
+														<th>加载chinadns-ng(仅绕过大陆IP模式生效)</th>
 														<td>
 															<div class="main_itoggle">
 																<div id="ss_chdns_on_of">
@@ -1730,7 +1730,7 @@
 														</td>
 													</tr>
 													<tr id="row_china_dns" style="display:none;">
-														<th width="50%">国内DNS(仅chinadns-ng生效)</th>
+														<th width="50%">国内DNS(用于chinadns-ng)</th>
 														<td>
 															<select name="china_dns" class="input"
 																style="width: 200px;">

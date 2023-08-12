@@ -299,31 +299,29 @@ start_redir_udp() {
 
 
 start_dns() {
+	if [ $(nvram get pdnsd_enable) = "2" ]; then
 		echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
 		awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
 		ipset -! flush china
 		ipset -! restore </tmp/china.ipset 2>/dev/null
 		rm -f /tmp/china.ipset
-case "$run_mode" in
-	router)
 		dnsstr="$(nvram get tunnel_forward)"
 		dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
 		#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
+	case "$run_mode" in
+	router)
 		logger -st "SS" "启动dns2tcp：5353端口..."
 		dns2tcp -L"127.0.0.1#5353" -R"$dnsstr" >/dev/null 2>&1 &
-		pdnsd_enable_flag=0	
-		logger -st "SS" "开始处理gfwlist..."
+		pdnsd_enable_flag=0
+		logger -st "SS" "开始处理Chnroute..."
 	;;
 	gfw)
-		dnsstr="$(nvram get tunnel_forward)"
-		dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
-		#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
 		ipset add gfwlist $dnsserver 2>/dev/null
 		logger -st "SS" "启动dns2tcp：5353端口..."
 		dns2tcp -L"127.0.0.1#5353" -R"$dnsstr" >/dev/null 2>&1 &
-		pdnsd_enable_flag=0	
+		pdnsd_enable_flag=0
 		logger -st "SS" "开始处理gfwlist..."
-		;;
+	;;
 	oversea)
 		ipset add gfwlist $dnsserver 2>/dev/null
 		mkdir -p /etc/storage/dnsmasq.oversea
@@ -332,12 +330,21 @@ case "$run_mode" in
 		cat >>/etc/storage/dnsmasq/dnsmasq.conf <<EOF
 conf-dir=/etc/storage/dnsmasq.oversea
 EOF
-;;
-	*)
+	;;
+	all)
 		ipset -N ss_spec_wan_ac hash:net 2>/dev/null
 		ipset add ss_spec_wan_ac $dnsserver 2>/dev/null
 	;;
 	esac
+
+	elif [ $(nvram get pdnsd_enable) = "0" ]; then
+		ipset -! flush china
+		sed -i '/cdn/d' /etc/storage/dnsmasq/dnsmasq.conf
+		sed -i '/gfwlist/d' /etc/storage/dnsmasq/dnsmasq.conf
+		sed -i '/dnsmasq.oversea/d' /etc/storage/dnsmasq/dnsmasq.conf
+		[ $(nvram get sdns_enable) = 1 ] && /usr/bin/smartdns.sh restart
+	fi
+
 	/sbin/restart_dhcpd
 }
 
@@ -449,24 +456,24 @@ EOF
 
 # ================================= 启动 SS ===============================
 ssp_start() { 
-    ss_enable=`nvram get ss_enable`
-if rules; then
+	ss_enable=`nvram get ss_enable`
+	if rules; then
 		if start_redir_tcp; then
 		start_redir_udp
-        #start_rules
+		#start_rules
 		#start_AD
-        start_dns
+		start_dns
 		fi
-		fi
-        start_local
-        start_watchcat
-        auto_update
-        ENABLE_SERVER=$(nvram get global_server)
-        [ "$ENABLE_SERVER" = "-1" ] && return 1
+	fi
+	start_local
+	start_watchcat
+	auto_update
+	ENABLE_SERVER=$(nvram get global_server)
+	[ "$ENABLE_SERVER" = "-1" ] && return 1
 
-        logger -t "SS" "启动成功。"
-        logger -t "SS" "内网IP控制为:$lancons"
-        nvram set check_mode=0
+	logger -t "SS" "启动成功。"
+	logger -t "SS" "内网IP控制为:$lancons"
+	nvram set check_mode=0
 }
 
 # ================================= 关闭SS ===============================
@@ -477,8 +484,8 @@ ssp_close() {
 	kill -9 $(ps | grep ssr-switch | grep -v grep | awk '{print $1}') >/dev/null 2>&1
 	kill -9 $(ps | grep ssr-monitor | grep -v grep | awk '{print $1}') >/dev/null 2>&1
 	kill_process
-	sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
-	sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
+	#sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
+	#sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/cdn/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/gfwlist/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/dnsmasq.oversea/d' /etc/storage/dnsmasq/dnsmasq.conf
@@ -487,6 +494,7 @@ ssp_close() {
 	fi
 	clear_iptable
 	/sbin/restart_dhcpd
+	[ $(nvram get sdns_enable) = 1 ] && /usr/bin/smartdns.sh restart
 }
 
 
