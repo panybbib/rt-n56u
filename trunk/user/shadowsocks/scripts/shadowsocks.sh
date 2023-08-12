@@ -342,7 +342,7 @@ EOF
 		sed -i '/cdn/d' /etc/storage/dnsmasq/dnsmasq.conf
 		sed -i '/gfwlist/d' /etc/storage/dnsmasq/dnsmasq.conf
 		sed -i '/dnsmasq.oversea/d' /etc/storage/dnsmasq/dnsmasq.conf
-		[ $(nvram get sdns_enable) = 1 ] && /usr/bin/smartdns.sh restart
+		[ $(nvram get sdns_enable) = 1 ] && /usr/bin/smartdns.sh start
 	fi
 
 	/sbin/restart_dhcpd
@@ -494,7 +494,7 @@ ssp_close() {
 	fi
 	clear_iptable
 	/sbin/restart_dhcpd
-	[ $(nvram get sdns_enable) = 1 ] && /usr/bin/smartdns.sh restart
+	[ $(nvram get sdns_enable) = 1 ] && /usr/bin/smartdns.sh start
 }
 
 
