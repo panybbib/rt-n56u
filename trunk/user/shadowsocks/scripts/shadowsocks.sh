@@ -299,32 +299,46 @@ start_redir_udp() {
 
 
 start_dns() {
-	sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
-	sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
-	if [ $(nvram get pdnsd_enable) = "2" ]; then
-		echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
-		awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
-		ipset -! flush china
-		ipset -! restore </tmp/china.ipset 2>/dev/null
-		rm -f /tmp/china.ipset
-		dnsstr="$(nvram get tunnel_forward)"
-		dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
-		#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
+	echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
+	awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
+	ipset -! flush china
+	ipset -! restore </tmp/china.ipset 2>/dev/null
+	rm -f /tmp/china.ipset
+	dnsstr="$(nvram get tunnel_forward)"
+	dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
+	#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
 	case "$run_mode" in
-	router)
-		logger -st "SS" "启动dns2tcp：5353端口..."
-		dns2tcp -L"127.0.0.1#5353" -R"$dnsstr" >/dev/null 2>&1 &
-		pdnsd_enable_flag=0
-		logger -st "SS" "开始处理Chnroute..."
-	;;
 	gfw)
 		ipset add gfwlist $dnsserver 2>/dev/null
-		logger -st "SS" "启动dns2tcp：5353端口..."
-		dns2tcp -L"127.0.0.1#5353" -R"$dnsstr" >/dev/null 2>&1 &
-		pdnsd_enable_flag=0
-		logger -st "SS" "开始处理gfwlist..."
+		if [ $(nvram get pdnsd_enable) = "2" ]; then
+			sdns_off
+			logger -st "SS" "启动dns2tcp：5353端口..."
+			dns2tcp -L"127.0.0.1#5353" -R"$dnsstr" >/dev/null 2>&1 &
+			logger -st "SS" "开始处理gfwlist..."
+			pdnsd_enable_flag=0
+		elif [ $(nvram get pdnsd_enable) = "0" ]; then
+			ipset -! flush china
+			sed -i '/dnsmasq.oversea/d' /etc/storage/dnsmasq/dnsmasq.conf
+			sdns_on
+			pdnsd_enable_flag=0
+		fi
+	;;
+	router)
+		if [ $(nvram get pdnsd_enable) = "2" ]; then
+			sdns_off
+			logger -st "SS" "启动dns2tcp：5353端口..."
+			dns2tcp -L"127.0.0.1#5353" -R"$dnsstr" >/dev/null 2>&1 &
+			logger -st "SS" "开始处理Chnroute..."
+			pdnsd_enable_flag=0
+		elif [ $(nvram get pdnsd_enable) = "0" ]; then
+			sed -i '/gfwlist/d' /etc/storage/dnsmasq/dnsmasq.conf
+			sed -i '/dnsmasq.oversea/d' /etc/storage/dnsmasq/dnsmasq.conf
+			sdns_on
+			pdnsd_enable_flag=0
+		fi
 	;;
 	oversea)
+		sdns_off
 		ipset add gfwlist $dnsserver 2>/dev/null
 		mkdir -p /etc/storage/dnsmasq.oversea
 		sed -i '/dnsmasq-ss/d' /etc/storage/dnsmasq/dnsmasq.conf
@@ -334,21 +348,66 @@ conf-dir=/etc/storage/dnsmasq.oversea
 EOF
 	;;
 	*)
+		sdns_off
 		ipset -N ss_spec_wan_ac hash:net 2>/dev/null
 		ipset add ss_spec_wan_ac $dnsserver 2>/dev/null
 	;;
 	esac
 
-	elif [ $(nvram get pdnsd_enable) = "0" ]; then
-		pdnsd_enable_flag=0
-		ipset -! flush china
-		sed -i '/cdn/d' /etc/storage/dnsmasq/dnsmasq.conf
-		sed -i '/gfwlist/d' /etc/storage/dnsmasq/dnsmasq.conf
-		sed -i '/dnsmasq.oversea/d' /etc/storage/dnsmasq/dnsmasq.conf
-		[ $(nvram get sdns_enable) = 1 ] && /usr/bin/smartdns.sh start
+	/sbin/restart_dhcpd
+}
+
+sdns_on () {
+if [ $(nvram get sdns_enable) = 1 ]; then
+	sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
+	sdns_port=`nvram get sdns_port`
+	cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
+no-resolv
+server=127.0.0.1#$sdns_port
+EOF
+	logger -t "SmartDNS" "添加DNS转发到$sdns_port端口"
+	[ "$(nvram get adg_enable)" = 1 ] && /usr/bin/adguardhome.sh dnss
+fi
+}
+
+sdns_off () {
+	sdns_process=`pidof smartdns`
+	if [ -n "$sdns_process" ]; then
+		rm -f /tmp/whitelist.conf
+		rm -f /tmp/blacklist.conf
+		killall smartdns >/dev/null 2>&1
+		kill -9 "$sdns_process" >/dev/null 2>&1
+		ipset -X smartdns 2>/dev/null
+		sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
+		sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
+		sdns_port=`nvram get sdns_port`
+		sdns_ipv6_server=`nvram get sdns_ipv6_server`
+		clear_iptable $sdns_port $sdns_ipv6_server
+		/sbin/restart_dhcpd
+	fi
+}
+
+clear_iptable () {
+	local OLD_PORT="$1"
+	local ipv6_server=$2
+	IPS="`ifconfig | grep "inet addr" | grep -v ":127" | grep "Bcast" | awk '{print $2}' | awk -F : '{print $2}'`"
+	for IP in $IPS
+	do
+		iptables -t nat -D PREROUTING -p udp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
+		iptables -t nat -D PREROUTING -p tcp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
+	done
+
+	if [ "$ipv6_server" == 0 ]; then
+		return
 	fi
 
-	/sbin/restart_dhcpd
+	IPS="`ifconfig | grep "inet6 addr" | grep -v " fe80::" | grep -v " ::1" | grep "Global" | awk '{print $3}'`"
+	for IP in $IPS
+	do
+		ip6tables -t nat -D PREROUTING -p udp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
+		ip6tables -t nat -D PREROUTING -p tcp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
+	done
 }
 
 start_AD() {
@@ -497,7 +556,7 @@ ssp_close() {
 	fi
 	clear_iptable
 	/sbin/restart_dhcpd
-	[ $(nvram get sdns_enable) = 1 ] && /usr/bin/smartdns.sh start
+	sdns_on
 }
 
 
