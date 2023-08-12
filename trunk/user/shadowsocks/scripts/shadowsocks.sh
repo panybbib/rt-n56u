@@ -299,6 +299,8 @@ start_redir_udp() {
 
 
 start_dns() {
+	sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
 	if [ $(nvram get pdnsd_enable) = "2" ]; then
 		echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
 		awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
