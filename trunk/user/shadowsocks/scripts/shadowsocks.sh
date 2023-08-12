@@ -331,13 +331,14 @@ start_dns() {
 conf-dir=/etc/storage/dnsmasq.oversea
 EOF
 	;;
-	all)
+	*)
 		ipset -N ss_spec_wan_ac hash:net 2>/dev/null
 		ipset add ss_spec_wan_ac $dnsserver 2>/dev/null
 	;;
 	esac
 
 	elif [ $(nvram get pdnsd_enable) = "0" ]; then
+		pdnsd_enable_flag=0
 		ipset -! flush china
 		sed -i '/cdn/d' /etc/storage/dnsmasq/dnsmasq.conf
 		sed -i '/gfwlist/d' /etc/storage/dnsmasq/dnsmasq.conf
@@ -484,8 +485,8 @@ ssp_close() {
 	kill -9 $(ps | grep ssr-switch | grep -v grep | awk '{print $1}') >/dev/null 2>&1
 	kill -9 $(ps | grep ssr-monitor | grep -v grep | awk '{print $1}') >/dev/null 2>&1
 	kill_process
-	#sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
-	#sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
+	sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/cdn/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/gfwlist/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/dnsmasq.oversea/d' /etc/storage/dnsmasq/dnsmasq.conf
