@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/sh
 #
 # Copyright (C) 2017 openwrt-ssr
 # Copyright (C) 2017 yushi studio <ywb94@qq.com>
@@ -44,17 +44,17 @@ stop_dns_proxy() {
 }
 
 start_dns_proxy() {
-	pdnsd_enable=$(nvram get pdnsd_enable) # 0: dnsproxy , 1: dns2tcp
+	pdnsd_enable=$(nvram get pdnsd_enable) # 1: dnsproxy , 2: dns2tcp
 	pdnsd_enable_flag=$pdnsd_enable
-	if [ $pdnsd_enable = 1 ]; then
+	if [ $pdnsd_enable = 2 ]; then
 	    log "启动 dns2tcp：5353 端口..."
 		dns2tcp -L"127.0.0.1#5353" -R"$(nvram get tunnel_forward)" >/dev/null 2>&1 &
-	elif [ $pdnsd_enable = 0 ]; then
+	elif [ $pdnsd_enable = 1 ]; then
 		remote_ip=`echo "$(nvram get tunnel_forward)" | awk -F '#' '{print $1}'`
 		log "启动 dnsproxy：5353 端口..."
 		dnsproxy -d -p 5353 -R $remote_ip >/dev/null 2>&1 &
 	else
-		log "DNS解析方式不支持该选项: $pdnsd_enable , 建议选择dnsproxy"
+		log "DNS解析方式不支持该选项: $pdnsd_enable , 请手动选择其他DNS"
 	fi
 }
 

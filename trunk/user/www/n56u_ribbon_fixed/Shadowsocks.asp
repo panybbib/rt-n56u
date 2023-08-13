@@ -320,12 +320,12 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 		}
 		function switch_dns() {
 			var b = document.form.pdnsd_enable.value;
-			if (b == "0" || b == "2") {
+			if (b == "1" || b == "2") {
 				showhide_div('row_china_dns', 1);
 				showhide_div('row_tunnel_forward', 1);
 				showhide_div('row_ssp_dns_ip', 0);
 				showhide_div('row_ssp_dns_port', 0);
-			} else if (b == "1") {
+			} else if (b == "0") {
 				showhide_div('row_china_dns', 0);
 				showhide_div('row_tunnel_forward', 0);
 				showhide_div('row_ssp_dns_ip', 0);
@@ -1713,9 +1713,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<select name="pdnsd_enable" id="pdnsd_enable" class="input"
 																style="width: 200px;" onchange="switch_dns()">
-																<option value="0">使用dnsproxy查询</option>
+																<option value="1">使用dnsproxy查询</option>
 																<option value="2">使用dns2tcp查询</option>
-																<option value="1">使用其它服务器查询</option>
+																<option value="0">手动设置服务器查询</option>
 															</select>
 														</td>
 													</tr>

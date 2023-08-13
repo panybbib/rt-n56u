@@ -372,7 +372,7 @@ stop_dns_proxy() {
 }
 
 start_dns_proxy() {
-	pdnsd_enable=$(nvram get pdnsd_enable) # 0: dnsproxy , 2: dns2tcp
+	pdnsd_enable=$(nvram get pdnsd_enable) # 1: dnsproxy , 2: dns2tcp
 	pdnsd_enable_flag=$pdnsd_enable
 	dnsstr="$(nvram get tunnel_forward)"
 	dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
@@ -381,18 +381,17 @@ start_dns_proxy() {
 		# 将dnsserver (上游国外DNS: 比如 8.8.8.8) 放入ipset:gfwlist，强制走SS_SPEC_WAN_FW代理
 		ipset add gfwlist $dnsserver 2>/dev/null
 		dns2tcp -L"127.0.0.1#5353" -R"$dnsserver" >/dev/null 2>&1 &
-	elif [ $pdnsd_enable = 0 ]; then
+	elif [ $pdnsd_enable = 1 ]; then
 		log "启动 dnsproxy：5353 端口..."
 		# 将dnsserver (上游国外DNS: 比如 8.8.8.8) 放入ipset:gfwlist，强制走SS_SPEC_WAN_FW代理
 		ipset add gfwlist $dnsserver 2>/dev/null
 		dnsproxy -d -p 5353 -R $dnsserver >/dev/null 2>&1 &
 	else
-		log "DNS解析方式不支持该选项: $pdnsd_enable , 建议选择dnsproxy"
+		log "DNS解析方式不支持该选项: $pdnsd_enable , 请手动选择其他DNS"
 	fi
 }
 
 start_dns() {
-	sdns_off
 	echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
 	awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
 	ipset -! flush china
@@ -402,7 +401,7 @@ start_dns() {
 		ss_chdns=$(nvram get ss_chdns)
 		if [ $ss_chdns = 1 ]; then
 			chinadnsng_enable_flag=1
-			local_chnlist_file='/etc/storage/chinadns/chnlist_mini.txt'
+			local_chnlist_file='/etc/storage/chinadns/chnroute.txt'
 			if [ -f "$local_chnlist_file" ]; then
 			  log "启动chinadns分流，仅国外域名走DNS代理..."
 			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china -M -m $local_chnlist_file >/dev/null 2>&1 &
@@ -420,10 +419,8 @@ EOF
 		fi
 		# dnsmasq optimization
 		sed -i '/min-cache-ttl/d' /etc/storage/dnsmasq/dnsmasq.conf
-		sed -i '/dns-forward-max/d' /etc/storage/dnsmasq/dnsmasq.conf
 		cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
 min-cache-ttl=1800
-dns-forward-max=1000
 EOF
 		# restart dnsmasq
 		killall dnsmasq
@@ -431,6 +428,8 @@ EOF
 	}
 	case "$run_mode" in
 	router)
+	if [ $(nvram get pdnsd_enable) != 0 ]; then
+		sdns_off
 		ipset add gfwlist $dnsserver 2>/dev/null
 		# 不论chinadns-ng打开与否，都重启dns_proxy 
 		# 原因是针对gfwlist ipset有一个专有的dnsmasq配置表（由ss-rule创建放在/tmp/dnsmasq.dom/gfwlist_list.conf)
@@ -438,6 +437,7 @@ EOF
 		stop_dns_proxy
 		start_dns_proxy
 		start_chinadns
+	fi
 	;;
 	gfw)
 		dnsstr="$(nvram get tunnel_forward)"

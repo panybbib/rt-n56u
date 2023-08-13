@@ -457,6 +457,32 @@ function showMRULESList(){
 												<div><span style="color:#888;">启用后国外DNS设置[-blacklist-ip]参数则不解析大陆IP</span></div>
 											</td>
 										</tr>
+										<tr> <th>跳过测速</th>
+                                            <td>
+                                                <div class="main_itoggle">
+                                                <div id="sdns_speed_on_of">
+                                                    <input type="checkbox" id="sdns_speed_fake" <% nvram_match_x("", "sdns_speed", "1", "value=1 checked"); %><% nvram_match_x("", "sdns_speed", "0", "value=0"); %>>
+                                                </div>
+                                                </div>
+                                                <div style="position: absolute; margin-left: -10000px;">
+                                                    <input type="radio" value="1" name="sdns_speed" id="sdns_speed_1" <% nvram_match_x("", "sdns_speed", "1", "checked"); %>><#checkbox_Yes#>
+                                                    <input type="radio" value="0" name="sdns_speed" id="sdns_speed_0" <% nvram_match_x("", "sdns_speed", "0", "checked"); %>><#checkbox_No#>
+                                                </div>
+                                            </td>
+                                        </tr>
+										<tr> <th>跳过address规则</th>
+                                            <td>
+                                                <div class="main_itoggle">
+                                                <div id="sdns_address_on_of">
+                                                    <input type="checkbox" id="sdns_address_fake" <% nvram_match_x("", "sdns_address", "1", "value=1 checked"); %><% nvram_match_x("", "sdns_address", "0", "value=0"); %>>
+                                                </div>
+                                                </div>
+                                                <div style="position: absolute; margin-left: -10000px;">
+                                                    <input type="radio" value="1" name="sdns_address" id="sdns_address_1" <% nvram_match_x("", "sdns_address", "1", "checked"); %>><#checkbox_Yes#>
+                                                    <input type="radio" value="0" name="sdns_address" id="sdns_address_0" <% nvram_match_x("", "sdns_address", "0", "checked"); %>><#checkbox_No#>
+                                                </div>
+                                            </td>
+                                        </tr>
 										<tr> <th>跳过nameserver规则</th>
                                             <td>
                                                 <div class="main_itoggle">
