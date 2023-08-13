@@ -329,6 +329,21 @@ function showMRULESList(){
 												<input type="text" maxlength="5" class="input" size="15" name="sdns_port" style="width: 200px" value="<% nvram_get_x("", "sdns_port"); %>">
 											</td>
 										</tr>
+										<tr> <th>重定向</th>
+                                            <td>
+												<select name="sdns_redirect" class="input" style="width: 200px">
+													<option value="0" <% nvram_match_x("","sdns_redirect", "0","selected"); %>>无</option>
+													<option value="1" <% nvram_match_x("","sdns_redirect", "1","selected"); %>>作为dnsmasq的上游服务器</option>
+													<option value="2" <% nvram_match_x("","sdns_redirect", "2","selected"); %>>重定向53端口到SmartDNS</option>
+												</select>
+                                            </td>
+                                        </tr>
+										<tr> <th>DNS缓存大小</th>
+                                            <td>
+												<input type="text" maxlength="64" class="input" size="15" name="sdns_cache" style="width: 200px" value="<% nvram_get_x("", "sdns_cache"); %>">
+												<div><span style="color:#888;">缓存DNS的结果，缓存大小，配置0则不缓存</span></div>
+                                            </td>
+                                        </tr>
 										<tr> <th>TCP服务器</th>
 											<td>
 												<div class="main_itoggle">
@@ -442,21 +457,6 @@ function showMRULESList(){
 												<div><span style="color:#888;">启用后国外DNS设置[-blacklist-ip]参数则不解析大陆IP</span></div>
 											</td>
 										</tr>
-										<tr> <th>重定向</th>
-                                            <td>
-												<select name="sdns_redirect" class="input" style="width: 200px">
-													<option value="0" <% nvram_match_x("","sdns_redirect", "0","selected"); %>>无</option>
-													<option value="1" <% nvram_match_x("","sdns_redirect", "1","selected"); %>>作为dnsmasq的上游服务器</option>
-													<option value="2" <% nvram_match_x("","sdns_redirect", "2","selected"); %>>重定向53端口到SmartDNS</option>
-												</select>
-                                            </td>
-                                        </tr>
-										<tr> <th>DNS缓存大小</th>
-                                            <td>
-												<input type="text" maxlength="64" class="input" size="15" name="sdns_cache" style="width: 200px" value="<% nvram_get_x("", "sdns_cache"); %>">
-												<div><span style="color:#888;">缓存DNS的结果，缓存大小，配置0则不缓存</span></div>
-                                            </td>
-                                        </tr>
 										<tr> <th>跳过nameserver规则</th>
                                             <td>
                                                 <div class="main_itoggle">
