@@ -118,7 +118,7 @@ do
 		fi   
 	fi
 	#dnsproxy
-	if [ $pdnsd_process = 0 ] ;then
+	if [ $pdnsd_process = 1 ] ;then
 		icount=`ps -w | grep dnsproxy | grep -v grep | wc -l`
 		if [ $icount = 0 ]  #如果进程挂掉就重启它
 		then
@@ -128,7 +128,7 @@ do
 		fi   
 	fi
 	#dns2tcp
-	if [ $pdnsd_process = 1 ] ;then
+	if [ $pdnsd_process = 2 ] ;then
 		icount=`ps -w | grep dns2tcp | grep -v grep | wc -l`
 		if [ $icount = 0 ]  #如果进程挂掉就重启它
 		then
