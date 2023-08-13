@@ -3,7 +3,7 @@ THISDIR = $(shell pwd)
 
 all :
 	( if [ ! -f chnroute.bz2 ];then \
-		wget -t3 -4 --timeout=5 -O chnroute.txt.tmp '$(url)' && \
+		wget -t5 -4 --timeout=10 -O chnroute.txt.tmp '$(url)' && \
 		awk -F\| '/CN\|ipv4/ { printf("%s/%d\n", $$4, 32-log($$5)/log(2)) }' < chnroute.txt.tmp > chnroute.txt && \
 		rm -f chnroute.txt.tmp && tar jcf chnroute.bz2 chnroute.txt chnlist_mini.txt;\
 	fi )
@@ -14,4 +14,4 @@ romfs:
 	$(ROMFSINST) -d $(THISDIR)/chnroute.bz2 /etc_ro/chnroute.bz2
 
 clean :
-	rm -f chnroute.txt*
+	rm -f chnroute.*

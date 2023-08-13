@@ -1,4 +1,3 @@
-<!--本页面文件部分内容提取自灯大固件-->
 <!DOCTYPE html>
 <html>
 <head>

@@ -1026,7 +1026,6 @@
 	};
 #endif
 
-
 #if defined(APP_SQM)
 	struct variable variables_SqmConf[] = {
 			{"sqm_enable", "", NULL, EVM_RESTART_SQM},
