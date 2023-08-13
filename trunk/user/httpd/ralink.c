@@ -626,7 +626,7 @@ char* GetBW(int BW)
 	case BW_80:
 		return "80M";
 	case BW_160:
-		return "160";
+		return "160M";
 	default:
 		return "N/A";
 	}
@@ -975,7 +975,7 @@ print_apcli_wds_header(webs_t wp, const char *caption)
 	ret += websWrite(wp, caption);
 	ret += websWrite(wp, "----------------------------------------\n");
 	ret += websWrite(wp, "%-19s%-8s%-4s%-4s%-4s%-5s%-5s%-6s%-5s\n",
-				   "BSSID", "PhyMode", " BW", "MCS", "SGI", "LDPC", "STBC", "TRate", "RSSI");
+				   "BSSID", "PhyMode", "BW", "MCS", "SGI", "LDPC", "STBC", "TRate", "RSSI");
 
 	return ret;
 }
@@ -1048,7 +1048,7 @@ print_sta_list(webs_t wp, RT_802_11_MAC_TABLE *mp, int num_ss_rx, int ap_idx)
 #endif
 	ret += websWrite(wp, "----------------------------------------\n");
 	ret += websWrite(wp, "%-19s%-8s%-4s%-4s%-4s%-5s%-5s%-6s%-5s%-4s%-12s\n",
-			   "MAC", "PhyMode", " BW", "MCS", "SGI", "LDPC", "STBC", "TRate", "RSSI", "PSM", "Connect Time");
+			   "MAC", "PhyMode", "BW", "MCS", "SGI", "LDPC", "STBC", "TRate", "RSSI", "PSM", "Connect Time");
 
 	for (i = 0; i < mp->Num; i++) {
 		if ((int)mp->Entry[i].ApIdx != ap_idx)
@@ -1121,7 +1121,7 @@ print_sta_list_inic(webs_t wp, RT_802_11_MAC_TABLE_INIC* mp, int num_ss_rx, int 
 	ret += websWrite(wp, "\nAP %s Stations List\n", (ap_idx == 0) ? "Main" : "Guest");
 	ret += websWrite(wp, "----------------------------------------\n");
 	ret += websWrite(wp, "%-19s%-8s%-4s%-4s%-4s%-5s%-5s%-6s%-5s%-4s%-12s\n",
-			   "MAC", "PhyMode", " BW", "MCS", "SGI", "LDPC", "STBC", "TRate", "RSSI", "PSM", "Connect Time");
+			   "MAC", "PhyMode", "BW", "MCS", "SGI", "LDPC", "STBC", "TRate", "RSSI", "PSM", "Connect Time");
 
 	for (i = 0; i < mp->Num; i++) {
 		if ((int)mp->Entry[i].ApIdx != ap_idx)
@@ -1670,6 +1670,22 @@ ej_wl_scan_5g(int eid, webs_t wp, int argc, char **argv)
 
 	empty = "[\"\", \"\", \"\", \"\"]";
 
+#if defined (BOARD_MT7615_DBDC)
+	memset(data, 0, 32);
+	strcpy(data, "ClearSiteSurvey=1");
+	wrq.u.data.length = strlen(data)+1; 
+	wrq.u.data.pointer = data;
+	wrq.u.data.flags = 0;
+
+	if (wl_ioctl(IFNAME_5G_MAIN, RTPRIV_IOCTL_SET, &wrq) < 0)
+	{
+		dbg("Clean Site Survey fails\n");
+		return websWrite(wp, "[%s]", empty);
+	}
+
+	sleep(1);
+#endif
+
 	memset(data, 0, 32);
 	strcpy(data, "SiteSurvey=1"); 
 	wrq.u.data.length = strlen(data)+1; 
@@ -1770,6 +1786,22 @@ ej_wl_scan_2g(int eid, webs_t wp, int argc, char **argv)
 	int len, line_len;
 
 	empty = "[\"\", \"\", \"\", \"\"]";
+
+#if defined (BOARD_MT7615_DBDC)
+	memset(data, 0, 32);
+	strcpy(data, "ClearSiteSurvey=1");
+	wrq.u.data.length = strlen(data)+1; 
+	wrq.u.data.pointer = data;
+	wrq.u.data.flags = 0;
+
+	if (wl_ioctl(IFNAME_2G_MAIN, RTPRIV_IOCTL_SET, &wrq) < 0)
+	{
+		dbg("Clean Site Survey fails\n");
+		return websWrite(wp, "[%s]", empty);
+	}
+
+	sleep(1);
+#endif
 
 	memset(data, 0, 32);
 	strcpy(data, "SiteSurvey=1"); 

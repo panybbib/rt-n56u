@@ -1026,6 +1026,24 @@
 	};
 #endif
 
+
+#if defined(APP_SQM)
+	struct variable variables_SqmConf[] = {
+			{"sqm_enable", "", NULL, EVM_RESTART_SQM},
+			{"sqm_active", "", NULL, EVM_RESTART_SQM},
+			{"sqm_flag", "", NULL, EVM_RESTART_SQM},
+			{"sqm_down_speed", "", NULL, EVM_RESTART_SQM},
+			{"sqm_up_speed", "", NULL, EVM_RESTART_SQM},
+			{"sqm_debug_log", "", NULL, EVM_RESTART_SQM},
+			{"sqm_log_level", "", NULL, EVM_RESTART_SQM},
+			{"sqm_qdisc", "", NULL, EVM_RESTART_SQM},
+			{"sqm_iqdisc_opts", "", NULL, EVM_RESTART_SQM},
+			{"sqm_eqdisc_opts", "", NULL, EVM_RESTART_SQM},
+			{"sqm_tcMPU", "", NULL, EVM_RESTART_SQM},
+			{"sqm_script", "", NULL, EVM_RESTART_SQM},
+			{0,0,0,0}
+	};
+#endif
 #if defined(APP_SHADOWSOCKS)
 	struct variable variables_ShadowsocksConf[] = {
 			{"ss_enable","",NULL, EVM_RESTART_SHADOWSOCKS},
@@ -1100,6 +1118,9 @@
 			{"ss_turn","",NULL, EVM_RESTART_SHADOWSOCKS},
 			{"lan_con","",NULL, EVM_RESTART_SHADOWSOCKS},
 			{"ss_chnroute_url","",NULL, FALSE},
+			{"ss_cgroups", "",NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_cgoups_cpu_s", "",NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_cgoups_mem_s", "",NULL, EVM_RESTART_SHADOWSOCKS},
 			{"ss_watchcat", "",NULL, FALSE},
 			{"ss_turn_s","",NULL, EVM_RESTART_SHADOWSOCKS},
 			{"ss_turn_ss","",NULL, EVM_RESTART_SHADOWSOCKS},
@@ -1201,6 +1222,9 @@
 			{"sdns_ipv6", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_www", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_exp", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_exp_ttl", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_exp_ttl_max", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_cache_persist", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_redirect", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_cache", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_ttl", "", NULL, EVM_RESTART_SMARTDNS},
@@ -1208,6 +1232,11 @@
 			{"sdns_ttl_max", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdns_coredump", "", NULL, EVM_RESTART_SMARTDNS},	
 			{"sdnss_staticnum_x", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_speed", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_address", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_as", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_ipset", "", NULL, EVM_RESTART_SMARTDNS},
+			{"sdns_ns", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdnse_enable", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdnse_port", "", NULL, EVM_RESTART_SMARTDNS},
 			{"sdnse_tcp", "", NULL, EVM_RESTART_SMARTDNS},
@@ -1450,6 +1479,9 @@
 #if defined(APP_WIREGUARD)
 		{"WIREGUARD",		variables_WIREGUARD},
 #endif
+#if defined(APP_SQM)
+		{"SqmConf",		variables_SqmConf},
+#endif
 #if defined(APP_ALDRIVER)
 		{"ALDRIVER",		variables_ALDRIVER},
 #endif
@@ -1578,6 +1610,9 @@
 #endif
 #if defined(APP_WIREGUARD)
 		{EVM_RESTART_WIREGUARD,		EVT_RESTART_WIREGUARD,		RCN_RESTART_WIREGUARD,	0},
+#endif
+#if defined(APP_SQM)
+		{EVM_RESTART_SQM,		EVT_RESTART_SQM,		RCN_RESTART_SQM,	0},
 #endif
 #if defined(APP_ALDRIVER)
 		{EVM_RESTART_ALDRIVER,		EVT_RESTART_ALDRIVER,		RCN_RESTART_ALDRIVER,	0},

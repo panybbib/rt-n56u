@@ -148,12 +148,13 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= ipt2socks
 dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= resolveip
 dir_$(CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME)	+= adguardhome
 dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= dns2tcp
+dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)              += dnsproxy
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS),y)
 dir_$(CONFIG_FIRMWARE_INCLUDE_V2RAY)		+= v2ray
 dir_$(CONFIG_FIRMWARE_INCLUDE_XRAY)		+= xray
 dir_$(CONFIG_FIRMWARE_INCLUDE_TROJAN)		+= trojan
+dir_$(CONFIG_FIRMWARE_INCLUDE_SSOBFS)			+= simple-obfs
 endif
-#dir_$(CONFIG_FIRMWARE_INCLUDE_SSOBFS)		+= simple-obfs
 dir_$(CONFIG_FIRMWARE_INCLUDE_ZEROTIER)		+= zerotier
 dir_$(CONFIG_FIRMWARE_INCLUDE_WYY)		+= unblockmusic
 dir_$(OPENSSH_ENABLED)				+= openssh
@@ -180,6 +181,7 @@ dir_$(SAMBA_ENABLED)				+= samba3
 endif
 dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= chnroute
 dir_$(CONFIG_FIRMWARE_INCLUDE_TTYD)		+= ttyd
+dir_$(CONFIG_FIRMWARE_INCLUDE_LIBCGROUP)	+= libcgroup
 dir_$(FRP_ENABLE)				+= frp
 dir_$(SOFTETHERVPN_ENABLE)			+= softethervpn
 dir_$(CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT)       += scutclient
@@ -233,7 +235,7 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_FTPD)		+= vsftpd
 dir_$(CONFIG_FIRMWARE_INCLUDE_MINIDLNA)		+= minidlna
 dir_$(CONFIG_FIRMWARE_INCLUDE_FIREFLY)		+= firefly
 dir_$(CONFIG_FIRMWARE_INCLUDE_TRANSMISSION)	+= transmission
-dir_$(ARIA2_ENABLED)				+= aria2
+dir_$(CONFIG_FIRMWARE_INCLUDE_ARIA)		+= aria2
 endif
 
 dir_$(CONFIG_FIRMWARE_INCLUDE_KOOLPROXY)	+= koolproxy
@@ -243,6 +245,7 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_NVPPROXY)		+= nvpproxy
 #dir_$(CONFIG_FIRMWARE_INCLUDE_NPC)		+= npc
 dir_$(CONFIG_FIRMWARE_INCLUDE_DDNSTO)	        += ddnsto
 dir_$(CONFIG_FIRMWARE_INCLUDE_ALDRIVER)		+= aliyundrive-webdav
+dir_$(CONFIG_FIRMWARE_INCLUDE_SQM)		+= sqm-qos
 ifdef CONFIG_MTD_UBI
 ifneq ($(STORAGE_ENABLED),y)
 dir_y						+= optware

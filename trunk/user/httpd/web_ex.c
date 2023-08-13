@@ -51,6 +51,7 @@
 #include <notify_rc.h>
 #include <rstats.h>
 #include <bin_sem_asus.h>
+#include <gpioutils.h>
 
 #include "common.h"
 #include "nvram_x.h"
@@ -2179,12 +2180,15 @@ static int shadowsocks_status_hook(int eid, webs_t wp, int argc, char **argv)
 	if (ss_status_code == 0){
 		ss_status_code = pids("v2ray");
 	}
+	if (ss_status_code == 0){
+		ss_status_code = pids("xray");
+	}
 
 	if (ss_status_code == 0){
 		ss_status_code = pids("trojan");
 	}
 	if (ss_status_code == 0){
-		ss_status_code = pids("kumasocks");
+		ss_status_code = pids("ipt2socks");
 	}
 	websWrite(wp, "function shadowsocks_status() { return %d;}\n", ss_status_code);
 	int ss_tunnel_status_code = pids("ss-local");
@@ -2216,7 +2220,7 @@ static int rules_count_hook(int eid, webs_t wp, int argc, char **argv)
 	websWrite(wp, "function chnroute_count() { return '%s';}\n", count);
 #if defined(APP_SHADOWSOCKS)
 	memset(count, 0, sizeof(count));
-	fstream = popen("cat /etc/storage/gfwlist/gfwlist_list.conf |wc -l","r");
+	fstream = popen("cat /etc/storage/gfwlist/gfwlist_listnew.conf |wc -l","r");
 	if(fstream) {
 		fgets(count, sizeof(count), fstream);
 		pclose(fstream);
@@ -2299,6 +2303,20 @@ static int pdnsd_status_hook(int eid, webs_t wp, int argc, char **argv)
 	websWrite(wp, "function pdnsd_status() { return %d;}\n", pdnsd_status_code);
 	return 0;
 }
+
+static int dns2tcp_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int dns2tcp_status_code = pids("dns2tcp");
+	websWrite(wp, "function dns2tcp_status() { return %d;}\n", dns2tcp_status_code);
+	return 0;
+}
+
+static int dnsproxy_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int dnsproxy_status_code = pids("dnsproxy");
+	websWrite(wp, "function dnsproxy_status() { return %d;}\n", dnsproxy_status_code);
+			        return 0;
+}
 #endif
 
 #if defined (APP_SMARTDNS)
@@ -2306,6 +2324,15 @@ static int smartdns_status_hook(int eid, webs_t wp, int argc, char **argv)
 {
 	int smartdns_status_code = pids("smartdns");
 	websWrite(wp, "function smartdns_status() { return %d;}\n", smartdns_status_code);
+	return 0;
+}
+#endif
+
+#if defined (APP_SQM)
+static int sqm_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int sqm_status_code = system("tc qdisc | grep -w -q `nvram get sqm_qdisc`");
+	websWrite(wp, "function sqm_status() { return %d;}\n", sqm_status_code);
 	return 0;
 }
 #endif
@@ -2366,15 +2393,6 @@ static int nvpproxy_status_hook(int eid, webs_t wp, int argc, char **argv)
 {
 	int nvpproxy_status_code = pids("nvpproxy");
 	websWrite(wp, "function nvpproxy_status() { return %d;}\n", nvpproxy_status_code);
-	return 0;
-}
-#endif
-
-#if defined (APP_SHADOWSOCKS)
-static int dns2tcp_status_hook(int eid, webs_t wp, int argc, char **argv)
-{
-	int dns2tcp_status_code = pids("dns2tcp");
-	websWrite(wp, "function dns2tcp_status() { return %d;}\n", dns2tcp_status_code);
 	return 0;
 }
 #endif
@@ -2627,6 +2645,11 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 #else
 	int found_app_adbyby = 0;
 #endif
+#if defined(APP_SQM)
+	int found_app_sqm = 1;
+#else
+	int found_app_sqm = 0;
+#endif
 #if defined(APP_SMARTDNS)
 	int found_app_smartdns = 1;
 #else
@@ -2777,7 +2800,7 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 	int has_5g_mumimo = 1;
 	int has_5g_txbf = 1;
 	int has_5g_band_steering = 1;
-#if defined (BOARD_MT7615_DBDC) || (BOARD_MT7915_DBDC)
+#if defined (BOARD_MT7615_DBDC) || defined (BOARD_MT7915_DBDC)
 	int has_5g_160mhz = 0;
 #else
 	int has_5g_160mhz = 1;
@@ -2849,6 +2872,7 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		"function found_app_napt66() { return %d;}\n"
 		"function found_app_dnsforwarder() { return %d;}\n"
 		"function found_app_shadowsocks() { return %d;}\n"
+		"function found_app_sqm() { return %d;}\n"
 		"function found_app_koolproxy() { return %d;}\n"
 		"function found_app_adguardhome() { return %d;}\n"
 		"function found_app_caddy() { return %d;}\n"
@@ -2886,6 +2910,7 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		found_app_napt66,
 		found_app_dnsforwarder,
 		found_app_shadowsocks,
+		found_app_sqm,
 		found_app_koolproxy,
 		found_app_adguardhome,
 		found_app_caddy,
@@ -3044,6 +3069,7 @@ ej_hardware_pins_hook(int eid, webs_t wp, int argc, char **argv)
 		"function support_led_wan() { return %d;}\n"
 		"function support_led_lan() { return %d;}\n"
 		"function support_led_usb() { return %d;}\n"
+		"function support_led_usb_trig() { return %d;}\n"
 		"function support_led_wif() { return %d;}\n"
 		"function support_led_pwr() { return %d;}\n"
 		"function support_led_phy() { return %d;}\n",
@@ -3410,6 +3436,8 @@ void get_memdata(struct mem_stats *st)
 		{
 			fgets(line_buf, sizeof(line_buf), fp);
 			sscanf(line_buf, "MemFree: %lu %*s", &st->free);
+
+			fgets(line_buf, sizeof(line_buf), fp);	/* skip MemAvailable */
 			
 			fgets(line_buf, sizeof(line_buf), fp);
 			sscanf(line_buf, "Buffers: %lu %*s", &st->buffers);
@@ -4264,17 +4292,17 @@ static char syslog_txt[] =
 "filename=syslog.txt"
 ;
 
-static char no_cache_IE7[] =
-"Cache-Control: no-cache\r\n"
-"Pragma: no-cache\r\n"
-"Expires: 0"
-;
-
 static char no_cache_IE[] =
 "X-UA-Compatible: IE=edge\r\n"
 "Cache-Control: no-store, no-cache, must-revalidate\r\n"
 "Pragma: no-cache\r\n"
 "Expires: -1"
+;
+
+static char no_cache_IE7[] =
+"Cache-Control: no-cache\r\n"
+"Pragma: no-cache\r\n"
+"Expires: 0"
 ;
 
 #if defined (APP_SCUT)
@@ -4369,15 +4397,13 @@ struct mime_handler mime_handlers[] = {
 #if defined(APP_OPENVPN)
 	{ "client.ovpn", "application/force-download", NULL, NULL, do_export_ovpn_client, 1 },
 #endif
-
-
-	/* no-cached POST objects */
-	{ "update.cgi*", "text/javascript", no_cache_IE, do_html_apply_post, do_update_cgi, 1 },
-	{ "apply.cgi*", "text/html", no_cache_IE, do_html_apply_post, do_apply_cgi, 1 },
 #if defined(APP_SHADOWSOCKS)
 	{ "applydb.cgi*", "text/html", no_cache_IE7, do_html_post_and_get, do_applydb_cgi, 1 },
 	{ "dbconf", "text/javascript", no_cache_IE, do_html_apply_post, do_dbconf, 0 },
 #endif
+	/* no-cached POST objects */
+	{ "update.cgi*", "text/javascript", no_cache_IE, do_html_apply_post, do_update_cgi, 1 },
+	{ "apply.cgi*", "text/html", no_cache_IE, do_html_apply_post, do_apply_cgi, 1 },
 
 	{ "upgrade.cgi*",    "text/html", no_cache_IE, do_upgrade_fw_post, do_upgrade_fw_cgi, 1 },
 	{ "restore_nv.cgi*", "text/html", no_cache_IE, do_restore_nv_post, do_restore_nv_cgi, 1 },
@@ -4676,6 +4702,7 @@ struct ej_handler ej_handlers[] =
 	{ "rules_count", rules_count_hook},
 	{ "pdnsd_status", pdnsd_status_hook},
 	{ "dns2tcp_status", dns2tcp_status_hook},
+	{ "dnsproxy_status", dnsproxy_status_hook},
 #endif
 #if defined (APP_KOOLPROXY)
 	{ "koolproxy_action", koolproxy_action_hook},

@@ -4,7 +4,6 @@ var wan_proto = '<% nvram_get_x("", "wan_proto"); %>';
 var lan_proto = '<% nvram_get_x("", "lan_proto_x"); %>';
 var log_float = '<% nvram_get_x("", "log_float_ui"); %>';
 var reboot_schedule_support = '<% nvram_get_x("", "reboot_schedule_enable"); %>';
-var ss_schedule_support = '<% nvram_get_x("", "ss_schedule_enable"); %>';
 var log_stamp = 0;
 var sysinfo = <% json_system_status(); %>;
 var uptimeStr = "<% uptime(); %>";
@@ -13,7 +12,7 @@ var newformat_systime = uptimeStr.substring(8,11) + " " + uptimeStr.substring(5,
 var systime_millsec = Date.parse(newformat_systime); // millsec from system
 var JS_timeObj = new Date(); // 1970.1.1
 var cookie_pref = 'n56u_cookie_';
-
+var ss_schedule_support = '<% nvram_get_x("", "ss_schedule_enable"); %>';
 var uagent = navigator.userAgent.toLowerCase();
 var is_ie11p = (/trident\/7\./).test(uagent);
 var is_mobile = (/iphone|ipod|ipad|iemobile|android|blackberry|fennec/).test(uagent);
@@ -205,6 +204,11 @@ function showSystemInfo(cpu_now,force){
 	else
 		$j('#wifi5_b').removeClass('btn-info');
 
+	if ('<% nvram_get_x("", "sdns_enable"); %>' == '1')
+		$j('#button_script2').addClass('btn-info');
+	else
+		$j('#button_script2').removeClass('btn-info');
+
 	if(parseInt(sysinfo.wifi2.guest) > 0)
 		$j('#wifi2_b_g').addClass('btn-info');
 	else
@@ -361,7 +365,7 @@ function show_banner(L3){
 	bc += '  </tr>\n';
 	bc += '  <tr>\n';
 	bc += '    <td><button type="button" id="commit_btn" class="btn btn-mini" style="width: 114px; height: 21px; outline:0; '+enabledBtnCommit+'" onclick="commit();"><i class="icon icon-fire"></i>&nbsp;<#CTL_Commit#></button></td>\n';
-	bc += '    <td><button type="button" id="logout_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#t1Logout#>" onclick="logout();"><i class="icon icon-user"></i></button> <button type="button" id="reboto_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#BTN_REBOOT#>" onclick="reboot();"><i class="icon icon-repeat"></i></button> <button type="button" id="shutdown_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#BTN_SHUTDOWN#>" onclick="shutdown();"><i class="icon icon-off"></i></button></td>\n';
+	bc += '    <td><button type="button" id="logout_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#t1Logout#>" onclick="logout();"><i class="icon icon-user"></i></button> <button type="button" id="reboto_btn" class="btn btn-mini" style="height: 21px; outline:0;" title="<#BTN_REBOOT#>" onclick="reboot();"><i class="icon icon-repeat"></i></button> <button type="button" id="freememory_trash" class="btn btn-mini" style="height: 21px; outline:0;" title="<#BTN_FREEMEMORY#>" onclick="freememory();"><i class="icon icon-trash"></i></button></td>\n';
 	bc += '  </tr>\n';
 	bc += '</table>\n';
 	bc += '</div>\n';
@@ -436,8 +440,11 @@ if (found_app_caddy()){
 if (found_app_wyy()){
 	tabtitle[19] = new Array("", "<#menu5_31_1#>");
 }
+if (found_app_sqm()){
+	tabtitle[20] = new Array("", "QoS限速");
+}
 if (found_app_aldriver()){
-	tabtitle[20] = new Array("", "<#menu5_36_1#>");
+	tabtitle[21] = new Array("", "<#menu5_36_1#>");
 }
 
 //Level 3 Tab title
@@ -503,9 +510,13 @@ if (found_app_wyy()){
 	wyy_array = new Array("","Advanced_wyy.asp");
 	tablink[19] = (wyy_array);
 }
+if (found_app_sqm()){
+	sqm_array = new Array("","Advanced_SQM.asp");
+	tablink[20] = (sqm_array);
+}
 if (found_app_aldriver()){
 	aldriver_array = new Array("","Advanced_aliyundrive.asp");
-	tablink[20] = (aldriver_array);
+	tablink[21] = (aldriver_array);
 }
 
 //Level 2 Menu
@@ -557,6 +568,10 @@ if (found_app_wyy()){
 	menuL2_title.push("<#menu5_31#>");
 } else menuL2_title.push("");
 
+if (found_app_sqm()){
+	menuL2_title.push("QoS限速");
+} else menuL2_title.push("");
+
 if (found_app_aldriver()){
 	menuL2_title.push("<#menu5_36#>");
 } else menuL2_title.push("");
@@ -601,6 +616,9 @@ if (found_app_caddy()){
 if (found_app_wyy()){
 	menuL2_link.push(wyy_array[1]);
 } else menuL2_link.push("");
+if (found_app_sqm()){
+	menuL2_link.push(sqm_array[1]);
+} else menuL2_link.push("");
 if (found_app_aldriver()){
 	menuL2_link.push(aldriver_array[1]);
 } else menuL2_link.push("");
@@ -609,6 +627,17 @@ if (found_app_aldriver()){
 menuL1_title = new Array("", "<#menu1#>", "", "<#menu2#>", "<#menu6#>", "<#menu4#>", "<#menu5_8#>", "<#menu5#>");
 menuL1_link = new Array("", "index.asp", "", "vpnsrv.asp", "vpncli.asp", "Main_TrafficMonitor_realtime.asp", "Advanced_System_Info.asp", "as.asp");
 menuL1_icon = new Array("", "icon-home", "icon-hdd", "icon-retweet", "icon-globe", "icon-tasks", "icon-random", "icon-wrench");
+
+if (!found_app_vpnsvr()) {
+	menuL1_title[3] = '';
+	menuL1_link[3] = '';
+	menuL1_icon[3] = '';
+}
+if (!found_app_vpncli()) {
+	menuL1_title[4] = '';
+	menuL1_link[4] = '';
+	menuL1_icon[4] = '';
+}
 
 function show_menu(L1, L2, L3){
 	var i;
@@ -870,13 +899,11 @@ function reboot(){
 	});
 }
 
-function shutdown(){
-	if(!confirm('<#JS_shutdown#>'))
-		return;
+function freememory(){
 	var $j = jQuery.noConflict();
 	$j.post('/apply.cgi',
 	{
-		'action_mode': ' Shutdown ',
+		'action_mode': ' FreeMemory ',
 		'current_page': 'Main_LogStatus_Content.asp'
 	});
 }

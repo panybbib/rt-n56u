@@ -9,7 +9,7 @@
 #
 modprobe xt_TPROXY
 modprobe xt_set
-TAG="_SS_SPEC_"   # comment tag
+TAG="SS_SPEC_"   # comment tag
 ipt_n="iptables -t nat"  # alias of iptables
 ipt_m="iptables -t mangle"  # alias of iptables
 FWI=/tmp/shadowsocks_iptables.save  # firewall include file
@@ -68,14 +68,6 @@ flush_r() {
 	flush_iptables mangle
 	ip rule del fwmark 0x01/0x01 table 100 2>/dev/null
 	ip route del local 0.0.0.0/0 dev lo table 100 2>/dev/null
-	$ipt_m -D PREROUTING -p udp -j SS_SPEC_TPROXY
-	$ipt_n -D PREROUTING -j SS_SPEC_WAN_AC
-	$ipt_n -X SS_SPEC_WAN_AC
-	$ipt_n -D PREROUTING -j SS_SPEC_WAN_FW
-	$ipt_n -X SS_SPEC_WAN_FW
-	$ipt_n -D PREROUTING -j SS_SPEC_WAN_DG
-	$ipt_n -D OUTPUT -p tcp -j SS_SPEC_WAN_DG
-	$ipt_n -X SS_SPEC_WAN_DG
 	ipset -X ss_spec_lan_ac 2>/dev/null
 	ipset -X ss_spec_wan_ac 2>/dev/null
 	ipset -X ssr_gen_router 2>/dev/null
@@ -102,8 +94,13 @@ ipset_r() {
 		$(gen_iplist | sed -e "s/^/add ss_spec_wan_ac /")
 EOF
 	ipset -N china hash:net 2>/dev/null
+
+	# 运行在router模式下也创建ipset:gfwlist
+	# 目的是将dnsmasq.dom/gfwlist_list.conf中查询出的ip加入，应用到iptables规则中
+	ipset -N gfwlist hash:net 2>/dev/null
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set ss_spec_wan_ac dst -j RETURN
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set china dst -j RETURN
+	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set gfwlist dst -j SS_SPEC_WAN_FW # [2023-2-17] by simonchen (see below)
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set gmlan src -m set ! --match-set china dst -j SS_SPEC_WAN_FW
 	$ipt_n -A SS_SPEC_WAN_AC -j SS_SPEC_WAN_FW
 	$ipt_n -I PREROUTING $SSNU -j SS_SPEC_WAN_AC
@@ -119,6 +116,7 @@ EOF
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set china dst -j RETURN
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set gfwlist dst -j SS_SPEC_WAN_FW
 	$ipt_n -A SS_SPEC_WAN_AC -m set --match-set gmlan src -m set ! --match-set china dst -j SS_SPEC_WAN_FW
+	$ipt_n -A SS_SPEC_WAN_AC -j SS_SPEC_WAN_FW
 	$ipt_n -I PREROUTING $SSNU -j SS_SPEC_WAN_AC
 	if [ ! -f "/etc/storage/gfwlist/gfwlist_listnew.conf" ] ; then
 	mkdir -p /etc/storage/gfwlist
