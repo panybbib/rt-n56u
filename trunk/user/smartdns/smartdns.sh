@@ -4,7 +4,7 @@
 action="$1"
 storage_Path="/etc/storage"
 smartdns_Bin="/usr/bin/smartdns"
-smartdns_Ini="$storage_Path/smartdns_conf.ini"
+smartdns_ini="$storage_Path/smartdns_conf.ini"
 smartdns_Conf="$storage_Path/smartdns.conf"
 smartdns_tmp_Conf="$storage_Path/smartdns_tmp.conf"
 smartdns_address_Conf="$storage_Path/smartdns_address.conf"
@@ -60,10 +60,10 @@ dnsmasq_md5=$(md5sum  "$dnsmasq_Conf" | awk '{ print $1 }')
 
 Read_ini () {
 # 【读取上次成功启动时的端口等】
-    if [ -s "$smartdns_Ini" ] ; then
-        hosts_type=$(sed -n '1p' $smartdns_Ini)
-        sdns_redirected=$(sed -n '2p' $smartdns_Ini)
-        sdns_ported=$(sed -n '3p' $smartdns_Ini)
+    if [ -s "$smartdns_ini" ] ; then
+        hosts_type=$(sed -n '1p' $smartdns_ini)
+        sdns_redirected=$(sed -n '2p' $smartdns_ini)
+        sdns_ported=$(sed -n '3p' $smartdns_ini)
     else
         hosts_type=0
         sdns_redirected=0
@@ -413,17 +413,17 @@ Change_iptable () {
 
 Start_smartdns () {
     # 【】
-    :>"$smartdns_Ini"
+    :>"$smartdns_ini"
     [ "$sdns_enable" -eq 0 ] && nvram set sdns_enable=1 && sdns_enable=1
     [ $(pidof smartdns | awk '{ print $1 }')x != x ] && killall -9 smartdns >/dev/null 2>&1
     Change_dnsmasq
     Change_adbyby
-    echo "$hosts_type" >> "$smartdns_Ini"
+    echo "$hosts_type" >> "$smartdns_ini"
     [ "$sdns_redirect" = 0 ] && logger -t "SmartDNS" "SmartDNS 使用 $sdns_port 端口"
     Change_iptable
     sdns_redirected="$sdns_redirect"
-    echo "$sdns_redirected" >> "$smartdns_Ini"
-    echo "$sdns_port" >> "$smartdns_Ini"
+    echo "$sdns_redirected" >> "$smartdns_ini"
+    echo "$sdns_port" >> "$smartdns_ini"
     #存疑
     rm -f /tmp/sdnsipset.conf
     args=""
@@ -491,7 +491,7 @@ Stop_smartdns () {
     fi
     smartdns_process=$(pidof smartdns | awk '{ print $1 }')
     if [ "$smartdns_process"x = x ] && [ "$sdns_enable" = 0 ] ; then 
-        rm  -f "$smartdns_Ini"
+        rm  -f "$smartdns_ini"
         logger -t "SmartDNS" "已停用"
     fi
 }
@@ -501,7 +501,7 @@ Main () {
 # 【调用各子函数】
     case $action in
     start)
-        if [ ! -s "$smartdns_Ini" ] ; then
+        if [ ! -s "$smartdns_ini" ] ; then
             logger -t "SmartDNS" "启动．．．"
         fi
         Check_ss
