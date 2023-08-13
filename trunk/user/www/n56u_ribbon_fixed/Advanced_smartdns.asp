@@ -213,8 +213,8 @@ function showMRULESList(){
 }
 .spanb{
 	overflow:hidden;
-　　text-overflow:ellipsis;
-　　white-space:nowrap;
+	text-overflow:ellipsis;
+	white-space:nowrap;
 }
 </style>
 </head>
@@ -350,7 +350,7 @@ function showMRULESList(){
 												<div id="sdns_tcp_server_on_of">
 													<input type="checkbox" id="sdns_tcp_server_fake" <% nvram_match_x("", "sdns_tcp_server", "1", "value=1 checked"); %><% nvram_match_x("", "sdns_tcp_server", "0", "value=0"); %>>
 												</div>
-												</div>
+                                                </div><span style="color:#888;">支持TCP的53端口重定向到SmartDNS</span></div>
 												<div style="position: absolute; margin-left: -10000px;">
 													<input type="radio" value="1" name="sdns_tcp_server" id="sdns_tcp_server_1" <% nvram_match_x("", "sdns_tcp_server", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="sdns_tcp_server" id="sdns_tcp_server_0" <% nvram_match_x("", "sdns_tcp_server", "0", "checked"); %>><#checkbox_No#>
@@ -363,7 +363,7 @@ function showMRULESList(){
 												<div id="sdns_ipv6_server_on_of">
 													<input type="checkbox" id="sdns_ipv6_server_fake" <% nvram_match_x("", "sdns_ipv6_server", "1", "value=1 checked"); %><% nvram_match_x("", "sdns_ipv6_server", "0", "value=0"); %>>
 												</div>
-												</div>
+                                                </div><span style="color:#888;">支持IPV6的UDP/TCP的53端口重定向到SmartDNS</span></div>
 												<div style="position: absolute; margin-left: -10000px;">
 													<input type="radio" value="1" name="sdns_ipv6_server" id="sdns_ipv6_server_1" <% nvram_match_x("", "sdns_ipv6_server", "1", "checked"); %>><#checkbox_Yes#>
 													<input type="radio" value="0" name="sdns_ipv6_server" id="sdns_ipv6_server_0" <% nvram_match_x("", "sdns_ipv6_server", "0", "checked"); %>><#checkbox_No#>
