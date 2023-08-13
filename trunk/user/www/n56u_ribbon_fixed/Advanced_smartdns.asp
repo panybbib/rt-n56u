@@ -283,9 +283,9 @@ function showMRULESList(){
 									<a id="tab_sm_cfg" href="#cfg">基本设置</a>
 								</li>
 								<li>
-                                    <a id="tab_sm_exp" href="#exp">默认服务器</a>
-                                <li>
-								 <li>
+									<a id="tab_sm_exp" href="#exp">默认服务器</a>
+								<li>
+								<li>
 									<a id="tab_sm_sec" href="#sec">第二服务器</a>
 								<li>
 								<li>
@@ -432,7 +432,7 @@ function showMRULESList(){
                                                 <div id="sdns_cache_persist_on_of">
                                                     <input type="checkbox" id="sdns_cache_persist_fake" <% nvram_match_x("", "sdns_cache_persist", "1", "value=1 checked"); %><% nvram_match_x("", "sdns_cache_persist", "0", "value=0"); %>>
                                                 </div>
-                                                <div><span style="color:#888;">cache-file /etc/storage/smartdns.cache</span></div>
+                                                <div><span style="color:#888;">缓存文件 /etc/storage/smartdns.cache</span></div>
                                                 <div style="position: absolute; margin-left: -10000px;">
                                                     <input type="radio" value="1" name="sdns_cache_persist" id="sdns_cache_persist_1" <% nvram_match_x("", "sdns_cache_persist", "1", "checked"); %>><#checkbox_Yes#>
                                                     <input type="radio" value="0" name="sdns_cache_persist" id="sdns_cache_persist_0" <% nvram_match_x("", "sdns_cache_persist", "0", "checked"); %>><#checkbox_No#>
@@ -690,7 +690,7 @@ function showMRULESList(){
 												</div>
 											</td>
 										</tr>
-										<tr> <th>跳过Cache</th>
+										<tr> <th>跳过缓存</th>
 											<td>
 												<div class="main_itoggle">
 												<div id="sdnse_cache_on_of">
