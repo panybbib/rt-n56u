@@ -426,23 +426,24 @@ EOF
 		killall dnsmasq
 		/user/sbin/dnsmasq >/dev/null 2>&1 &
 	}
-	case "$run_mode" in
+ 
+ 	dnsstr="$(nvram get tunnel_forward)"
+	dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
+	#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
+  	case "$run_mode" in
 	router)
-	if [ $(nvram get pdnsd_enable) != 0 ]; then
+ 		ipset add gfwlist $dnsserver 2>/dev/null
+		if [ $(nvram get pdnsd_enable) != 0 ]; then
 		sdns_off
-		ipset add gfwlist $dnsserver 2>/dev/null
 		# 不论chinadns-ng打开与否，都重启dns_proxy 
 		# 原因是针对gfwlist ipset有一个专有的dnsmasq配置表（由ss-rule创建放在/tmp/dnsmasq.dom/gfwlist_list.conf)
 		# 需要查询上游dns_proxy在本地5353端口
 		stop_dns_proxy
 		start_dns_proxy
 		start_chinadns
-	fi
+		fi
 	;;
 	gfw)
-		dnsstr="$(nvram get tunnel_forward)"
-		dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
-		#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
 		ipset add gfwlist $dnsserver 2>/dev/null
 		stop_dns_proxy
 		start_dns_proxy
