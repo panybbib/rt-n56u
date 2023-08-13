@@ -120,8 +120,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			show_menu(13, 13, 0);
 			show_footer();
 			fill_ss_status(shadowsocks_status());
-			fill_dns2tcp_status(dns2tcp_status());
 			fill_dnsproxy_status(dnsproxy_status());
+			fill_dns2tcp_status(dns2tcp_status());
 			var wan0_dns = '<% nvram_get_x("","wan0_dns"); %>';
 			if (wan0_dns.length > 0){ // use local DNS
 					$j("select[name='china_dns']").prepend($j('<option value="'+wan0_dns+'" selected>本地DNS ' + wan0_dns + '</option>'));
@@ -325,7 +325,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				showhide_div('row_tunnel_forward', 1);
 				showhide_div('row_ssp_dns_ip', 0);
 				showhide_div('row_ssp_dns_port', 0);
-			} else if (b == "2") {
+			} else if (b == "1") {
 				showhide_div('row_china_dns', 0);
 				showhide_div('row_tunnel_forward', 0);
 				showhide_div('row_ssp_dns_ip', 0);
@@ -374,19 +374,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				stext = "<#Stopped#>";
 			else if (status_code == 1)
 				stext = "<#Running#>";
-				$("ss_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
-			$("domestic_ip").innerHTML = '<iframe src="http://ip.3322.net" height="30" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>';
-			$("foreign_ip").innerHTML = '<iframe src="https://ifconfig.me/ip" height="30" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>';
+			$("ss_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
 			$("gg_status").innerHTML = '<span><img alt="无法访问" src="https://www.google.com/favicon.ico?' + new Date().getTime() + '" /></span>';
-		}
-		function fill_dns2tcp_status(status_code) {
-			var stext = "Unknown";
-			if (status_code == 0)
-				stext = "<#Stopped#>";
-			else if (status_code == 1)
-				stext = "<#Running#>";
-			$("dns2tcp_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
-				stext + '</span>';
 		}
 		function fill_dnsproxy_status(status_code) {
 			var stext = "Unknown";
@@ -395,6 +384,15 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			else if (status_code == 1)
 				stext = "<#Running#>";
 			$("dnsproxy_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
+				stext + '</span>';
+		}
+		function fill_dns2tcp_status(status_code) {
+			var stext = "Unknown";
+			if (status_code == 0)
+				stext = "<#Stopped#>";
+			else if (status_code == 1)
+				stext = "<#Running#>";
+			$("dns2tcp_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
 				stext + '</span>';
 		}
 		var arrHashes = ["cfg", "add", "ssl", "cli", "log", "help"];
@@ -496,7 +494,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 							request.success({
 							  row : data
 							});
-							//显示节点下拉列表 by 花妆男
+							//显示节点下拉列表
 					// 渲染父节点  obj 需要渲染的数据 keyStr key需要去除的字符串
 					var keyStr = "ssconf_basic_json_";
 					var nodeList = document.getElementById("nodeList"); // 获取TCP节点
@@ -1717,6 +1715,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																style="width: 200px;" onchange="switch_dns()">
 																<option value="0">使用dnsproxy查询</option>
 																<option value="2">使用dns2tcp查询</option>
+																<option value="1">使用其它服务器查询</option>
 															</select>
 														</td>
 													</tr>
@@ -1835,12 +1834,12 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													</tr>
 												</table>
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
-	                                                                                       <tr><th>关键字过滤（请以/为分隔符）</th>
-				<td>
-				<input type="input" name="ss_keyword" id="ss_keyword" value="<% nvram_get_x("", "ss_keyword"); %>" >
-				<br> 命中关键字的节点将被丢弃。多个关键字用 / 分隔
-				</td>
-			</tr>
+													<tr> <th>关键字过滤（请以/为分隔符）</th>
+														<td>
+															<input type="input" name="ss_keyword" id="ss_keyword" value="<% nvram_get_x("", "ss_keyword"); %>" >
+															<br> 命中关键字的节点将被丢弃。多个关键字用 / 分隔
+														</td>
+													</tr>
 
 													<tr id="ss_schedule_enable_tr" width="50%">
 
@@ -2793,7 +2792,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													<tr>
 														<th width="100%">
 															此功能底层使用 <a href="https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/cgroups.html">cgroups</a>, CPU 限制值为一个大于 2 小于 1024 的整数，表示可以使用的 CPU 百分比，如 512 表示 50%;
-															内存限制值需要带上 M 作为单位, 如 20M 表示可以使用 20M 内存，超出会被内核 OOM Killer 自动 kill。
+															内存限制值需要带上 M 作为单位, 如 16M 表示可以使用 16M 内存，超出会被内核 OOM Killer 自动 kill。
 														</th>
 													</tr>
 												</table>
