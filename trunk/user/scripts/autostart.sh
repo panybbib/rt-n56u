@@ -1,8 +1,9 @@
 #!/bin/sh
 #nvram set ntp_ready=0
 
+mkdir -p /tmp/dnsmasq.dom
 mkdir -p /tmp/dnsmasq.music
-logger -t "为防止dnsmasq启动失败，创建/tmp/dnsmasq.music"
+logger -t "为防止dnsmasq启动失败，创建/tmp/dnsmasq.dom"
 
 smartdns_conf="/etc/storage/smartdns_custom.conf"
 dnsmasq_Conf="/etc/storage/dnsmasq/dnsmasq.conf"
