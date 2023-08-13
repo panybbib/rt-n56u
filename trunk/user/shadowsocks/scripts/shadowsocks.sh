@@ -401,7 +401,7 @@ start_dns() {
 		ss_chdns=$(nvram get ss_chdns)
 		if [ $ss_chdns = 1 ]; then
 			chinadnsng_enable_flag=1
-			local_chnlist_file='/etc/storage/chinadns/chnroute.txt'
+			local_chnlist_file='/etc/storage/chinadns/chnlist_mini.txt'
 			if [ -f "$local_chnlist_file" ]; then
 			  log "启动chinadns分流，仅国外域名走DNS代理..."
 			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china -M -m $local_chnlist_file >/dev/null 2>&1 &
