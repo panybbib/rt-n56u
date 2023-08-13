@@ -4,6 +4,7 @@ var wan_proto = '<% nvram_get_x("", "wan_proto"); %>';
 var lan_proto = '<% nvram_get_x("", "lan_proto_x"); %>';
 var log_float = '<% nvram_get_x("", "log_float_ui"); %>';
 var reboot_schedule_support = '<% nvram_get_x("", "reboot_schedule_enable"); %>';
+var ss_schedule_support = '<% nvram_get_x("", "ss_schedule_enable"); %>';
 var log_stamp = 0;
 var sysinfo = <% json_system_status(); %>;
 var uptimeStr = "<% uptime(); %>";
@@ -12,7 +13,7 @@ var newformat_systime = uptimeStr.substring(8,11) + " " + uptimeStr.substring(5,
 var systime_millsec = Date.parse(newformat_systime); // millsec from system
 var JS_timeObj = new Date(); // 1970.1.1
 var cookie_pref = 'n56u_cookie_';
-var ss_schedule_support = '<% nvram_get_x("", "ss_schedule_enable"); %>';
+
 var uagent = navigator.userAgent.toLowerCase();
 var is_ie11p = (/trident\/7\./).test(uagent);
 var is_mobile = (/iphone|ipod|ipad|iemobile|android|blackberry|fennec/).test(uagent);
@@ -203,11 +204,6 @@ function showSystemInfo(cpu_now,force){
 		$j('#wifi5_b').addClass('btn-info');
 	else
 		$j('#wifi5_b').removeClass('btn-info');
-
-	if ('<% nvram_get_x("", "sdns_enable"); %>' == '1')
-		$j('#button_script2').addClass('btn-info');
-	else
-		$j('#button_script2').removeClass('btn-info');
 
 	if(parseInt(sysinfo.wifi2.guest) > 0)
 		$j('#wifi2_b_g').addClass('btn-info');
@@ -627,17 +623,6 @@ if (found_app_aldriver()){
 menuL1_title = new Array("", "<#menu1#>", "", "<#menu2#>", "<#menu6#>", "<#menu4#>", "<#menu5_8#>", "<#menu5#>");
 menuL1_link = new Array("", "index.asp", "", "vpnsrv.asp", "vpncli.asp", "Main_TrafficMonitor_realtime.asp", "Advanced_System_Info.asp", "as.asp");
 menuL1_icon = new Array("", "icon-home", "icon-hdd", "icon-retweet", "icon-globe", "icon-tasks", "icon-random", "icon-wrench");
-
-if (!found_app_vpnsvr()) {
-	menuL1_title[3] = '';
-	menuL1_link[3] = '';
-	menuL1_icon[3] = '';
-}
-if (!found_app_vpncli()) {
-	menuL1_title[4] = '';
-	menuL1_link[4] = '';
-	menuL1_icon[4] = '';
-}
 
 function show_menu(L1, L2, L3){
 	var i;
