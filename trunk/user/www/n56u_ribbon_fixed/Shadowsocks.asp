@@ -501,7 +501,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 								unodeList = document.getElementById("u_nodeList"),// 获取UDP节点
 								s5nodeList = document.getElementById("s5_nodeList");// 获取SOCK5节点
 							$j(nodeList).find("option:gt(0)").remove();// 清除TCP旧节点，准备获取新列表信息
-							$j(unodeList).find("option:gt(1)").remove();// 清除UDP旧节点，准备获取新列表信
+							$j(unodeList).find("option:gt(1)").remove();// 清除UDP旧节点，准备获取新列表信息
 							$j(s5nodeList).find("option:gt(1)").remove();// 清除SOCK5旧节点，准备获取新列表信息
 							for (var key in db_ss) { // 遍历对象
 								var optionObj = null;
@@ -2323,6 +2323,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																	style="width: 200px" value="<% nvram_get_x("","
 																	v2_webs_path_x_0"); %>" />
 															</td>
+														</tr>
 														</tr>
 														<tr id="row_v2_grpc_path" style="display:none;">
 															<th width="50%">GRPC Path (serviceName)</th>
