@@ -27,7 +27,7 @@ local ss = {
 	plugin = server.plugin,
 	plugin_opts = server.plugin_opts,
 	reuse_port = true,
-	fast_open = fast_open
+	fast_open = false
 }
 
 print(cjson.encode(ss))

@@ -488,30 +488,36 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 						uniqueId: "ids",
 						ajax:function(request) {
 						$j.ajax({
-						  url:"/dbconf?p=ss&v=<% uptime(); %>",
-						  type:"get",
-						  success:function(data){
+						url: "/dbconf?p=ss&v=<% uptime(); %>",
+						type: "get",
+						success: function (data) {
 							request.success({
-							  row : data
+								row: data
 							});
 							//显示节点下拉列表
-					// 渲染父节点  obj 需要渲染的数据 keyStr key需要去除的字符串
-					var keyStr = "ssconf_basic_json_";
-					var nodeList = document.getElementById("nodeList"); // 获取TCP节点
-					var unodeList = document.getElementById("u_nodeList"); // 获取UDP节点
-					var s5nodeList = document.getElementById("s5_nodeList"); // 获取SOCK5节点
-					nodeList.options.length=1; // 清除TCP旧节点，准备获取新列表信息
-					unodeList.options.length=1;// 清除UDP旧节点，准备获取新列表信息
-					s5nodeList.options.length=1;// 清除SOCK5旧节点，准备获取新列表信息
-					for (var key in db_ss) { // 遍历对象
-						var optionObj = JSON.parse(db_ss[key]); // 字符串转为对象
-						//if(optionObj.ping != "failed"){   //过滤ping不通的节点
-					var text = '[ ' + (optionObj.type ? optionObj.type : "类型获取失败") + ' ] ' + (optionObj.alias ? optionObj.alias : "名字获取失败"); // 判断下怕获取失败 ，括号是运算的问题
-						// 添加 
-						nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
-						unodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
-						s5nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
-						$j('#nodeList>option').sort(function (a, b) {
+							// 渲染父节点  obj 需要渲染的数据 keyStr key需要去除的字符串
+							var keyStr = "ssconf_basic_json_",
+								nodeList = document.getElementById("nodeList"),// 获取TCP节点
+								unodeList = document.getElementById("u_nodeList"),// 获取UDP节点
+								s5nodeList = document.getElementById("s5_nodeList");// 获取SOCK5节点
+							$j(nodeList).find("option:gt(0)").remove();// 清除TCP旧节点，准备获取新列表信息
+							$j(unodeList).find("option:gt(1)").remove();// 清除UDP旧节点，准备获取新列表信
+							$j(s5nodeList).find("option:gt(1)").remove();// 清除SOCK5旧节点，准备获取新列表信息
+							for (var key in db_ss) { // 遍历对象
+								var optionObj = null;
+								try {
+									optionObj = JSON.parse(removeUselessChars(db_ss[key]));// 字符串转为对象
+								} catch (e) {
+									optionObj = null;
+								}
+								if (optionObj == null) continue;
+								if(optionObj.ping != "failed"){ // 过滤ping不通的节点
+								var text = '[ ' + (optionObj.type ? optionObj.type : "类型获取失败") + ' ] ' + (optionObj.alias ? optionObj.alias : "名字获取失败"); // 判断下怕获取失败 ，括号是运算的问题
+								// 添加 
+								nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
+								unodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
+								s5nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
+								$j('#nodeList>option').sort(function (a, b) {
 							var aText = $j(a).val() * 1;
 							var bText = $j(b).val() * 1;
 							if (aText > bText) return -1;
@@ -539,16 +545,22 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 						$j('#s5_nodeList>option').eq(0).attr("selected", "selected");
 						//$j('#nodeList').selectpicker('val', '<% nvram_get_x("","global_server"); %>'); //主服务器列表默认
 						//$j('#u_nodeList').selectpicker('val', '<% nvram_get_x("","udp_relay_server"); %>'); //UDP服务器列表默认
-						document.form.global_server.value = '<% nvram_get_x("","global_server"); %>';
-						document.form.udp_relay_server.value = '<% nvram_get_x("","udp_relay_server"); %>';
-						document.form.socks5_enable.value = '<% nvram_get_x("","socks5_enable"); %>';
-						//}
-					}
-					//订阅节点表格
-					var myss = new Array();
-					var i = 0;
-					for (var key in db_ss) { // 遍历对象
-						var dbss = JSON.parse(db_ss[key])
+								document.form.global_server.value = '<% nvram_get_x("","global_server"); %>';
+								document.form.udp_relay_server.value = '<% nvram_get_x("","udp_relay_server"); %>';
+								document.form.socks5_enable.value = '<% nvram_get_x("","socks5_enable"); %>';
+								//}
+							}
+							//订阅节点表格
+							var myss = [],
+								i = 0;
+							for (var key in db_ss) { // 遍历对象
+								var dbss = null;
+								try {
+									dbss = JSON.parse(removeUselessChars(db_ss[key]));//字符串转为对象
+								} catch (e) {
+									dbss = null;
+								}
+								if (dbss == null) continue;
 						dbss.ids = key.replace("ssconf_basic_json_", '');
 						myss[i] = dbss;
 						i = i + 1;
@@ -1590,18 +1602,22 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<div class="main_itoggle">
 																<div id="ss_enable_on_of">
-																	<input type="checkbox" id="ss_enable_fake"
-																		<% nvram_match_x("", "ss_enable", "1", "value=1 checked"); %><% nvram_match_x("", "ss_enable", "0", "value=0"); %>>
+																	<input type="checkbox" id="ss_enable_fake" <%
+																		nvram_match_x("", "ss_enable" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_enable" , "0" , "value=0"
+																		); %>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_enable"
-																	id="ss_enable_1"
-																	<% nvram_match_x("", "ss_enable", "1", "checked"); %>>
+																	id="ss_enable_1" <% nvram_match_x("", "ss_enable"
+																	, "1" , "checked" ); %>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0" name="ss_enable"
-																		id="ss_enable_0"
-																		<% nvram_match_x("", "ss_enable", "0", "checked"); %>>
+																		id="ss_enable_0" <%
+																		nvram_match_x("", "ss_enable" , "0" , "checked"
+																		); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -1671,17 +1687,21 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<select name="ss_run_mode" id="ss_run_mode" class="input"
 																style="width: 200px;">
-																<option value="gfw"
-																	<% nvram_match_x("","ss_run_mode", "gfw","selected"); %>>
+																<option value="gfw" <%
+																	nvram_match_x("","ss_run_mode", "gfw" ,"selected");
+																	%>>
 																	gfw列表模式</option>
-																<option value="router"
-																	<% nvram_match_x("","ss_run_mode", "router","selected"); %>>
+																<option value="router" <%
+																	nvram_match_x("","ss_run_mode", "router"
+																	,"selected"); %>>
 																	绕过大陆IP模式</option>
-																<option value="all"
-																	<% nvram_match_x("","ss_run_mode", "all","selected"); %>>
+																<option value="all" <%
+																	nvram_match_x("","ss_run_mode", "all" ,"selected");
+																	%>>
 																	全局模式</option>
-																<option value="oversea"
-																	<% nvram_match_x("","ss_run_mode", "oversea","selected"); %>>
+																<option value="oversea" <%
+																	nvram_match_x("","ss_run_mode", "oversea"
+																	,"selected"); %>>
 																	海外用户回国模式</option>
 															</select>
 														</td>
@@ -1690,11 +1710,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<th width="50%">需要代理的端口</th>
 														<td>
 															<select name="s_dports" class="input" style="width: 200px;">
-																<option value="0"
-																	<% nvram_match_x("","s_dports", "0","selected"); %>>
+																<option value="0" <% nvram_match_x("","s_dports", "0"
+																	,"selected"); %>>
 																	所有端口（默认）</option>
-																<option value="1"
-																	<% nvram_match_x("","s_dports", "1","selected"); %>>
+																<option value="1" <% nvram_match_x("","s_dports", "1"
+																	,"selected"); %>>
 																	仅常用端口(不走P2P流量到代理)</option>
 															</select>
 														</td>
@@ -1724,18 +1744,21 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<div class="main_itoggle">
 																<div id="ss_chdns_on_of">
-																	<input type="checkbox" id="ss_chdns_fake"
-																		<% nvram_match_x("", "ss_chdns", "1", "value=1 checked"); %><% nvram_match_x("", "ss_chdns", "0", "value=0"); %>>
+																	<input type="checkbox" id="ss_chdns_fake" <%
+																		nvram_match_x("", "ss_chdns" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_chdns" , "0" , "value=0" );
+																		%>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_chdns"
-																	id="ss_chdns_1"
-																	<% nvram_match_x("", "ss_chdns", "1", "checked"); %>>
+																	id="ss_chdns_1" <% nvram_match_x("", "ss_chdns"
+																	, "1" , "checked" ); %>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0" name="ss_chdns"
-																		id="ss_chdns_0"
-																		<% nvram_match_x("", "ss_chdns", "0", "checked"); %>>
+																		id="ss_chdns_0" <% nvram_match_x("", "ss_chdns"
+																		, "0" , "checked" ); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -1834,9 +1857,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													</tr>
 												</table>
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
-													<tr> <th>关键字过滤（请以/为分隔符）</th>
+													<tr>
+														<th>关键字过滤（请以/为分隔符）</th>
 														<td>
-															<input type="input" name="ss_keyword" id="ss_keyword" value="<% nvram_get_x("", "ss_keyword"); %>" >
+															<input type="input" name="ss_keyword" id="ss_keyword"
+																value="<% nvram_get_x("", " ss_keyword"); %>" >
 															<br> 命中关键字的节点将被丢弃。多个关键字用 / 分隔
 														</td>
 													</tr>
@@ -1848,19 +1873,24 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<div class="main_itoggle">
 																<div id="ss_schedule_enable_on_of">
 																	<input type="checkbox" id="ss_schedule_enable_fake"
-																		<% nvram_match_x("", "ss_schedule_enable", "1", "value=1 checked"); %><% nvram_match_x("", "ss_schedule_enable", "0", "value=0"); %>>
+																		<% nvram_match_x("", "ss_schedule_enable" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_schedule_enable" , "0"
+																		, "value=0" ); %>>
 																</div>
 															</div>
 
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" name="ss_schedule_enable_x"
-																	id="ss_schedule_enable_1" class="input" value="1"
-																	<% nvram_match_x("", "ss_schedule_enable", "1", "checked"); %> />
+																	id="ss_schedule_enable_1" class="input" value="1" <%
+																	nvram_match_x("", "ss_schedule_enable" , "1"
+																	, "checked" ); %> />
 																<#checkbox_Yes#>
 																	<input type="radio" name="ss_schedule_enable_x"
 																		id="ss_schedule_enable_0" class="input"
-																		value="0"
-																		<% nvram_match_x("", "ss_schedule_enable", "0", "checked"); %> />
+																		value="0" <%
+																		nvram_match_x("", "ss_schedule_enable" , "0"
+																		, "checked" ); %> />
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -1899,24 +1929,31 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																autocapitalize="off">分
 														</td>
 													</tr>
-													 <tr><th>保存订阅URL列表</th>
-				<td>
-				<input name="button" type="button" class="btn btn-primary" onclick="applyRule();" value="保存订阅URL列表" />
-				<br>修改订阅URL和节点关键字后，请先点击更新
-				</td>
-			</tr>
-			<tr><th>更新所有订阅服务器节点</th>
-				<td>
-				<input type="button" id="btn_update_link" class="btn btn-info" value="更新所有订阅服务器节点" onclick="dlink();">
-				</td>
-			</tr>
-			<tr><th>删除列表所有服务器节点</th>
-				<td>
-				<input type="button" id="btn_rest_link" class="btn btn-danger" value="删除列表所有服务器节点" onclick="ddlink();">
-				</td>
-			</tr>
-												
-										
+													<tr>
+														<th>保存订阅URL列表</th>
+														<td>
+															<input name="button" type="button" class="btn btn-primary"
+																onclick="applyRule();" value="保存订阅URL列表" />
+															<br>修改订阅URL和节点关键字后，请先点击更新
+														</td>
+													</tr>
+													<tr>
+														<th>更新所有订阅服务器节点</th>
+														<td>
+															<input type="button" id="btn_update_link"
+																class="btn btn-info" value="更新所有订阅服务器节点"
+																onclick="dlink();">
+														</td>
+													</tr>
+													<tr>
+														<th>删除列表所有服务器节点</th>
+														<td>
+															<input type="button" id="btn_rest_link"
+																class="btn btn-danger" value="删除列表所有服务器节点"
+																onclick="ddlink();">
+														</td>
+													</tr>
+
 													<tr>
 														<th colspan="2" style="background-color: #E3E3E3;">
 															<select name="ss_list_mode" style="display: none"
@@ -1947,7 +1984,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													<table width="100%" cellpadding="4" cellspacing="0" class="table"
 														id="sslist">
 														<tr>
-															<th id="ss_setting_title" colspan="2" style="background-color: #E3E3E3;">
+															<th id="ss_setting_title" colspan="2"
+																style="background-color: #E3E3E3;">
 																添加/删除/编辑节点</th>
 														</tr>
 														<tr>
@@ -1956,7 +1994,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																<input type="button" class="btn btn-primary"
 																	value="点击输入节点URL"
 																	onclick="return import_ssr_url(this, '<%=self.option%>', '<%=self.value%>')" />
-																<span id="<%=self.option%>-status"></span></td>
+																<span id="<%=self.option%>-status"></span>
+															</td>
 
 														</tr>
 														<tr>
@@ -2115,8 +2154,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<tr id="row_s5_enable" style="display:none;">
 															<th>启用用户名/密码认证</th>
 															<td>
-																<input type="checkbox" name="s5_aut" id="s5_aut" value="0" >
-
+																<input type="checkbox" name="s5_aut" id="s5_aut"
+																	value="0">
 															</td>
 														</tr>
 														<tr id="row_s5_username" style="display:none;">
@@ -2151,8 +2190,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_vmess_id" id="v2_vmess_id"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_vid_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_vid_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_v2_security" style="display:none;">
@@ -2163,7 +2202,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																	<option value="auto">AUTO</option>
 																	<option value="none">NONE</option>
 																	<option value="aes-128-gcm">AES-128-GCM</option>
-																															<option value="zero">ZERO</option>
+																	<option value="zero">ZERO</option>
 																	<option value="chacha20-poly1305">CHACHA20-POLY1305
 																	</option>
 																</select>
@@ -2272,8 +2311,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_ws_host" id="v2_ws_host"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_webs_host_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_webs_host_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_v2_webs_path" style="display:none;">
@@ -2281,26 +2320,25 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_ws_path" id="v2_ws_path"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_webs_path_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_webs_path_x_0"); %>" />
 															</td>
 														</tr>
-													</tr>
-													<tr id="row_v2_grpc_path" style="display:none;">
-														<th width="50%">GRPC Path (serviceName)</th>
-														<td>
-															<input type="text" class="input" size="15"
-																name="v2_grpc_path" id="v2_grpc_path"
-																style="width: 200px" value="" />
-														</td>
-													</tr>
+														<tr id="row_v2_grpc_path" style="display:none;">
+															<th width="50%">GRPC Path (serviceName)</th>
+															<td>
+																<input type="text" class="input" size="15"
+																	name="v2_grpc_path" id="v2_grpc_path"
+																	style="width: 200px" value="" />
+															</td>
+														</tr>
 														<tr id="row_v2_http2_host" style="display:none;">
 															<th width="50%">HTTP/2 Host</th>
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_h2_host" id="v2_h2_host"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_http2_host_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_http2_host_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_v2_http2_path" style="display:none;">
@@ -2308,8 +2346,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_h2_path" id="v2_h2_path"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_http2_path_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_http2_path_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_quic_security" style="display:none;">
@@ -2349,24 +2387,26 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<tr id="row_ssp_insecure" style="display:none;">
 															<th>allowInsecure</th>
 															<td>
-																<input type="checkbox" name="ssp_insecure" id="ssp_insecure" >		
+																<input type="checkbox" name="ssp_insecure"
+																	id="ssp_insecure">
 															</td>
 														</tr>
 														<tr id="row_v2_tls" style="display:none;">
 															<th>TLS/XTLS</th>
 															<td>
-																<select name="v2_tls" id="v2_tls" class="input" style="width: 200px;">
+																<select name="v2_tls" id="v2_tls" class="input"
+																	style="width: 200px;">
 																	<option value="0">未配置</option>
 																	<option value="1">tls</option>
 																	<option value="2">xtls</option>
 																</select>
-																
 															</td>
 														</tr>
 														<tr id="row_v2_flow" style="display:none;">
 															<th>XTLS flow</th>
 															<td>
-																<select name="v2_flow" id="v2_flow" class="input" style="width: 200px;">
+																<select name="v2_flow" id="v2_flow" class="input"
+																	style="width: 200px;">
 																	<option value="0">未配置</option>
 																	<option value="1">xtls-rprx-direct</option>
 																	<option value="2">xtls-rprx-splice</option>
@@ -2467,18 +2507,23 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<div class="main_itoggle">
 																<div id="ss_watchcat_on_of">
-																	<input type="checkbox" id="ss_watchcat_fake"
-																		<% nvram_match_x("", "ss_watchcat", "1", "value=1 checked"); %><% nvram_match_x("", "ss_watchcat", "0", "value=0"); %>>
+																	<input type="checkbox" id="ss_watchcat_fake" <%
+																		nvram_match_x("", "ss_watchcat" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_watchcat" , "0" , "value=0"
+																		); %>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_watchcat"
-																	id="ss_watchcat_1"
-																	<% nvram_match_x("", "ss_watchcat", "1", "checked"); %>>
+																	id="ss_watchcat_1" <%
+																	nvram_match_x("", "ss_watchcat" , "1" , "checked" );
+																	%>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0" name="ss_watchcat"
-																		id="ss_watchcat_0"
-																		<% nvram_match_x("", "ss_watchcat", "0", "checked"); %>>
+																		id="ss_watchcat_0" <%
+																		nvram_match_x("", "ss_watchcat" , "0"
+																		, "checked" ); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -2501,16 +2546,16 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<th width="50%">自动切换检查周期(秒)</th>
 														<td>
 															<input type="text" class="input" size="15" name="ss_turn_s"
-																style="width: 200px"
-																value="<% nvram_get_x("","ss_turn_s"); %>" />
+																style="width: 200px" value="<% nvram_get_x("","
+																ss_turn_s"); %>" />
 														</td>
 													</tr>
 													<tr>
 														<th width="50%">切换检查超时时间(秒)</th>
 														<td>
 															<input type="text" class="input" size="15" name="ss_turn_ss"
-																style="width: 200px"
-																value="<% nvram_get_x("", "ss_turn_ss"); %>">
+																style="width: 200px" value="<% nvram_get_x("", "
+																ss_turn_ss"); %>">
 														</td>
 													</tr>
 													<!--
@@ -2581,7 +2626,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<input type="text" class="input" size="15"
 																name="ss_chnroute_url" style="width: 200px"
-																value="<% nvram_get_x("","ss_chnroute_url"); %>" />
+																value="<% nvram_get_x("", "ss_chnroute_url"); %>" />
 														</td>
 													</tr>
 													<tr>
@@ -2592,18 +2637,23 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<div class="main_itoggle">
 																<div id="ss_update_chnroute_on_of">
 																	<input type="checkbox" id="ss_update_chnroute_fake"
-																		<% nvram_match_x("", "ss_update_chnroute", "1", "value=1 checked"); %><% nvram_match_x("", "ss_update_chnroute", "0", "value=0"); %>>
+																		<% nvram_match_x("", "ss_update_chnroute" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_update_chnroute" , "0"
+																		, "value=0" ); %>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_update_chnroute"
-																	id="ss_update_chnroute_1"
-																	<% nvram_match_x("", "ss_update_chnroute", "1", "checked"); %>>
+																	id="ss_update_chnroute_1" <%
+																	nvram_match_x("", "ss_update_chnroute" , "1"
+																	, "checked" ); %>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0"
 																		name="ss_update_chnroute"
-																		id="ss_update_chnroute_0"
-																		<% nvram_match_x("", "ss_update_chnroute", "0", "checked"); %>>
+																		id="ss_update_chnroute_0" <%
+																		nvram_match_x("", "ss_update_chnroute" , "0"
+																		, "checked" ); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -2632,18 +2682,23 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<div class="main_itoggle">
 																<div id="ss_update_gfwlist_on_of">
 																	<input type="checkbox" id="ss_update_gfwlist_fake"
-																		<% nvram_match_x("", "ss_update_gfwlist", "1", "value=1 checked"); %><% nvram_match_x("", "ss_update_gfwlist", "0", "value=0"); %>>
+																		<% nvram_match_x("", "ss_update_gfwlist" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_update_gfwlist" , "0"
+																		, "value=0" ); %>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_update_gfwlist"
-																	id="ss_update_gfwlist_1"
-																	<% nvram_match_x("", "ss_update_gfwlist", "1", "checked"); %>>
+																	id="ss_update_gfwlist_1" <%
+																	nvram_match_x("", "ss_update_gfwlist" , "1"
+																	, "checked" ); %>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0"
 																		name="ss_update_gfwlist"
-																		id="ss_update_gfwlist_0"
-																		<% nvram_match_x("", "ss_update_gfwlist", "0", "checked"); %>>
+																		id="ss_update_gfwlist_0" <%
+																		nvram_match_x("", "ss_update_gfwlist" , "0"
+																		, "checked" ); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -2677,8 +2732,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													<tr>
 														<td colspan="3">
 															<i class="icon-hand-right"></i> <a
-																href="javascript:spoiler_toggle('script13')"><span>游戏模式LAN IP（客户端UDP所有端口,TCP跟随主服务器端口模式,强制走绕过大陆模式）:</span></a>
-															<div id="script13">
+																href="javascript:spoiler_toggle('script8')"><span>游戏模式LAN
+																	IP（客户端UDP所有端口,TCP跟随主服务器端口模式,强制走绕过大陆模式）:</span></a>
+															<div id="script8">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_lan_gmip.sh"
