@@ -374,8 +374,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				stext = "<#Stopped#>";
 			else if (status_code == 1)
 				stext = "<#Running#>";
-			$("ss_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
-			$("gg_status").innerHTML = '<span><img alt="无法访问" src="https://www.google.com/favicon.ico?' + new Date().getTime() + '" /></span>';
+				$("ss_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
+				$("gg_status").innerHTML = '<span><img alt="无法访问" src="https://www.google.com/favicon.ico?' + new Date().getTime() + '" /></span>';
 		}
 		function fill_dnsproxy_status(status_code) {
 			var stext = "Unknown";
@@ -392,7 +392,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				stext = "<#Stopped#>";
 			else if (status_code == 1)
 				stext = "<#Running#>";
-			$("dns2tcp_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
+				$("dns2tcp_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
 				stext + '</span>';
 		}
 		var arrHashes = ["cfg", "add", "ssl", "cli", "log", "help"];
@@ -488,30 +488,29 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 						uniqueId: "ids",
 						ajax:function(request) {
 						$j.ajax({
-						url: "/dbconf?p=ss&v=<% uptime(); %>",
-						type: "get",
-						success: function (data) {
+							url:"/dbconf?p=ss&v=<% uptime(); %>",
+							type:"get",
+							success:function(data){
 							request.success({
-								row: data
+							row : data
 							});
 							//显示节点下拉列表
 							// 渲染父节点  obj 需要渲染的数据 keyStr key需要去除的字符串
-							var keyStr = "ssconf_basic_json_",
-								nodeList = document.getElementById("nodeList"),// 获取TCP节点
-								unodeList = document.getElementById("u_nodeList"),// 获取UDP节点
-								s5nodeList = document.getElementById("s5_nodeList");// 获取SOCK5节点
-							$j(nodeList).find("option:gt(0)").remove();// 清除TCP旧节点，准备获取新列表信息
-							$j(unodeList).find("option:gt(1)").remove();// 清除UDP旧节点，准备获取新列表信息
-							$j(s5nodeList).find("option:gt(1)").remove();// 清除SOCK5旧节点，准备获取新列表信息
-							for (var key in db_ss) { // 遍历对象
-								var optionObj = null;
-								try {
-									optionObj = JSON.parse(removeUselessChars(db_ss[key]));// 字符串转为对象
+						var keyStr = "ssconf_basic_json_";
+						var nodeList = document.getElementById("nodeList"); // 获取TCP节点
+						var unodeList = document.getElementById("u_nodeList"); // 获取UDP节点
+						var s5nodeList = document.getElementById("s5_nodeList"); // 获取SOCK5节点
+						nodeList.options.length=1; // 清除TCP旧节点，准备获取新列表信息
+						unodeList.options.length=1;// 清除UDP旧节点，准备获取新列表信息
+						s5nodeList.options.length=1;// 清除SOCK5旧节点，准备获取新列表信息
+						for (var key in db_ss) { // 遍历对象
+							var optionObj = null;
+							try {
+								optionObj = JSON.parse(removeUselessChars(db_ss[key]));// 字符串转为对象
 								} catch (e) {
 									optionObj = null;
 								}
 								if (optionObj == null) continue;
-								if(optionObj.ping != "failed"){ // 过滤ping不通的节点
 								var text = '[ ' + (optionObj.type ? optionObj.type : "类型获取失败") + ' ] ' + (optionObj.alias ? optionObj.alias : "名字获取失败"); // 判断下怕获取失败 ，括号是运算的问题
 								// 添加 
 								nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
@@ -1147,7 +1146,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					url0 = sstr.substr(0, ploc);
 					param = sstr.substr(ploc + 2);
 				}
-				var ssm = JSON.parse(sstr);
+				var ssm = JSON.parse(removeUselessChars(sstr));
 				document.getElementById('ssp_name').value = ssm.ps;
 				document.getElementById('ssp_server').value = ssm.add;
 				document.getElementById('ssp_prot').value = ssm.port;
@@ -1465,24 +1464,27 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 		}
 		function showsdlinkList() {
 			var value = document.getElementById("nodeList").value;
-			if (value >0){
-			var key = "ssconf_basic_json_" + value;		
-			var result = JSON.parse(db_ss[key]);
-			document.getElementById("d_type").value = result.type;}
+			if (value > 0) {
+				var key = "ssconf_basic_json_" + value;
+				var result = JSON.parse(removeUselessChars(db_ss[key]));
+				document.getElementById("d_type").value = result.type;
+			}
 		}
 		function showsudlinkList() {
 			var value = document.getElementById("u_nodeList").value;
-			if (value >0){
-			var key = "ssconf_basic_json_" + value;
-			var result = JSON.parse(db_ss[key]);
-			document.getElementById("ud_type").value = result.type;}
+			if (value > 0) {
+				var key = "ssconf_basic_json_" + value;
+				var result = JSON.parse(removeUselessChars(db_ss[key]));
+				document.getElementById("ud_type").value = result.type;
+			}
 		}
 		function shows5dlinkList() {
 			var value = document.getElementById("s5_nodeList").value;
-			if (value >0){
-			var key = "ssconf_basic_json_" + value
-			var result = JSON.parse(db_ss[key]);
-			document.getElementById("s5_type").value = result.type;}
+			if (value > 0 ) {
+				var key = "ssconf_basic_json_" + value
+				var result = JSON.parse(removeUselessChars(db_ss[key]));
+				document.getElementById("s5_type").value = result.type;
+			}
 		}
 	</script>
 	<style>
@@ -1971,8 +1973,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<input type="button" id="btn_del_link"
 																class="btn btn-danger" value="批量删除节点">
 															<input type="button" id="btn_ctime" style="display:none;"
-																class="btn btn-good" value="正在运行脚本:0s"
-																onclick="">
+																class="btn btn-good" value="正在运行脚本:0s" onclick="">
 														</th>
 													</tr>
 
@@ -2323,7 +2324,6 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																	style="width: 200px" value="<% nvram_get_x("","
 																	v2_webs_path_x_0"); %>" />
 															</td>
-														</tr>
 														</tr>
 														<tr id="row_v2_grpc_path" style="display:none;">
 															<th width="50%">GRPC Path (serviceName)</th>
