@@ -70,51 +70,51 @@
 			$j("#btn_aping_link").click(function () {
 				aping_dlink();
 			});
-			$j("#s5_aut").change(function() { 
-			if($j("#s5_aut").is(':checked')){
-			document.getElementById('s5_aut').value=1;
-			}else{
-			document.getElementById('s5_aut').value=0;
-			}
-			}); 
-			$j("#v2_tls").change(function() { 
-			if(document.getElementById('v2_tls').value != '0'){
-			showhide_div('row_tj_tls_host', 1);
-			}else{			
-			showhide_div('row_tj_tls_host', 0);
-			}
+			$j("#s5_aut").change(function () {
+				if ($j("#s5_aut").is(':checked')) {
+					document.getElementById('s5_aut').value = 1;
+				} else {
+					document.getElementById('s5_aut').value = 0;
+				}
 			});
-			$j("#v2_mux").change(function() { 
-			if($j("#v2_mux").is(':checked')){
-			document.getElementById('v2_mux').value=1;
-			}else{
-			document.getElementById('v2_mux').value=0;
-			}
+			$j("#v2_tls").change(function () {
+				if ($j("#v2_tls").val() != '0') {
+					showhide_div('row_tj_tls_host', 1);
+				} else {
+					showhide_div('row_tj_tls_host', 0);
+				}
 			});
-			$j("#ssp_insecure").change(function() { 
-			if($j("#ssp_insecure").is(':checked')){
-			document.getElementById('ssp_insecure').value=1;
-			}else{
-			document.getElementById('ssp_insecure').value=0;
-			}
+			$j("#v2_mux").change(function () {
+				if ($j("#v2_mux").is(':checked')) {
+					document.getElementById('v2_mux').value = 1;
+				} else {
+					document.getElementById('v2_mux').value = 0;
+				}
+			});
+			$j("#ssp_insecure").change(function () {
+				if ($j("#ssp_insecure").is(':checked')) {
+					document.getElementById('ssp_insecure').value = 1;
+				} else {
+					document.getElementById('ssp_insecure').value = 0;
+				}
 			});
 		});
-function ctime() {
-var t=0;
-c=null;
-document.getElementById('btn_ctime').value='正在运行脚本:0s';
-document.getElementById('btn_ctime').style.display="inline";
-		c=setInterval(function(){
-		t=t+1
-        //document.getElementById("ctime").value=t + "秒";
-		document.getElementById('btn_ctime').value='正在运行脚本:' + t +"s";
-    },1000);
-}
-function dtime() {
-clearInterval(c);
-document.getElementById('btn_ctime').value='脚本运行完成!';
-setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
-}
+		function ctime() {
+			var t = 0;
+			c = null;
+			document.getElementById('btn_ctime').value = '正在运行脚本:0s';
+			document.getElementById('btn_ctime').style.display = "inline";
+			c = setInterval(function () {
+				t = t + 1
+				//document.getElementById("ctime").value=t + "秒";
+				document.getElementById('btn_ctime').value = '正在运行脚本:' + t + "s";
+			}, 1000);
+		}
+		function dtime() {
+			clearInterval(c);
+			document.getElementById('btn_ctime').value = '脚本运行完成!';
+			setTimeout('document.getElementById("btn_ctime").style.display="none";', 1000);
+		}
 		function initial() {
 			show_banner(2);
 			show_menu(13, 13, 0);
@@ -316,7 +316,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				showhide_div('row_quic_key', 1);
 				showhide_div('row_quic_header', 1);
 			}
-			
+
 		}
 		function switch_dns() {
 			var b = document.form.pdnsd_enable.value;
@@ -359,7 +359,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				success: function (response) {
 					alert("脚本执行成功...")
 				},
-				complete: function(xhr, ts) {
+				complete: function (xhr, ts) {
 					hideLoading();
 				}
 			});
@@ -374,7 +374,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				stext = "<#Stopped#>";
 			else if (status_code == 1)
 				stext = "<#Running#>";
-				$("ss_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
+				$("ss_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
+				stext + '</span>';
 				$("gg_status").innerHTML = '<span><img alt="无法访问" src="https://www.google.com/favicon.ico?' + new Date().getTime() + '" /></span>';
 		}
 		function fill_dnsproxy_status(status_code) {
@@ -383,7 +384,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				stext = "<#Stopped#>";
 			else if (status_code == 1)
 				stext = "<#Running#>";
-			$("dnsproxy_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
+				$("dnsproxy_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' +
 				stext + '</span>';
 		}
 		function fill_dns2tcp_status(status_code) {
@@ -434,10 +435,10 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 		}
 		//订阅节点
 		function dlink() {
-		ctime();
+			ctime();
 			var ns = {};
 			ns[1] = "dlink";
-			document.getElementById("btn_update_link").value="正在更新订阅节点";
+			document.getElementById("btn_update_link").value = "正在更新订阅节点";
 			$j.ajax({
 				url: "/applydb.cgi?usedlink=1&p=ss",
 				type: 'POST',
@@ -448,16 +449,16 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					alert("脚本执行失败！！！")
 				},
 				success: function (response) {
-					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_update_link').value='更新所有订阅服务器节点';",1000);
+					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_update_link').value='更新所有订阅服务器节点';", 1000);
 				}
 			});
 		}
 		//清空节点
 		function ddlink() {
-		ctime();
+			ctime();
 			var ns = {};
 			ns[1] = "ddlink";
-			document.getElementById("btn_rest_link").value="正在清空节点";
+			document.getElementById("btn_rest_link").value = "正在清空节点";
 			$j.ajax({
 				url: "/applydb.cgi?useddlink=1&p=ss",
 				type: 'POST',
@@ -468,165 +469,175 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					alert("脚本执行失败！！！")
 				},
 				success: function (response) {
-					node_global_max=0;
-					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_rest_link').value='清空所有节点';",1000);
+					node_global_max = 0;
+					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_rest_link').value='清空所有节点';", 1000);
 				}
 			});
 		}
 		function showMRULESList() {
-					$j('#table99').bootstrapTable({
-						//data: myss,
-						striped: true,
-						pageNumber: 1,
-						pagination: true,
-						sortable: true,
-						sortName: 'ids',
-						sortOrder: "desc",
-						sidePagination: 'client',
-						pageSize: 15,
-						pageList: [15, 25, 35, 50], // 分页显示记录数
-						uniqueId: "ids",
-						ajax:function(request) {
-						$j.ajax({
-						  url:"/dbconf?p=ss&v=<% uptime(); %>",
-						  type:"get",
-						  success:function(data){
+			$j('#table99').bootstrapTable({
+				//data: myss,
+				striped: true,
+				pageNumber: 1,
+				pagination: true,
+				sortable: true,
+				sortName: 'ids',
+				sortOrder: "desc",
+				sidePagination: 'client',
+				pageSize: 15,
+				pageList: [15, 25, 35, 50], // 分页显示记录数
+				uniqueId: "ids",
+				ajax: function (request) {
+					$j.ajax({
+						url: "/dbconf?p=ss&v=<% uptime(); %>",
+						type: "get",
+						success: function (data) {
 							request.success({
-							  row : data
+								row: data
 							});
-				//显示节点下拉列表
-				// 渲染父节点  obj 需要渲染的数据 keyStr key需要去除的字符串
-					var keyStr = "ssconf_basic_json_";
-					var nodeList = document.getElementById("nodeList"); // 获取TCP节点
-					var unodeList = document.getElementById("u_nodeList"); // 获取UDP节点
-					var s5nodeList = document.getElementById("s5_nodeList"); // 获取SOCK5节点
-					nodeList.options.length=1; // 清除TCP旧节点，准备获取新列表信息
-					unodeList.options.length=1;// 清除UDP旧节点，准备获取新列表信息
-					s5nodeList.options.length=1;// 清除SOCK5旧节点，准备获取新列表信息
-					for (var key in db_ss) { // 遍历对象
-						var optionObj = JSON.parse(db_ss[key]); // 字符串转为对象
-						//if(optionObj.ping != "failed"){   //过滤ping不通的节点
-						var text = '[ ' + (optionObj.type ? optionObj.type : "类型获取失败") + ' ] ' + (optionObj.alias ? optionObj.alias : "名字获取失败"); // 判断下怕获取失败 ，括号是运算的问题
-						// 添加 
-						nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
-						unodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
-						s5nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
-						$j('#nodeList>option').sort(function (a, b) {
-							var aText = $j(a).val() * 1;
-							var bText = $j(b).val() * 1;
-							if (aText > bText) return -1;
-							if (aText < bText) return 1;
-							return 0;
-						}).appendTo('#nodeList');
-						$j('#nodeList>option').eq(0).attr("selected", "selected");
-						//udp列表
-						$j('#u_nodeList>option').sort(function (a, b) {
-							var aText = $j(a).val() * 1;
-							var bText = $j(b).val() * 1;
-							if (aText > bText) return -1;
-							if (aText < bText) return 1;
-							return 0;
-						}).appendTo('#u_nodeList');
-						$j('#u_nodeList>option').eq(0).attr("selected", "selected");
-						//s5列表
-						$j('#s5_nodeList>option').sort(function (a, b) {
-							var aText = $j(a).val() * 1;
-							var bText = $j(b).val() * 1;
-							if (aText > bText) return -1;
-							if (aText < bText) return 1;
-							return 0;
-						}).appendTo('#s5_nodeList');
-						$j('#s5_nodeList>option').eq(0).attr("selected", "selected");
-						//$j('#nodeList').selectpicker('val', '<% nvram_get_x("","global_server"); %>'); //主服务器列表默认
-						//$j('#u_nodeList').selectpicker('val', '<% nvram_get_x("","udp_relay_server"); %>'); //UDP服务器列表默认
-						document.form.global_server.value = '<% nvram_get_x("","global_server"); %>';
-						document.form.udp_relay_server.value = '<% nvram_get_x("","udp_relay_server"); %>';
-						document.form.socks5_enable.value = '<% nvram_get_x("","socks5_enable"); %>';
-						//}
-					}
-					//订阅节点表格
-					var myss = new Array();
-						var i = 0;
-					for (var key in db_ss) { // 遍历对象
-						var dbss = JSON.parse(db_ss[key])
-						dbss.ids = key.replace("ssconf_basic_json_", '');
-						myss[i] = dbss;
-						i = i + 1;
-						if (myss != null) {
-							var node_i = parseInt(key.replace("ssconf_basic_json_", ''));
-							if (node_i > node_global_max) {
-								node_global_max = node_i;
+							//显示节点下拉列表
+							// 渲染父节点  obj 需要渲染的数据 keyStr key需要去除的字符串
+							var keyStr = "ssconf_basic_json_",
+								nodeList = document.getElementById("nodeList"),//获取节点
+								unodeList = document.getElementById("u_nodeList"),//获取节点
+								s5nodeList = document.getElementById("s5_nodeList");//获取节点
+							$j(nodeList).find("option:gt(0)").remove();
+							$j(unodeList).find("option:gt(1)").remove();
+							$j(s5nodeList).find("option:gt(1)").remove();
+							for (var key in db_ss) { // 遍历对象
+								var optionObj = null;
+								try {
+									optionObj = JSON.parse(removeUselessChars(db_ss[key]));//字符串转为对象
+								} catch (e) {
+									optionObj = null;
+								}
+								if (optionObj == null) continue;
+								var text = '[ ' + (optionObj.type ? optionObj.type : "类型获取失败") + ' ] ' + (optionObj.alias ? optionObj.alias : "名字获取失败"); // 判断下怕获取失败 ，括号是运算的问题
+								// 添加 
+								nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
+								unodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
+								s5nodeList.options.add(new Option(text, key.replace(keyStr, ''))); // 通过 replacce把不要的字符去掉
+								$j('#nodeList>option').sort(function (a, b) {
+									var aText = $j(a).val() * 1;
+									var bText = $j(b).val() * 1;
+									if (aText > bText) return -1;
+									if (aText < bText) return 1;
+									return 0;
+								}).appendTo('#nodeList');
+								$j('#nodeList>option').eq(0).attr("selected", "selected");
+								//udp列表
+								$j('#u_nodeList>option').sort(function (a, b) {
+									var aText = $j(a).val() * 1;
+									var bText = $j(b).val() * 1;
+									if (aText > bText) return -1;
+									if (aText < bText) return 1;
+									return 0;
+								}).appendTo('#u_nodeList');
+								$j('#u_nodeList>option').eq(0).attr("selected", "selected");
+								//s5列表
+								$j('#s5_nodeList>option').sort(function (a, b) {
+									var aText = $j(a).val() * 1;
+									var bText = $j(b).val() * 1;
+									if (aText > bText) return -1;
+									if (aText < bText) return 1;
+									return 0;
+								}).appendTo('#s5_nodeList');
+								$j('#s5_nodeList>option').eq(0).attr("selected", "selected");
+								//$j('#nodeList').selectpicker('val', '<% nvram_get_x("","global_server"); %>'); //主服务器列表默认
+								//$j('#u_nodeList').selectpicker('val', '<% nvram_get_x("","udp_relay_server"); %>'); //UDP服务器列表默认
+								document.form.global_server.value = '<% nvram_get_x("","global_server"); %>';
+								document.form.udp_relay_server.value = '<% nvram_get_x("","udp_relay_server"); %>';
+								document.form.socks5_enable.value = '<% nvram_get_x("","socks5_enable"); %>';
+								//}
 							}
-						}
-					}
+							//订阅节点表格
+							var myss = [],
+								i = 0;
+							for (var key in db_ss) { // 遍历对象
+								var dbss = null;
+								try {
+									dbss = JSON.parse(removeUselessChars(db_ss[key]));//字符串转为对象
+								} catch (e) {
+									dbss = null;
+								}
+								if (dbss == null) continue;
+								dbss.ids = key.replace("ssconf_basic_json_", '');
+								myss[i] = dbss;
+								i = i + 1;
+								if (myss != null) {
+									var node_i = parseInt(key.replace("ssconf_basic_json_", ''));
+									if (node_i > node_global_max) {
+										node_global_max = node_i;
+									}
+								}
+							}
 							$j('#table99').bootstrapTable('load', myss);
-						  },
-						  error:function(error){
+						},
+						error: function (error) {
 							console.log(error);
-						  }
-						})
-					  },
-						columns: [{
-							field: 'delete',
-							title: '删除',
-							checkbox: true,
-							width: '30px'
-						}, {
-							field: 'ids',
-							title: '序号',
-							width: '30px',
-							align: 'center',
-							valign: 'middle',
-							sortable: true
-						}, {
-							field: 'type',
-							title: '类型',
-							align: 'center',
-							valign: 'middle',
-							width: '10px'
-						}, {
-							field: 'alias',
-							cellStyle: formatTableUnit,
-							formatter: paramsMatter,
-							title: '别名',
-							align: 'center',
-							valign: 'middle',
-							width: '230px'
-						}, {
-							field: 'server',
-							cellStyle: formatTableUnit,
-							formatter: paramsMatter,
-							title: '服务器地址',
-							align: 'center',
-							valign: 'middle',
-							width: '150px'
-						}, {
-							field: 'ping',
-							title: 'ping',
-							align: 'center',
-							valign: 'middle',
-							width: '50px',
-							cellStyle: cellStylesales,
-							formatter: actionFormatter2,
-							sortable: true
-						}, {
-							field: 'lost',
-							title: '丢包',
-							align: 'center',
-							valign: 'middle',
-							width: '50px'
-						}, {
-							field: 'operate',
-							title: '操作',
-							width: '200px',
-							align: 'center',
-							valign: 'middle',
-							events: window.operateEvents,
-							formatter: actionFormatter
-						}]
-					});
-				
-				
+						}
+					})
+				},
+				columns: [{
+					field: 'delete',
+					title: '删除',
+					checkbox: true,
+					width: '30px'
+				}, {
+					field: 'ids',
+					title: '序号',
+					width: '30px',
+					align: 'center',
+					valign: 'middle',
+					sortable: true
+				}, {
+					field: 'type',
+					title: '类型',
+					align: 'center',
+					valign: 'middle',
+					width: '10px'
+				}, {
+					field: 'alias',
+					cellStyle: formatTableUnit,
+					formatter: paramsMatter,
+					title: '别名',
+					align: 'center',
+					valign: 'middle',
+					width: '230px'
+				}, {
+					field: 'server',
+					cellStyle: formatTableUnit,
+					formatter: paramsMatter,
+					title: '服务器地址',
+					align: 'center',
+					valign: 'middle',
+					width: '150px'
+				}, {
+					field: 'ping',
+					title: 'ping',
+					align: 'center',
+					valign: 'middle',
+					width: '50px',
+					cellStyle: cellStylesales,
+					formatter: actionFormatter2,
+					sortable: true
+				}, {
+					field: 'lost',
+					title: '丢包',
+					align: 'center',
+					valign: 'middle',
+					width: '50px'
+				}, {
+					field: 'operate',
+					title: '操作',
+					width: '200px',
+					align: 'center',
+					valign: 'middle',
+					events: window.operateEvents,
+					formatter: actionFormatter
+				}]
+			});
+
 		}
 		function cellStylesales(value, row, index) {
 			var ping = row.ping
@@ -708,7 +719,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			document.getElementById("ss_obfs_param").value = '';
 			//v2
 			document.getElementById("ssp_insecure").value = 0;
-			document.getElementById("ssp_insecure").checked = false;				
+			document.getElementById("ssp_insecure").checked = false;
 			document.getElementById("v2_mux").value = 0;
 			document.getElementById("v2_mux").checked = false;
 			document.getElementById("v2_security").value = 'none';
@@ -771,9 +782,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			} else if (type == "v2ray" || type == "xray") {
 				var transport = getProperty(ss, 'transport', 'tcp');
 				document.getElementById("ssp_insecure").value = getProperty(ss, 'insecure', 0);
-				document.getElementById("ssp_insecure").checked =  document.getElementById("ssp_insecure").value != 0;				
+				document.getElementById("ssp_insecure").checked = document.getElementById("ssp_insecure").value != 0;
 				document.getElementById("v2_mux").value = getProperty(ss, 'mux', 0);
-				document.getElementById("v2_mux").checked =  document.getElementById("v2_mux").value != 0;
+				document.getElementById("v2_mux").checked = document.getElementById("v2_mux").value != 0;
 				document.getElementById("v2_security").value = getProperty(ss, 'security', 'auto');
 				document.getElementById("v2_vmess_id").value = getProperty(ss, 'vmess_id', '');
 				document.getElementById("v2_alter_id").value = getProperty(ss, 'alter_id', '');
@@ -808,9 +819,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				}
 			} else if (type == "trojan") {
 				document.getElementById("ssp_insecure").value = getProperty(ss, 'insecure', 0);
-				document.getElementById("ssp_insecure").checked =  document.getElementById("ssp_insecure").value != 0;
+				document.getElementById("ssp_insecure").checked = document.getElementById("ssp_insecure").value != 0;
 				document.getElementById("v2_tls").value = 1;
-				//document.getElementById("v2_tls").checked =  document.getElementById("v2_tls") != 0;
+				//document.getElementById("v2_tls").checked = document.getElementById("v2_tls") != 0;
 				document.getElementById("ssp_tls_host").value = getProperty(ss, 'tls_host', '');
 			} else if (type == "socks5") {
 				//
@@ -820,7 +831,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 		}
 		//单项删除
 		function del(id) {
-		ctime();
+			ctime();
 			var p = "ssconf_basic";
 			var ns = {};
 			ns[p + "_json_" + id] = "deleting";
@@ -834,14 +845,14 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					alert("删除失败,请重试！")
 				},
 				success: function (response) {
-				dtime();
+					dtime();
 					$j('#table99').bootstrapTable('refresh');
 				}
 			});
 		}
 		//批量删除
 		function del_dlink() {
-		ctime();
+			ctime();
 			var row = $j("#table99").bootstrapTable('getSelections');
 			var p = "ssconf_basic";
 			var ns = {};
@@ -860,13 +871,13 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					alert("删除失败,请重试！")
 				},
 				success: function (response) {
-					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_del_link').value='批量删除节点';",1000);
+					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_del_link').value='批量删除节点';", 1000);
 				}
 			});
 		}
 		//ping节点
 		function ping_dlink() {
-		ctime();
+			ctime();
 			var row = $j("#table99").bootstrapTable('getSelections');
 			var p = "ssconf_basic";
 			var ns = {};
@@ -874,7 +885,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				ns[row[key].ids] = "ping";
 			}
 			//showLoading();
-			document.getElementById("btn_ping_link").value="正在ping节点";
+			document.getElementById("btn_ping_link").value = "正在ping节点";
 			$j.ajax({
 				url: "/applydb.cgi?useping=1&p=ss",
 				type: 'POST',
@@ -885,17 +896,16 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					alert("脚本执行失败！！！")
 				},
 				success: function (response) {
-					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_ping_link').value='ping节点';",2000);
-					
+					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_ping_link').value='ping节点';", 2000);
 				}
 			});
 		}
 		//ping全部节点
 		function aping_dlink() {
-		ctime();
+			ctime();
 			var ns = {};
 			ns[1] = "allping";
-			document.getElementById("btn_aping_link").value="正在ping全部节点";
+			document.getElementById("btn_aping_link").value = "正在ping全部节点";
 			$j.ajax({
 				url: "/applydb.cgi?useping=1&p=ss",
 				type: 'POST',
@@ -906,7 +916,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					alert("脚本执行失败！！！")
 				},
 				success: function (response) {
-					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_aping_link').value='ping全部节点';",2000);
+					setTimeout("dtime();$j('#table99').bootstrapTable('refresh');document.getElementById('btn_aping_link').value='ping全部节点';", 2000);
 				}
 			});
 		}
@@ -1037,52 +1047,52 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					url0 = ssu[1]
 				}
 				if (sipIndex != -1) {
-				var userInfo = b64decsafe(url0.substr(0, sipIndex));
-				var temp = url0.substr(sipIndex + 1).split("/?");
-				var serverInfo = temp[0].split(":");
-				var server = serverInfo[0];
-				var port = serverInfo[1].replace("/","");
-				var method, password, plugin, pluginOpts;
-				if (temp[1]) {
-					var pluginInfo = decodeURIComponent(temp[1]);
-					var pluginIndex = pluginInfo.indexOf(";");
-					var pluginNameInfo = pluginInfo.substr(0, pluginIndex);
-					plugin = pluginNameInfo.substr(pluginNameInfo.indexOf("=") + 1);
-					pluginOpts = pluginInfo.substr(pluginIndex + 1);
-				}
-				var userInfoSplitIndex = userInfo.indexOf(":");
-				if (userInfoSplitIndex != -1) {
-					method = userInfo.substr(0, userInfoSplitIndex);
-					password = userInfo.substr(userInfoSplitIndex + 1);
-				}
-				document.getElementById('ssp_type').value = "ss";
-				document.getElementById('ssp_type').dispatchEvent(event);
-				document.getElementById('ssp_server').value = server;
-				document.getElementById('ssp_prot').value = port;
-				document.getElementById('ss_password').value = password || "";
-				document.getElementById('ss_method').value = method || "";
-				document.getElementById('ss_plugin').value = plugin || "";
-				if (plugin != undefined && plugin != "") {
-				document.getElementById('ss_plugin_opts').value = pluginOpts || "";
-				}
-				if (param != undefined) {
-				document.getElementById('ssp_name').value = decodeURI(param);
-				}				
+					var userInfo = b64decsafe(url0.substr(0, sipIndex));
+					var temp = url0.substr(sipIndex + 1).split("/?");
+					var serverInfo = temp[0].split(":");
+					var server = serverInfo[0];
+					var port = serverInfo[1].replace("/", "");
+					var method, password, plugin, pluginOpts;
+					if (temp[1]) {
+						var pluginInfo = decodeURIComponent(temp[1]);
+						var pluginIndex = pluginInfo.indexOf(";");
+						var pluginNameInfo = pluginInfo.substr(0, pluginIndex);
+						plugin = pluginNameInfo.substr(pluginNameInfo.indexOf("=") + 1);
+						pluginOpts = pluginInfo.substr(pluginIndex + 1);
+					}
+					var userInfoSplitIndex = userInfo.indexOf(":");
+					if (userInfoSplitIndex != -1) {
+						method = userInfo.substr(0, userInfoSplitIndex);
+						password = userInfo.substr(userInfoSplitIndex + 1);
+					}
+					document.getElementById('ssp_type').value = "ss";
+					document.getElementById('ssp_type').dispatchEvent(event);
+					document.getElementById('ssp_server').value = server;
+					document.getElementById('ssp_prot').value = port;
+					document.getElementById('ss_password').value = password || "";
+					document.getElementById('ss_method').value = method || "";
+					document.getElementById('ss_plugin').value = plugin || "";
+					if (plugin != undefined && plugin != "") {
+						document.getElementById('ss_plugin_opts').value = pluginOpts || "";
+					}
+					if (param != undefined) {
+						document.getElementById('ssp_name').value = decodeURI(param);
+					}
 					s.innerHTML = "<font color='green'>导入Shadowsocks配置信息成功</font>";
-			}
-			else {
-				var sstr = b64decsafe(url0);
-				document.getElementById('ssp_type').value = "ss";
-				document.getElementById('ssp_type').dispatchEvent(event);
-				var team = sstr.split('@');
-				console.log(param);
-				var part1 = team[0].split(':');
-				var part2 = team[1].split(':');
-				document.getElementById('ssp_server').value = part2[0];
-				document.getElementById('ssp_prot').value = part2[1];
-				document.getElementById('ss_password').value = part1[1];
-				document.getElementById('ss_method').value = part1[0];
-				s.innerHTML = "<font color='green'>导入Shadowsocks配置信息成功</font>";
+				}
+				else {
+					var sstr = b64decsafe(url0);
+					document.getElementById('ssp_type').value = "ss";
+					document.getElementById('ssp_type').dispatchEvent(event);
+					var team = sstr.split('@');
+					console.log(param);
+					var part1 = team[0].split(':');
+					var part2 = team[1].split(':');
+					document.getElementById('ssp_server').value = part2[0];
+					document.getElementById('ssp_prot').value = part2[1];
+					document.getElementById('ss_password').value = part1[1];
+					document.getElementById('ss_method').value = part1[0];
+					s.innerHTML = "<font color='green'>导入Shadowsocks配置信息成功</font>";
 				}
 				if (param != undefined) {
 					document.getElementById('ssp_name').value = decodeURI(param);
@@ -1102,7 +1112,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById('ssp_type').dispatchEvent(event);
 				var team = sstr.split('@');
 				var password = team[0]
-				var serverPart = team[1].split(':');		
+				var serverPart = team[1].split(':');
 				var others = serverPart[1].split('?');
 				var port = parseInt(others[0]);
 				var queryParam = {}
@@ -1135,7 +1145,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					url0 = sstr.substr(0, ploc);
 					param = sstr.substr(ploc + 2);
 				}
-				var ssm = JSON.parse(sstr);
+				var ssm = JSON.parse(removeUselessChars(sstr));
 				document.getElementById('ssp_name').value = ssm.ps;
 				document.getElementById('ssp_server').value = ssm.add;
 				document.getElementById('ssp_prot').value = ssm.port;
@@ -1149,13 +1159,13 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					}
 					document.getElementById('v2_tcp_guise').value = ssm.type;
 					document.getElementById('v2_http_host').value = ssm.host;
-					if (ssm.path != undefined){
+					if (ssm.path != undefined) {
 						document.getElementById('v2_http_path').value = ssm.path;
 					}
 					else {
 						document.getElementById('v2_http_path').value = '/';
 					}
-				} 
+				}
 				if (ssm.net == "ws") {
 					document.getElementById('v2_ws_host').value = ssm.host;
 					document.getElementById('v2_ws_path').value = ssm.path;
@@ -1196,23 +1206,23 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				var port = others[0]
 				var queryParam = {}
 				if (others.length > 1) {
-				var queryParams = others[1]
-				var queryArray = queryParams.split('&');
-				for (i = 0; i < queryArray.length; i++) {
-					var params = queryArray[i].split('=');
-					queryParam[decodeURIComponent(params[0])] = decodeURIComponent(params[1] || '');
-									}
-							}
+					var queryParams = others[1]
+					var queryArray = queryParams.split('&');
+					for (i = 0; i < queryArray.length; i++) {
+						var params = queryArray[i].split('=');
+						queryParam[decodeURIComponent(params[0])] = decodeURIComponent(params[1] || '');
+					}
+				}
 				document.getElementById('ssp_server').value = serverPart[0];
 				document.getElementById('ssp_prot').value = port;
 				document.getElementById('v2_vmess_id').value = password;
-				document.getElementById('v2_alter_id').value = "0";		
+				document.getElementById('v2_alter_id').value = "0";
 				document.getElementById('ssp_type').value = "xray";
 				document.getElementById('ssp_type').dispatchEvent(event);
 				document.getElementById('v2_security').value = queryParam.encryption || "none";
 				document.getElementById('v2_transport').value = queryParam.type || "tcp";
 				document.getElementById('v2_transport').dispatchEvent(event);
-				
+
 				if (queryParam.security == "tls") {
 					document.getElementById('v2_tls').value = '1';
 					document.getElementById('v2_flow').value = '0';
@@ -1221,10 +1231,10 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					document.getElementById('ssp_insecure').checked = false;
 					document.getElementById('ssp_tls_host').value = queryParam.sni || serverPart[0];
 				}
-				
+
 				if (queryParam.type == "ws") {
 					document.getElementById('v2_ws_host').value = queryParam.host;
-					document.getElementById('v2_ws_path').value =  queryParam.path;
+					document.getElementById('v2_ws_path').value = queryParam.path;
 				}
 				if (queryParam.type == "grpc") {
 					document.getElementById('v2_grpc_path').value =  queryParam.serviceName;
@@ -1233,25 +1243,23 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					document.getElementById('v2_h2_host').value = queryParam.host;
 					document.getElementById('v2_h2_path').value = queryParam.path;
 				}
-				
+
 				if (queryParam.security == "xtls") {
 					document.getElementById('v2_tls').value = '2';
 					if (queryParam.flow != undefined) {
-					    if(queryParam.flow == 'xtls-rprx-direct'){
-					    	document.getElementById('v2_flow').value = '1';
-					    }
-					    else if(queryParam.flow == 'xtls-rprx-splice'){
-					    	document.getElementById('v2_flow').value = '2';
-					    }
-					    else
-					    {
-					    	document.getElementById('v2_flow').value = '0';
-					    }
-					    
+						if (queryParam.flow == 'xtls-rprx-direct') {
+							document.getElementById('v2_flow').value = '1';
+						}
+						else if (queryParam.flow == 'xtls-rprx-splice') {
+							document.getElementById('v2_flow').value = '2';
+						}
+						else {
+							document.getElementById('v2_flow').value = '0';
+						}
+
 					}
-					else
-					{
-					    document.getElementById('v2_flow').value = '1';
+					else {
+						document.getElementById('v2_flow').value = '1';
 					}
 					//document.getElementById('v2_tls').checked = true;
 					document.getElementById('ssp_insecure').value = 0;
@@ -1357,7 +1365,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				}
 			} else if (type == "v2ray" || type == "xray") {
 				var http_pathnew = document.getElementById("v2_http_path").value;
-				if (http_pathnew == '') { document.getElementById("v2_http_path").value='/';}
+				if (http_pathnew == '') { document.getElementById("v2_http_path").value = '/'; }
 				var DataObj = {
 					type: document.getElementById("ssp_type").value,
 					alias: document.getElementById("ssp_name").value,
@@ -1423,7 +1431,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			}
 			var post_dbus = JSON.stringify(DataObj)
 			var ids;
-			if (editing_ss_id == 0) {  
+			if (editing_ss_id == 0) {
 				node_global_max += 1;
 				ids = node_global_max;
 			} else {
@@ -1444,7 +1452,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				dataType: 'text',
 				data: $j.param(obj),
 				success: function (response) {
-				//hideLoading();
+					//hideLoading();
 					$j("#vpnc_settings").fadeOut(200);
 					dtime();
 					$j('#table99').bootstrapTable('refresh');
@@ -1453,24 +1461,27 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 		}
 		function showsdlinkList() {
 			var value = document.getElementById("nodeList").value;
-			if (value >0){
-			var key = "ssconf_basic_json_" + value;		
-			var result = JSON.parse(db_ss[key]);
-			document.getElementById("d_type").value = result.type;}
+			if (value > 0) {
+				var key = "ssconf_basic_json_" + value;
+				var result = JSON.parse(removeUselessChars(db_ss[key]));
+				document.getElementById("d_type").value = result.type;
+			}
 		}
 		function showsudlinkList() {
 			var value = document.getElementById("u_nodeList").value;
-			if (value >0){
-			var key = "ssconf_basic_json_" + value;
-			var result = JSON.parse(db_ss[key]);
-			document.getElementById("ud_type").value = result.type;}
+			if (value > 0) {
+				var key = "ssconf_basic_json_" + value;
+				var result = JSON.parse(removeUselessChars(db_ss[key]));
+				document.getElementById("ud_type").value = result.type;
+			}
 		}
 		function shows5dlinkList() {
 			var value = document.getElementById("s5_nodeList").value;
-			if (value >0){
-			var key = "ssconf_basic_json_" + value
-			var result = JSON.parse(db_ss[key]);
-			document.getElementById("s5_type").value = result.type;}
+			if (value > 0 ) {
+				var key = "ssconf_basic_json_" + value
+				var result = JSON.parse(removeUselessChars(db_ss[key]));
+				document.getElementById("s5_type").value = result.type;
+			}
 		}
 	</script>
 	<style>
@@ -1478,6 +1489,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			padding-right: 6px;
 			padding-left: 6px;
 		}
+
 		.contentM_qis {
 			position: absolute;
 			-webkit-border-radius: 5px;
@@ -1519,13 +1531,13 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			<input type="hidden" name="group_id" value="SspList">
 			<input type="hidden" name="action_mode" value="">
 			<input type="hidden" name="action_script" value="">
-			<input type="hidden" name="ssp_staticnum_x_0" value="<% nvram_get_x("SspList", "ssp_staticnum_x"); %>"
-				readonly="1" />
-			<input type="hidden" id="d_type" name="d_type" value="<% nvram_get_x("","d_type"); %>">
-			<input type="hidden" id="ud_type" name="ud_type" value="<% nvram_get_x("","ud_type"); %>">
-			<input type="hidden" id="s5_type" name="s5_type" value="<% nvram_get_x("","s5_type"); %>">
-			<input type="hidden" name="ss_schedule" value="<% nvram_get_x("", "ss_schedule"); %>" disabled>
-			<input type="hidden" name="ss_schedule_enable" value="<% nvram_get_x("", "ss_schedule_enable"); %>">
+			<input type="hidden" name="ssp_staticnum_x_0" value="<% nvram_get_x(" SspList", "ssp_staticnum_x"); %>"
+			readonly="1" />
+			<input type="hidden" id="d_type" name="d_type" value="<% nvram_get_x(""," d_type"); %>">
+			<input type="hidden" id="ud_type" name="ud_type" value="<% nvram_get_x(""," ud_type"); %>">
+			<input type="hidden" id="s5_type" name="s5_type" value="<% nvram_get_x(""," s5_type"); %>">
+			<input type="hidden" name="ss_schedule" value="<% nvram_get_x("", " ss_schedule"); %>" disabled>
+			<input type="hidden" name="ss_schedule_enable" value="<% nvram_get_x("", " ss_schedule_enable"); %>">
 			<div class="container-fluid">
 				<div class="row-fluid">
 					<div class="span3">
@@ -1552,7 +1564,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 										<div>
 											<ul class="nav nav-tabs" style="margin-bottom: 10px;">
 												<li class="active">
-													<a id="tab_ss_cfg" href="#cfg" >客户端</a>
+													<a id="tab_ss_cfg" href="#cfg">客户端</a>
 												</li>
 												<li>
 													<a id="tab_ss_add" href="#add">节点管理</a>
@@ -1575,8 +1587,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 											<div id="tabMenu" class="submenuBlock"></div>
 											<div id="wnd_ss_cfg">
 												<div class="alert alert-info" style="margin: 10px;">
-										一个兼容Shadowsocks、ShadowsocksR 、Vmess、Vless、Trojan、Sock5协议的游戏加速工具。
-										<div><span style="color:#E53333;">注意:</span></div>
+													一个兼容Shadowsocks、ShadowsocksR 、Vmess、Vless、Trojan、Sock5协议的游戏加速工具。
+													<div><span style="color:#E53333;">注意:</span></div>
 													<div><span
 															style="color:#E53333;">若被编辑的节点正在运行使用，请完成后点击“应用设置”更新节点信息并重连</span>
 													</div>
@@ -1585,38 +1597,12 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													</div>
 												</div>
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
-													
-														<th>总开关</th>
-														<td>
-															<div class="main_itoggle">
-																<div id="ss_enable_on_of">
-																	<input type="checkbox" id="ss_enable_fake"
-																		<% nvram_match_x("", "ss_enable", "1", "value=1 checked"); %><% nvram_match_x("", "ss_enable", "0", "value=0"); %>>
-																</div>
-															</div>
-															<div style="position: absolute; margin-left: -10000px;">
-																<input type="radio" value="1" name="ss_enable"
-																	id="ss_enable_1"
-																	<% nvram_match_x("", "ss_enable", "1", "checked"); %>>
-																<#checkbox_Yes#>
-																	<input type="radio" value="0" name="ss_enable"
-																		id="ss_enable_0"
-																		<% nvram_match_x("", "ss_enable", "0", "checked"); %>>
-																	<#checkbox_No#>
-															</div>
-														</td>
-													</tr>
-													<th width="50%"><#InetControl#></th>
-														<td>
-															<input type="button" id="btn_reconnect" class="btn btn-info" value="<#Connect#>" onclick="submitInternet('Reconnect');">
-														</td>
-													</tr>
-														<th width="50%">谷歌访问</th>
-														<td id="gg_status"></td>
-													</tr>
-														<th width="50%">客户端<#running_status#>
+													<tr>
+														<th>客户端<#running_status#>
 														</th>
 														<td id="ss_status"></td>
+													</tr>
+													</th>
 													</tr>
 													<tr id="row_dnsproxy_run">
 														<th width="50%">dnsproxy<#running_status#>
@@ -1627,6 +1613,47 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<th width="50%">dns2tcp<#running_status#>
 														</th>
 														<td id="dns2tcp_status"></td>
+													</tr>
+													</th>
+													</tr>
+													<tr>
+														<th width="50%">谷歌访问</th>
+														<td id="gg_status"></td>
+													</tr>
+													<tr>
+														<th>
+															<#InetControl#>
+														</th>
+														<td>
+															<input type="button" id="btn_reconnect" class="btn btn-info"
+																value=<#Connect#>
+															onclick="submitInternet('Reconnect');">
+														</td>
+													</tr>
+													<tr>
+														<th>总开关</th>
+														<td>
+															<div class="main_itoggle">
+																<div id="ss_enable_on_of">
+																	<input type="checkbox" id="ss_enable_fake" <%
+																		nvram_match_x("", "ss_enable" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_enable" , "0" , "value=0"
+																		); %>>
+																</div>
+															</div>
+															<div style="position: absolute; margin-left: -10000px;">
+																<input type="radio" value="1" name="ss_enable"
+																	id="ss_enable_1" <% nvram_match_x("", "ss_enable"
+																	, "1" , "checked" ); %>>
+																<#checkbox_Yes#>
+																	<input type="radio" value="0" name="ss_enable"
+																		id="ss_enable_0" <%
+																		nvram_match_x("", "ss_enable" , "0" , "checked"
+																		); %>>
+																	<#checkbox_No#>
+															</div>
+														</td>
 													</tr>
 													<tr>
 														<th>主服务器:
@@ -1669,17 +1696,21 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<select name="ss_run_mode" id="ss_run_mode" class="input"
 																style="width: 200px;">
-																<option value="gfw"
-																	<% nvram_match_x("","ss_run_mode", "gfw","selected"); %>>
+																<option value="gfw" <%
+																	nvram_match_x("","ss_run_mode", "gfw" ,"selected");
+																	%>>
 																	gfw列表模式</option>
-																<option value="router"
-																	<% nvram_match_x("","ss_run_mode", "router","selected"); %>>
+																<option value="router" <%
+																	nvram_match_x("","ss_run_mode", "router"
+																	,"selected"); %>>
 																	绕过大陆IP模式</option>
-																<option value="all"
-																	<% nvram_match_x("","ss_run_mode", "all","selected"); %>>
+																<option value="all" <%
+																	nvram_match_x("","ss_run_mode", "all" ,"selected");
+																	%>>
 																	全局模式</option>
-																<option value="oversea"
-																	<% nvram_match_x("","ss_run_mode", "oversea","selected"); %>>
+																<option value="oversea" <%
+																	nvram_match_x("","ss_run_mode", "oversea"
+																	,"selected"); %>>
 																	海外用户回国模式</option>
 															</select>
 														</td>
@@ -1688,11 +1719,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<th width="50%">需要代理的端口</th>
 														<td>
 															<select name="s_dports" class="input" style="width: 200px;">
-																<option value="0"
-																	<% nvram_match_x("","s_dports", "0","selected"); %>>
+																<option value="0" <% nvram_match_x("","s_dports", "0"
+																	,"selected"); %>>
 																	所有端口（默认）</option>
-																<option value="1"
-																	<% nvram_match_x("","s_dports", "1","selected"); %>>
+																<option value="1" <% nvram_match_x("","s_dports", "1"
+																	,"selected"); %>>
 																	仅常用端口(不走P2P流量到代理)</option>
 															</select>
 														</td>
@@ -1722,18 +1753,21 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<div class="main_itoggle">
 																<div id="ss_chdns_on_of">
-																	<input type="checkbox" id="ss_chdns_fake"
-																		<% nvram_match_x("", "ss_chdns", "1", "value=1 checked"); %><% nvram_match_x("", "ss_chdns", "0", "value=0"); %>>
+																	<input type="checkbox" id="ss_chdns_fake" <%
+																		nvram_match_x("", "ss_chdns" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_chdns" , "0" , "value=0" );
+																		%>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_chdns"
-																	id="ss_chdns_1"
-																	<% nvram_match_x("", "ss_chdns", "1", "checked"); %>>
+																	id="ss_chdns_1" <% nvram_match_x("", "ss_chdns"
+																	, "1" , "checked" ); %>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0" name="ss_chdns"
-																		id="ss_chdns_0"
-																		<% nvram_match_x("", "ss_chdns", "0", "checked"); %>>
+																		id="ss_chdns_0" <% nvram_match_x("", "ss_chdns"
+																		, "0" , "checked" ); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -1813,7 +1847,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 											</div>
 											<!--节点列表-->
 											<div id="wnd_ss_add">
-											<table width="100%" cellpadding="4" cellspacing="0" class="table">
+												<table width="100%" cellpadding="4" cellspacing="0" class="table">
 													<tr>
 														<th colspan="2" style="background-color: #E3E3E3;">
 															订阅节点:添加完地址请先点击一下保存设置按钮,再点击更新订阅按钮。</th>
@@ -1832,9 +1866,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													</tr>
 												</table>
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
-													<tr> <th>关键字过滤（请以/为分隔符）</th>
+													<tr>
+														<th>关键字过滤（请以/为分隔符）</th>
 														<td>
-															<input type="input" name="ss_keyword" id="ss_keyword" value="<% nvram_get_x("", "ss_keyword"); %>" >
+															<input type="input" name="ss_keyword" id="ss_keyword"
+																value="<% nvram_get_x("", " ss_keyword"); %>" >
 															<br> 命中关键字的节点将被丢弃。多个关键字用 / 分隔
 														</td>
 													</tr>
@@ -1846,19 +1882,24 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<div class="main_itoggle">
 																<div id="ss_schedule_enable_on_of">
 																	<input type="checkbox" id="ss_schedule_enable_fake"
-																		<% nvram_match_x("", "ss_schedule_enable", "1", "value=1 checked"); %><% nvram_match_x("", "ss_schedule_enable", "0", "value=0"); %>>
+																		<% nvram_match_x("", "ss_schedule_enable" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_schedule_enable" , "0"
+																		, "value=0" ); %>>
 																</div>
 															</div>
 
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" name="ss_schedule_enable_x"
-																	id="ss_schedule_enable_1" class="input" value="1"
-																	<% nvram_match_x("", "ss_schedule_enable", "1", "checked"); %> />
+																	id="ss_schedule_enable_1" class="input" value="1" <%
+																	nvram_match_x("", "ss_schedule_enable" , "1"
+																	, "checked" ); %> />
 																<#checkbox_Yes#>
 																	<input type="radio" name="ss_schedule_enable_x"
 																		id="ss_schedule_enable_0" class="input"
-																		value="0"
-																		<% nvram_match_x("", "ss_schedule_enable", "0", "checked"); %> />
+																		value="0" <%
+																		nvram_match_x("", "ss_schedule_enable" , "0"
+																		, "checked" ); %> />
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -1952,7 +1993,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													<table width="100%" cellpadding="4" cellspacing="0" class="table"
 														id="sslist">
 														<tr>
-															<th id="ss_setting_title" colspan="2" style="background-color: #E3E3E3;">
+															<th id="ss_setting_title" colspan="2"
+																style="background-color: #E3E3E3;">
 																添加/删除/编辑节点</th>
 														</tr>
 														<tr>
@@ -1961,7 +2003,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																<input type="button" class="btn btn-primary"
 																	value="点击输入节点URL"
 																	onclick="return import_ssr_url(this, '<%=self.option%>', '<%=self.value%>')" />
-																<span id="<%=self.option%>-status"></span></td>
+																<span id="<%=self.option%>-status"></span>
+															</td>
 
 														</tr>
 														<tr>
@@ -2120,7 +2163,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<tr id="row_s5_enable" style="display:none;">
 															<th>启用用户名/密码认证</th>
 															<td>
-																<input type="checkbox" name="s5_aut" id="s5_aut" value="0" >
+																<input type="checkbox" name="s5_aut" id="s5_aut"
+																	value="0">
 
 															</td>
 														</tr>
@@ -2156,8 +2200,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_vmess_id" id="v2_vmess_id"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_vid_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_vid_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_v2_security" style="display:none;">
@@ -2277,8 +2321,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_ws_host" id="v2_ws_host"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_webs_host_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_webs_host_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_v2_webs_path" style="display:none;">
@@ -2286,8 +2330,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_ws_path" id="v2_ws_path"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_webs_path_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_webs_path_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_v2_grpc_path" style="display:none;">
@@ -2303,8 +2347,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_h2_host" id="v2_h2_host"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_http2_host_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_http2_host_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_v2_http2_path" style="display:none;">
@@ -2312,8 +2356,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<td>
 																<input type="text" class="input" size="15"
 																	name="v2_h2_path" id="v2_h2_path"
-																	style="width: 200px"
-																	value="<% nvram_get_x("","v2_http2_path_x_0"); %>" />
+																	style="width: 200px" value="<% nvram_get_x("","
+																	v2_http2_path_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_quic_security" style="display:none;">
@@ -2353,24 +2397,27 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<tr id="row_ssp_insecure" style="display:none;">
 															<th>allowInsecure</th>
 															<td>
-																<input type="checkbox" name="ssp_insecure" id="ssp_insecure" >		
+																<input type="checkbox" name="ssp_insecure"
+																	id="ssp_insecure">
 															</td>
 														</tr>
 														<tr id="row_v2_tls" style="display:none;">
 															<th>TLS/XTLS</th>
 															<td>
-																<select name="v2_tls" id="v2_tls" class="input" style="width: 200px;">
+																<select name="v2_tls" id="v2_tls" class="input"
+																	style="width: 200px;">
 																	<option value="0">未配置</option>
 																	<option value="1">tls</option>
 																	<option value="2">xtls</option>
 																</select>
-																
+
 															</td>
 														</tr>
 														<tr id="row_v2_flow" style="display:none;">
 															<th>XTLS flow</th>
 															<td>
-																<select name="v2_flow" id="v2_flow" class="input" style="width: 200px;">
+																<select name="v2_flow" id="v2_flow" class="input"
+																	style="width: 200px;">
 																	<option value="0">未配置</option>
 																	<option value="1">xtls-rprx-direct</option>
 																	<option value="2">xtls-rprx-splice</option>
@@ -2389,7 +2436,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<tr id="row_v2_mux" style="display:none;">
 															<th>MUX</th>
 															<td>
-																<input type="checkbox" name="v2_mux" id="v2_mux" >
+																<input type="checkbox" name="v2_mux" id="v2_mux">
 															</td>
 														</tr>
 														<!--<tr> <th>自动切换</th>
@@ -2471,18 +2518,23 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<div class="main_itoggle">
 																<div id="ss_watchcat_on_of">
-																	<input type="checkbox" id="ss_watchcat_fake"
-																		<% nvram_match_x("", "ss_watchcat", "1", "value=1 checked"); %><% nvram_match_x("", "ss_watchcat", "0", "value=0"); %>>
+																	<input type="checkbox" id="ss_watchcat_fake" <%
+																		nvram_match_x("", "ss_watchcat" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_watchcat" , "0" , "value=0"
+																		); %>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_watchcat"
-																	id="ss_watchcat_1"
-																	<% nvram_match_x("", "ss_watchcat", "1", "checked"); %>>
+																	id="ss_watchcat_1" <%
+																	nvram_match_x("", "ss_watchcat" , "1" , "checked" );
+																	%>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0" name="ss_watchcat"
-																		id="ss_watchcat_0"
-																		<% nvram_match_x("", "ss_watchcat", "0", "checked"); %>>
+																		id="ss_watchcat_0" <%
+																		nvram_match_x("", "ss_watchcat" , "0"
+																		, "checked" ); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -2505,16 +2557,16 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<th width="50%">自动切换检查周期(秒)</th>
 														<td>
 															<input type="text" class="input" size="15" name="ss_turn_s"
-																style="width: 200px"
-																value="<% nvram_get_x("","ss_turn_s"); %>" />
+																style="width: 200px" value="<% nvram_get_x("","
+																ss_turn_s"); %>" />
 														</td>
 													</tr>
 													<tr>
 														<th width="50%">切换检查超时时间(秒)</th>
 														<td>
 															<input type="text" class="input" size="15" name="ss_turn_ss"
-																style="width: 200px"
-																value="<% nvram_get_x("", "ss_turn_ss"); %>">
+																style="width: 200px" value="<% nvram_get_x("", "
+																ss_turn_ss"); %>">
 														</td>
 													</tr>
 													<!--
@@ -2585,7 +2637,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<input type="text" class="input" size="15"
 																name="ss_chnroute_url" style="width: 200px"
-																value="<% nvram_get_x("","ss_chnroute_url"); %>" />
+																value="<% nvram_get_x("", "ss_chnroute_url"); %>" />
 														</td>
 													</tr>
 													<tr>
@@ -2596,18 +2648,23 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<div class="main_itoggle">
 																<div id="ss_update_chnroute_on_of">
 																	<input type="checkbox" id="ss_update_chnroute_fake"
-																		<% nvram_match_x("", "ss_update_chnroute", "1", "value=1 checked"); %><% nvram_match_x("", "ss_update_chnroute", "0", "value=0"); %>>
+																		<% nvram_match_x("", "ss_update_chnroute" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_update_chnroute" , "0"
+																		, "value=0" ); %>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_update_chnroute"
-																	id="ss_update_chnroute_1"
-																	<% nvram_match_x("", "ss_update_chnroute", "1", "checked"); %>>
+																	id="ss_update_chnroute_1" <%
+																	nvram_match_x("", "ss_update_chnroute" , "1"
+																	, "checked" ); %>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0"
 																		name="ss_update_chnroute"
-																		id="ss_update_chnroute_0"
-																		<% nvram_match_x("", "ss_update_chnroute", "0", "checked"); %>>
+																		id="ss_update_chnroute_0" <%
+																		nvram_match_x("", "ss_update_chnroute" , "0"
+																		, "checked" ); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -2636,18 +2693,23 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<div class="main_itoggle">
 																<div id="ss_update_gfwlist_on_of">
 																	<input type="checkbox" id="ss_update_gfwlist_fake"
-																		<% nvram_match_x("", "ss_update_gfwlist", "1", "value=1 checked"); %><% nvram_match_x("", "ss_update_gfwlist", "0", "value=0"); %>>
+																		<% nvram_match_x("", "ss_update_gfwlist" , "1"
+																		, "value=1 checked" ); %>
+																	<% nvram_match_x("", "ss_update_gfwlist" , "0"
+																		, "value=0" ); %>>
 																</div>
 															</div>
 															<div style="position: absolute; margin-left: -10000px;">
 																<input type="radio" value="1" name="ss_update_gfwlist"
-																	id="ss_update_gfwlist_1"
-																	<% nvram_match_x("", "ss_update_gfwlist", "1", "checked"); %>>
+																	id="ss_update_gfwlist_1" <%
+																	nvram_match_x("", "ss_update_gfwlist" , "1"
+																	, "checked" ); %>>
 																<#checkbox_Yes#>
 																	<input type="radio" value="0"
 																		name="ss_update_gfwlist"
-																		id="ss_update_gfwlist_0"
-																		<% nvram_match_x("", "ss_update_gfwlist", "0", "checked"); %>>
+																		id="ss_update_gfwlist_0" <%
+																		nvram_match_x("", "ss_update_gfwlist" , "0"
+																		, "checked" ); %>>
 																	<#checkbox_No#>
 															</div>
 														</td>
@@ -2681,8 +2743,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													<tr>
 														<td colspan="3">
 															<i class="icon-hand-right"></i> <a
-																href="javascript:spoiler_toggle('script13')"><span>游戏模式LAN IP（客户端UDP所有端口,TCP跟随主服务器端口模式,强制走绕过大陆模式）:</span></a>
-															<div id="script13">
+																href="javascript:spoiler_toggle('script8')"><span>游戏模式LAN
+																	IP（客户端UDP所有端口,TCP跟随主服务器端口模式,强制走绕过大陆模式）:</span></a>
+															<div id="script8">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_lan_gmip.sh"
