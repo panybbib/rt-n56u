@@ -4,13 +4,16 @@
 # Copyright (C) 2017 yushi studio <ywb94@qq.com>
 # Copyright (C) 2018 lean <coolsnowwolf@gmail.com>
 # Copyright (C) 2019 chongshengB <bkye@vip.qq.com>
-# Copyright (C) 2023 simonchen
 #
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
 #
 
 NAME=shadowsocksr
+trojan_local=`nvram get trojan_local`
+trojan_link=`nvram get trojan_link`
+v2ray_local=`nvram get v2_local`
+v2ray_link=`nvram get v2_link`
 http_username=`nvram get http_username`
 CONFIG_FILE=/tmp/${NAME}.json
 CONFIG_UDP_FILE=/tmp/${NAME}_u.json
@@ -47,16 +50,24 @@ find_bin() {
 	ssr) ret="/usr/bin/ssr-redir" ;;
 	ssr-local) ret="/usr/bin/ssr-local" ;;
 	ssr-server) ret="/usr/bin/ssr-server" ;;
+	socks5) ret="/usr/bin/ipt2socks" ;;
+	trojan)
+		if [ -f "/usr/bin/trojan" ] ; then
+			ret="/usr/bin/trojan"
+		else
+			ret="$trojan_local"
+		fi
+	;;
 	v2ray|xray)
+		bin2=$(echo -e "v2ray\nxray" | grep -v $1)
 		if [ -f "/usr/bin/$1" ]; then
 			ret="/usr/bin/$1"
+		elif [ -f "/usr/bin/$bin2" ]; then
+			ret="/usr/bin/$bin2"
 		else
-			bin=$(echo -e "v2ray\nxray" | grep -v $1)
-			ret="/usr/bin/$bin"
+			ret="$v2ray_local"
 		fi
-		;;
-	trojan) ret="/usr/bin/trojan" ;;
-	socks5) ret="/usr/bin/ipt2socks" ;;
+	;;
 	esac
 	echo $ret
 }
@@ -107,6 +118,19 @@ gen_config_file() {
 		sed -i 's/\\//g' $config_file
 		;;
 	trojan)
+		if [ ! -f "/usr/bin/trojan" ]; then
+			if [ ! -s "$trojan_local" ]; then
+				curl -k -s -o $trojan_local --connect-timeout 10 --retry 3 $trojan_link
+				if [ -s "$trojan_local" ] && [ `grep -c "404 Not Found" "$trojan_local"` == '0' ]; then
+                			chmod -R 777 $trojan_local
+					log "trojan二进制文件下载成功"
+				else
+					log "trojan二进制文件下载失败，可能是地址失效或者网络异常！"
+					rm -f $trojan_local
+					ssp_close && exit 1
+				fi
+			fi
+		fi
 		v2ray_enable=1
 		if [ "$2" = "0" ]; then
 			lua /etc_ro/ss/gentrojanconfig.lua $1 nat 1080 >$trojan_json_file
@@ -117,6 +141,19 @@ gen_config_file() {
 		fi
 		;;
 	v2ray)
+		if [ ! -f "/usr/bin/v2ray" ]; then
+			if [ ! -s "$v2ray_local" ];then
+				curl -k -s -o $v2ray_local --connect-timeout 10 --retry 3 $v2ray_link
+				if [ -s "$v2ray_local" ] && [ `grep -c "404 Not Found" "$v2ray_local"` == '0' ]; then
+                			chmod -R 777 $v2ray_local
+					log "v2ray二进制文件下载成功"
+				else
+					log "v2ray二进制文件下载失败，可能是地址失效或者网络异常！"
+					rm -f $v2ray_local
+					ssp_close && exit 1
+				fi
+			fi
+		fi
 		v2ray_enable=1
 		if [ "$2" = "1" ]; then
 			lua /etc_ro/ss/genv2config.lua $1 udp 1080 >/tmp/v2-ssr-reudp.json
@@ -135,7 +172,7 @@ gen_config_file() {
 			lua /etc_ro/ss/genxrayconfig.lua $1 tcp 1080 >$v2_json_file
 			sed -i 's/\\//g' $v2_json_file
 		fi
-		;;	
+		;;
 	esac
 }
 
@@ -222,6 +259,7 @@ start_rules() {
 		-b "$wan_bp_ips" \
 		-w "$wan_fw_ips" \
 		-p "$lan_fp_ips" \
+		-G "$lan_gm_ips" \
 		-G "$lan_gm_ips" \
 		-D "$proxyport" \
 		-k "$lancon" \
@@ -579,6 +617,7 @@ ssp_start() {
 		cgroups_init
 		if start_redir_tcp; then
 			start_redir_udp
+        		#start_rules
 			#start_AD
 			start_dns
 		fi
@@ -744,5 +783,3 @@ reserver)
 	#exit 0
 	;;
 esac
-
-
