@@ -512,7 +512,7 @@ struct nvram_pair router_defaults[] = {
 	{ "w_adbyby", "1" },
 	{ "w_pdnsd", "1" },
 
-	{ "ip6_service", "dhcp6" },			/* IPV6 */
+	{ "ip6_service", "dhcp6" },		/* IPV6 */
 	{ "ip6_ppe_on", "0" },
 	{ "ip6_wan_if", "0" },
 
@@ -679,9 +679,6 @@ struct nvram_pair router_defaults[] = {
 	{ "socks5_s_username", "" },
 	{ "socks5_s_password", "" },
 	{ "ss_turn", "0" },
-	{ "ss_cgroups", "0" },
-	{ "ss_cgoups_cpu_s", "512" },
-	{ "ss_cgoups_mem_s", "16M" },
 	{ "ss_watchcat", "1" },
 	{ "ss_turn_s", "600" },
 	{ "ss_turn_ss", "5" },

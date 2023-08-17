@@ -22,7 +22,6 @@ logger -t "自动启动" "正在启动SmartDNS"
 /usr/bin/smartdns.sh start
 fi
 
-
 logger -t "自动启动" "正在检查路由是否已连接互联网！"
 count=0
 while :

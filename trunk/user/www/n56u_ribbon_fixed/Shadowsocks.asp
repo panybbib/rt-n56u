@@ -39,7 +39,6 @@
 			init_itoggle('switch_enable_x_0');
 			init_itoggle('ss_chdns');
 			init_itoggle('ss_router_proxy', change_ss_watchcat_display);
-			init_itoggle('ss_cgroups');
 			init_itoggle('ss_watchcat');
 			init_itoggle('ss_update_chnroute');
 			init_itoggle('ss_update_gfwlist');
@@ -859,8 +858,7 @@
 			for (var key in row) {
 				ns[p + "_json_" + row[key].ids] = "deleting";
 			}
-			//console.log(ns)
-			document.getElementById("btn_del_link").value="正在删除节点";
+			document.getElementById("btn_del_link").value = "正在删除节点";
 			$j.ajax({
 				url: "/applydb.cgi?userm1=del&p=ss",
 				type: 'POST',
@@ -992,9 +990,7 @@
 			}
 			initSSParams();
 			s.innerHTML = "";
-			//var ssu = ssrurl.match(/ssr:\/\/([A-Za-z0-9_-]+)/i);
 			var ssu = ssrurl.split('://');
-			//console.log(ssu.length);
 			if ((ssu[0] != "ssr" && ssu[0] != "ss" && ssu[0] != "vmess" && ssu[0] != "vless" && ssu[0] != "trojan") || ssu[1] == "") {
 				s.innerHTML = "<font color='red'>无效格式</font>";
 				return false;
@@ -1320,7 +1316,6 @@
 		//点击保存节点按钮
 		function showNodeData(idName, obj) {
 			var nodeData = document.getElementById(idName);
-			//console.log(nodeData);
 			for (var key in obj) {
 				var tr = document.createElement("tr");
 				var td = document.createElement("td");
@@ -2439,19 +2434,6 @@
 																<input type="checkbox" name="v2_mux" id="v2_mux">
 															</td>
 														</tr>
-														<!--<tr> <th>自动切换</th>
-<td>
-<div class="main_itoggle">
-<div id="switch_enable_x_0_on_of">
-<input type="checkbox" id="switch_enable_x_0_fake" <% nvram_match_x("", "switch_enable_x_0", "1", "value=1 checked"); %><% nvram_match_x("", "switch_enable_x_0", "0", "value=0"); %>>
-</div>
-</div>
-<div style="position: absolute; margin-left: -10000px;">
-<input type="radio" value="1" name="switch_enable_x_0" id="switch_enable_x_0_1" <% nvram_match_x("", "switch_enable_x_0", "1", "checked"); %>><#checkbox_Yes#>
-<input type="radio" value="0" name="switch_enable_x_0" id="switch_enable_x_0_0" <% nvram_match_x("", "switch_enable_x_0", "0", "checked"); %>><#checkbox_No#>
-</div>
-</td>
-</tr>-->
 														<tr>
 															<td>
 																<center><input name="ManualRULESList2"
@@ -2470,46 +2452,6 @@
 											</div>
 											<div id="wnd_ss_ssl" style="display:none">
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
-													<tr>
-														<th colspan="2" style="background-color: #E3E3E3;">进程资源限制</th>
-													</tr>
-													<tr>
-														<th>启用进程资源限制</th>
-														<td>
-															<div class="main_itoggle">
-																<div id="ss_cgroups_on_of">
-																	<input type="checkbox" id="ss_cgroups_fake"
-																		<% nvram_match_x("", "ss_cgroups", "1", "value=1 checked"); %><% nvram_match_x("", "ss_cgroups", "0", "value=0"); %>>
-																</div>
-															</div>
-															<div style="position: absolute; margin-left: -10000px;">
-																<input type="radio" value="1" name="ss_cgroups"
-																	id="ss_cgroups_1"
-																	<% nvram_match_x("", "ss_cgroups", "1", "checked"); %>>
-																<#checkbox_Yes#>
-																	<input type="radio" value="0" name="ss_cgroups"
-																		id="ss_cgroups_0"
-																		<% nvram_match_x("", "ss_cgroups", "0", "checked"); %>>
-																	<#checkbox_No#>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<th width="50%">CPU 限制</th>
-														<td>
-															<input type="text" class="input" size="15" name="ss_cgoups_cpu_s"
-																style="width: 200px"
-																value="<% nvram_get_x("","ss_cgoups_cpu_s"); %>" />
-														</td>
-													</tr>
-													<tr>
-														<th width="50%">内存限制</th>
-														<td>
-															<input type="text" class="input" size="15" name="ss_cgoups_mem_s"
-																style="width: 200px"
-																value="<% nvram_get_x("","ss_cgoups_mem_s"); %>" />
-														</td>
-													</tr>
 													<tr>
 														<th colspan="2" style="background-color: #E3E3E3;">节点故障自动切换设置</th>
 													</tr>
@@ -2539,20 +2481,6 @@
 															</div>
 														</td>
 													</tr>
-													<!--  <tr> <th>启用自动切换</th>
-<td>
-<div class="main_itoggle">
-<div id="ss_turn_on_of">
-<input type="checkbox" id="ss_turn_fake" <% nvram_match_x("", "ss_turn", "1", "value=1 checked"); %><% nvram_match_x("", "ss_turn", "0", "value=0"); %>>
-</div>
-</div>
-<div style="position: absolute; margin-left: -10000px;">
-<input type="radio" value="1" name="ss_turn" id="ss_turn_1" <% nvram_match_x("", "ss_turn", "1", "checked"); %>><#checkbox_Yes#>
-<input type="radio" value="0" name="ss_turn" id="ss_turn_0" <% nvram_match_x("", "ss_turn", "0", "checked"); %>><#checkbox_No#>
-</div>
-</td>
-</tr>
--->
 													<tr>
 														<th width="50%">自动切换检查周期(秒)</th>
 														<td>
@@ -2569,17 +2497,6 @@
 																ss_turn_ss"); %>">
 														</td>
 													</tr>
-													<!--
-<tr> <th width="50%">自定义国内IP更新地址:</th>
-	<td>
-		<input type="text" class="input" size="15" name="ss_chnroute_url" style="width: 200px"  value="<% nvram_get_x("","ss_chnroute_url"); %>" />
-	</td>
-</tr>
-<tr> <th width="50%">广告过滤地址:</th>
-	<td>
-		<input type="text" class="input" size="15" name="ss_adblock_url" style="width: 200px"  value="<% nvram_get_x("","ss_adblock_url"); %>" />
-	</td>
-</tr>-->
 
 													<tr>
 														<th colspan="2" style="background-color: #E3E3E3;">SOCKS5代理</th>
@@ -2846,21 +2763,6 @@
 													</tr>
 													<tr>
 														<th width="100%">此模式会占用一部分内存资源,内存少的机器请谨慎开启。</th>
-													</tr>
-													<tr>
-														<th colspan="2" style="background-color: #E3E3E3;">
-															进程资源限制说明:</th>
-													</tr>
-													<tr>
-														<th width="100%">
-															进程资源限制是为了防止进程占用过多资源导致路由器卡顿或重启,如果你的路由器配置足够,可以适当调高限制值。
-														</th>
-													</tr>
-													<tr>
-														<th width="100%">
-															此功能底层使用 <a href="https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/cgroups.html">cgroups</a>, CPU 限制值为一个大于 2 小于 1024 的整数，表示可以使用的 CPU 百分比，如 512 表示 50%;
-															内存限制值需要带上 M 作为单位, 如 16M 表示可以使用 16M 内存，超出会被内核 OOM Killer 自动 kill。
-														</th>
 													</tr>
 												</table>
 											</div>

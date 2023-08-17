@@ -94,7 +94,6 @@ ipset_r() {
 		$(gen_iplist | sed -e "s/^/add ss_spec_wan_ac /")
 EOF
 	ipset -N china hash:net 2>/dev/null
-
 	# 运行在router模式下也创建ipset:gfwlist
 	# 目的是将dnsmasq.dom/gfwlist_list.conf中查询出的ip加入，应用到iptables规则中
 	ipset -N gfwlist hash:net 2>/dev/null

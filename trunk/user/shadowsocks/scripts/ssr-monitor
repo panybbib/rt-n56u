@@ -30,15 +30,6 @@ log() {
 	echo "$(date "+%Y-%m-%d %H:%M:%S") $@" >> "/tmp/ssrplus.log"
 }
 
-run_bin() {
-	(if [ "$(nvram get ss_cgroups)" = "1" ]; then
-	 	echo 0 > /sys/fs/cgroup/cpu/$NAME/tasks
-	 	echo 0 > /sys/fs/cgroup/memory/$NAME/tasks
-	 fi
-	 "$@" > /dev/null 2>&1
-	) &
-}
-
 stop_dns_proxy() {
 	pgrep dns2tcp | args kill
 	pgrep dnsproxy | args kill	
@@ -59,7 +50,6 @@ start_dns_proxy() {
 	fi
 }
 
-#TODO 这个监控还可以优化！
 while [ "1" = "1" ]  #死循环
 do 
 	sleep 10
@@ -89,13 +79,12 @@ do
 			killall -q -9 ssr-server 
 			for i in `seq $server_process_count`
 			do
-				run_bin /usr/bin/ssr-server -c /tmp/shadowsocksr_$i.json -u -f /tmp/ssr-server$i.pid   
+				/usr/bin/ssr-server -c /tmp/shadowsocksr_$i.json -u -f /tmp/ssr-server$i.pid   
 			done
 		fi
 	fi
 	#TROJAN
 	if [ $trojan_process -gt 0 ]; then
-		conf="/tmp/tj-redir.json"
 		icount=`ps -w | grep trojan | grep -v grep | wc -l`
 		if [ -f "/usr/bin/trojan" ]; then
 			bing="/usr/bin/trojan"
@@ -105,14 +94,13 @@ do
 		if [ $icount -lt $trojan_process ]; then  #如果进程挂掉就重启它
 			log "检测到 trojan 进程挂掉，重新启动!"
 			killall -q -9 trojan
-			run_bin "$bing" --config $conf
+			$bing -config /tmp/tj-redir.json >/dev/null 2>&1 &
 		fi   
 	fi
 	#V2RAY/XRAY
 	if [ $v2ray_process -gt 0 ]; then
 		bin=$(nvram get d_type)
 		bin2=$(echo -e "v2ray\nxray" | grep -v $bin)
-		conf="/tmp/v2-redir.json"
 		if [ -f "/usr/bin/$bin" ]; then
 			icount=`ps -w | grep $bin | grep -v grep | wc -l` 
 			bing="/usr/bin/$bin"
@@ -126,7 +114,7 @@ do
 		if [ $icount -lt $v2ray_process ]; then  #如果进程挂掉就重启它
 			log "检测到 $bin 进程挂掉，重新启动!"
 			killall -q -9 $bin		
-			run_bin "$bing" --config $conf
+			$bing -config /tmp/v2-redir.json >/dev/null 2>&1 &
 		fi   
 	fi
 	#local

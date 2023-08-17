@@ -73,36 +73,9 @@ find_bin() {
 	echo $ret
 }
 
-run_bin() {
-	(if [ "$(nvram get ss_cgroups)" = "1" ]; then
-	 	echo 0 > /sys/fs/cgroup/cpu/$NAME/tasks
-	 	echo 0 > /sys/fs/cgroup/memory/$NAME/tasks
-	 fi
-	 "$@" > /dev/null 2>&1
-	) &
-}
-
-cgroups_init() {
-	if [ "$(nvram get ss_cgroups)" = "1" ]; then
-		cpu_limit=$(nvram get ss_cgoups_cpu_s)
-		mem_limit=$(nvram get ss_cgoups_mem_s)
-		log "启用进程资源限制, CPU: $cpu_limit, 内存: $mem_limit"
-		mkdir -p /sys/fs/cgroup/cpu/$NAME
-		mkdir -p /sys/fs/cgroup/memory/$NAME
-		echo $cpu_limit > /sys/fs/cgroup/cpu/$NAME/cpu.shares
-		echo $mem_limit > /sys/fs/cgroup/memory/$NAME/memory.limit_in_bytes
-	fi
-}
-
-cgroups_cleanup() {
-	cat /sys/fs/cgroup/cpu/$NAME/tasks > /sys/fs/cgroup/cpu/tasks
-	cat /sys/fs/cgroup/memory/$NAME/tasks > /sys/fs/cgroup/memory/tasks
-	rmdir /sys/fs/cgroup/cpu/$NAME
-	rmdir /sys/fs/cgroup/memory/$NAME
-}
-
 gen_config_file() {
-	#fastopen="false"
+
+	fastopen="false"
 	case "$2" in
 	0) config_file=$CONFIG_FILE && local stype=$(nvram get d_type) ;;
 	1) config_file=$CONFIG_UDP_FILE && local stype=$(nvram get ud_type) ;;
@@ -285,7 +258,7 @@ start_redir_tcp() {
 		last_config_file=$CONFIG_FILE
 		pid_file="/tmp/ssr-retcp.pid"
 		for i in $(seq 1 $threads); do
-			run_bin $bin -c $CONFIG_FILE $ARG_OTA -f /tmp/ssr-retcp_$i.pid
+			$bin -c $CONFIG_FILE $ARG_OTA -f /tmp/ssr-retcp_$i.pid >/dev/null 2>&1
 			usleep 500000
 		done
 		redir_tcp=1
@@ -293,22 +266,22 @@ start_redir_tcp() {
 		;;
 	trojan)
 		for i in $(seq 1 $threads); do
-			run_bin $bin --config $trojan_json_file
+			$bin --config $trojan_json_file >>/tmp/ssrplus.log 2>&1 &
 			usleep 500000
 		done
 		log "$($bin --version 2>&1 | head -1) 启动成功!"
 		;;
 	v2ray)
-		run_bin $bin -config $v2_json_file
+		$bin -config $v2_json_file >/dev/null 2>&1 &
 		log "$($bin -version | head -1) 启动成功!"
 		;;
 	xray)
-		run_bin $bin -config $v2_json_file
+		$bin -config $v2_json_file >/dev/null 2>&1 &
 		log "$($bin -version | head -1) 启动成功!"
 		;;	
 	socks5)
 		for i in $(seq 1 $threads); do
-			run_bin lua /etc_ro/ss/gensocks.lua $GLOBAL_SERVER 1080
+			lua /etc_ro/ss/gensocks.lua $GLOBAL_SERVER 1080 >/dev/null 2>&1 &
 			usleep 500000
 		done
 	    ;;
@@ -329,20 +302,20 @@ start_redir_udp() {
 			gen_config_file $UDP_RELAY_SERVER 1 1080
 			last_config_file=$CONFIG_UDP_FILE
 			pid_file="/var/run/ssr-reudp.pid"
-			run_bin $bin -c $last_config_file $ARG_OTA -U -f /var/run/ssr-reudp.pid
+			$bin -c $last_config_file $ARG_OTA -U -f /var/run/ssr-reudp.pid >/dev/null 2>&1
 			;;
 		v2ray)
 			gen_config_file $UDP_RELAY_SERVER 1
-			run_bin $bin -config /tmp/v2-ssr-reudp.json
+			$bin -config /tmp/v2-ssr-reudp.json >/dev/null 2>&1 &
 			;;
 		xray)
 			gen_config_file $UDP_RELAY_SERVER 1
-			run_bin $bin -config /tmp/v2-ssr-reudp.json
+			$bin -config /tmp/v2-ssr-reudp.json >/dev/null 2>&1 &
 			;;	
 		trojan)
 			gen_config_file $UDP_RELAY_SERVER 1
 			$bin --config /tmp/trojan-ssr-reudp.json >/dev/null 2>&1 &
-			run_bin ipt2socks -U -b 0.0.0.0 -4 -s 127.0.0.1 -p 10801 -l 1080
+			ipt2socks -U -b 0.0.0.0 -4 -s 127.0.0.1 -p 10801 -l 1080 >/dev/null 2>&1 &
 			;;
 		socks5)
 			echo "1"
@@ -350,7 +323,15 @@ start_redir_udp() {
 		esac
 	fi
 	return 0
-}
+	}
+	ss_switch=$(nvram get backup_server)
+	if [ $ss_switch != "nil" ]; then
+		switch_time=$(nvram get ss_turn_s)
+		switch_timeout=$(nvram get ss_turn_ss)
+		#/usr/bin/ssr-switch start $switch_time $switch_timeout &
+		socks="-o"
+	fi
+	#return $?
 
 sdns_on () {
 if [ $(nvram get sdns_enable) = 1 ]; then
@@ -508,7 +489,7 @@ EOF
 
 start_AD() {
 	mkdir -p /tmp/dnsmasq.dom
-	curl -s -o /tmp/adnew.conf --connect-timeout 10 --retry 3 $(nvram get ss_adblock_url)
+	curl -k -s -o /tmp/adnew.conf --connect-timeout 10 --retry 3 $(nvram get ss_adblock_url)
 	if [ ! -f "/tmp/adnew.conf" ]; then
 		log "AD文件下载失败，可能是地址失效或者网络异常！"
 	else
@@ -541,30 +522,30 @@ start_local() {
 		[ ! -f "$bin" ] && log "Global_Socks5:Can't find $bin program, can't start!" && return 1
 		[ "$type" == "ssr" ] && name="ShadowsocksR"
 		gen_config_file $local_server 3 $s5_port
-		run_bin $bin -c $CONFIG_SOCK5_FILE -u -f /var/run/ssr-local.pid
+		$bin -c $CONFIG_SOCK5_FILE -u -f /var/run/ssr-local.pid >/dev/null 2>&1
 		log "Global_Socks5:$name Started!"
 		;;
 	v2ray)
 		lua /etc_ro/ss/genv2config.lua $local_server tcp 0 $s5_port >/tmp/v2-ssr-local.json
 		sed -i 's/\\//g' /tmp/v2-ssr-local.json
-		run_bin $bin -config /tmp/v2-ssr-local.json
+		$bin -config /tmp/v2-ssr-local.json >/dev/null 2>&1 &
 		log "Global_Socks5:$($bin -version | head -1) Started!"
 		;;
 	xray)
 		lua /etc_ro/ss/genxrayconfig.lua $local_server tcp 0 $s5_port >/tmp/v2-ssr-local.json
 		sed -i 's/\\//g' /tmp/v2-ssr-local.json
-		run_bin $bin -config /tmp/v2-ssr-local.json
+		$bin -config /tmp/v2-ssr-local.json >/dev/null 2>&1 &
 		log "Global_Socks5:$($bin -version | head -1) Started!"
 		;;
 	trojan)
 		lua /etc_ro/ss/gentrojanconfig.lua $local_server client $s5_port >/tmp/trojan-ssr-local.json
 		sed -i 's/\\//g' /tmp/trojan-ssr-local.json
-		run_bin $bin --config /tmp/trojan-ssr-local.json
+		$bin --config /tmp/trojan-ssr-local.json >/dev/null 2>&1 &
 		log "Global_Socks5:$($bin --version 2>&1 | head -1) Started!"
 		;;
 	*)
 		[ -e /proc/sys/net/ipv6 ] && local listenip='-i ::'
-		run_bin microsocks $listenip -p $s5_port ssr-local
+		microsocks $listenip -p $s5_port ssr-local >/dev/null 2>&1 &
 		log "Global_Socks5:$type Started!"
 		;;
 	esac
@@ -615,10 +596,9 @@ EOF
 ssp_start() { 
     ss_enable=`nvram get ss_enable`
 	if rules; then
-		cgroups_init
 		if start_redir_tcp; then
 			start_redir_udp
-        		#start_rules
+        	#start_rules
 			#start_AD
 			start_dns
 		fi
@@ -641,7 +621,6 @@ ssp_close() {
 	kill -9 $(ps | grep ssr-switch | grep -v grep | awk '{print $1}') >/dev/null 2>&1
 	kill -9 $(ps | grep ssr-monitor | grep -v grep | awk '{print $1}') >/dev/null 2>&1
 	kill_process
-	cgroups_cleanup
 	sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/cdn/d' /etc/storage/dnsmasq/dnsmasq.conf
