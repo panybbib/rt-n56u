@@ -421,7 +421,7 @@ if (found_app_adguardhome()){
 }
 }
 if (found_app_aliddns()){
-	tabtitle[16] = new Array("", "<#menu5_30#>");
+	tabtitle[16] = new Array("", "<#menu5_25#>");
 }else{
 if (found_app_zerotier()){
 	tabtitle[16] = new Array("", "<#menu5_32#>");
@@ -437,7 +437,7 @@ if (found_app_wyy()){
 	tabtitle[19] = new Array("", "<#menu5_31_1#>");
 }
 if (found_app_sqm()){
-	tabtitle[20] = new Array("", "QoS限速");
+	tabtitle[20] = new Array("", "<#menu5_30#>");
 }
 if (found_app_aldriver()){
 	tabtitle[21] = new Array("", "<#menu5_36_1#>");
@@ -547,9 +547,9 @@ if (found_app_smartdns()){
 } else menuL2_title.push("");
 
 if (found_app_aliddns()){
-	menuL2_title.push("<#menu5_30#>");
+	menuL2_title.push("<#menu5_25#>");
 } else if (found_app_zerotier()){
-	menuL2_title.push("<#menu5_30#>");
+	menuL2_title.push("<#menu5_25#>");
 } else menuL2_title.push("");
 
 if (found_app_frp()){
@@ -565,7 +565,7 @@ if (found_app_wyy()){
 } else menuL2_title.push("");
 
 if (found_app_sqm()){
-	menuL2_title.push("QoS限速");
+	menuL2_title.push("<#menu5_30#>");
 } else menuL2_title.push("");
 
 if (found_app_aldriver()){
