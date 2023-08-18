@@ -421,13 +421,13 @@ if (found_app_adguardhome()){
 }
 }
 if (found_app_zerotier()){
-  if (found_app_aliddns()){
-	  tabtitle[16] = new Array("", "<#menu5_25#>");
-  }else{
-    if (found_app_frp()){
-	    tabtitle[17] = new Array("", "<#menu5_25_1#>");
-    }
-  }
+	if (found_app_aliddns()){
+		if (found_app_frp()){
+			tabtitle[16].push("<#menu5_25#>");
+		}else{
+			tabtitle[16] = new Array("", "<#menu5_25#>");
+		}
+	}
 }
 if (found_app_caddy()){
 	tabtitle[18] = new Array("", "<#menu5_27_1#>");
