@@ -409,7 +409,7 @@ if (found_app_adbyby()){
 if (found_app_koolproxy()){
 	if (found_app_adbyby()){
 		tabtitle[14].push("<#menu5_26_1#>");
-}else{
+	}else{
 	tabtitle[14] = new Array("", "<#menu5_26_1#>");
 	}
 }
@@ -420,26 +420,27 @@ if (found_app_adguardhome()){
 	tabtitle[15] = new Array("", "<#menu5_29#>");
 }
 }
+if (found_app_aliddns()){
+	tabtitle[16] = new Array("", "<#menu5_25#>");
+}else{
 if (found_app_zerotier()){
-	if (found_app_aliddns()){
-		if (found_app_frp()){
-			tabtitle[16].push("<#menu5_25#>");
-		}else{
-			tabtitle[16] = new Array("", "<#menu5_25#>");
-		}
-	}
+	tabtitle[16] = new Array("", "<#menu5_32#>");
+}else{
+if (found_app_frp()){
+	tabtitle[16] = new Array("", "<#menu5_34#>");
+}
 }
 if (found_app_caddy()){
-	tabtitle[18] = new Array("", "<#menu5_27_1#>");
+	tabtitle[17] = new Array("", "<#menu5_27_1#>");
 }
 if (found_app_wyy()){
-	tabtitle[19] = new Array("", "<#menu5_31_1#>");
+	tabtitle[18] = new Array("", "<#menu5_31_1#>");
 }
 if (found_app_sqm()){
-	tabtitle[20] = new Array("", "<#menu5_30#>");
+	tabtitle[19] = new Array("", "<#menu5_30#>");
 }
 if (found_app_aldriver()){
-	tabtitle[21] = new Array("", "<#menu5_36_1#>");
+	tabtitle[20] = new Array("", "<#menu5_36_1#>");
 }
 
 //Level 3 Tab title
@@ -492,25 +493,25 @@ if (found_app_aliddns()){
 	tablink[16] = (zerotier_array);
 }else if (found_app_frp()){
 	frp_array = new Array("","Advanced_frp.asp");
-	tablink[17] = (frp_array);
+	tablink[16] = (frp_array);
 	tabtitle[9].push('<#menu5_25_1#>');
 	tablink[9].push('Advanced_frp_log.asp');
 }
 if (found_app_caddy()){
 	caddy_array = new Array("","Advanced_caddy.asp");
-	tablink[18] = (caddy_array);
+	tablink[17] = (caddy_array);
 }
 if (found_app_wyy()){
 	wyy_array = new Array("","Advanced_wyy.asp");
-	tablink[19] = (wyy_array);
+	tablink[18] = (wyy_array);
 }
 if (found_app_sqm()){
 	sqm_array = new Array("","Advanced_SQM.asp");
-	tablink[20] = (sqm_array);
+	tablink[19] = (sqm_array);
 }
 if (found_app_aldriver()){
 	aldriver_array = new Array("","Advanced_aliyundrive.asp");
-	tablink[21] = (aldriver_array);
+	tablink[20] = (aldriver_array);
 }
 
 //Level 2 Menu
