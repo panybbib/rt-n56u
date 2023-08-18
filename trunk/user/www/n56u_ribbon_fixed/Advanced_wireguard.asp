@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><#Web_Title#> - <#menu5_35#></title>
+<title><#Web_Title#> - <#menu5_32_3#></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
@@ -26,7 +26,7 @@
 var $j = jQuery.noConflict();
 
 $j(document).ready(function() {
-	
+
 	init_itoggle('wireguard_enable');
 
 });
@@ -35,7 +35,6 @@ $j(document).ready(function() {
 <script>
 
 <% login_state_hook(); %>
-
 
 function initial(){
 	show_banner(2);
@@ -113,7 +112,7 @@ function done_validating(action){
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="box well grad_colour_dark_blue">
-							<h2 class="box_head round_top"><#menu5_32#> - <#menu5_30#></h2>
+							<h2 class="box_head round_top"><#menu5_32_3#> - <#menu5_25#></h2>
 							<div class="round_bottom">
 							<div>
 							    <ul class="nav nav-tabs" style="margin-bottom: 10px;">
@@ -213,4 +212,3 @@ function done_validating(action){
 </div>
 </body>
 </html>
-
