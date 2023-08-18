@@ -205,6 +205,11 @@ function showSystemInfo(cpu_now,force){
 	else
 		$j('#wifi5_b').removeClass('btn-info');
 
+	if ('<% nvram_get_x("", "sdns_enable"); %>' == '1')
+		$j('#button_script2').addClass('btn-info');
+	else
+		$j('#button_script2').removeClass('btn-info');
+
 	if(parseInt(sysinfo.wifi2.guest) > 0)
 		$j('#wifi2_b_g').addClass('btn-info');
 	else
@@ -237,7 +242,7 @@ function show_banner(L3){
 		style_2g = 'width:114px;';
 		style_5g = 'width:21px;display:none;';
 	}
-	var title_2g = '"2.4G"'
+	var title_2g = '"2.4GHz"'
 	if (!support_2g_radio()) {
 		title_2g = '"N/A" disabled';
 	}
@@ -349,11 +354,11 @@ function show_banner(L3){
 	bc += '<table class="table table-condensed" style="margin-bottom: 0px">\n';
 	bc += '  <tr>\n';
 	bc += '    <td width="50%" style="border: 0 none;"><#menu5_1#>:</td>\n';
-	bc += '    <td style="border: 0 none; min-width: 115px;"><div class="form-inline"><input type="button" id="wifi2_b" class="btn btn-mini '+enabled2Gclass+'" style="'+style_2g+'" value='+title_2g+' onclick="go_setting(2);">&nbsp;<input type="button" id="wifi5_b" style="'+style_5g+'" class="btn btn-mini '+enabled5Gclass+'" value="5G" onclick="go_setting(5);"></div></td>\n';
+	bc += '    <td style="border: 0 none; min-width: 115px;"><div class="form-inline"><input type="button" id="wifi2_b" class="btn btn-mini '+enabled2Gclass+'" style="'+style_2g+'" value='+title_2g+' onclick="go_setting(2);">&nbsp;<input type="button" id="wifi5_b" style="'+style_5g+'" class="btn btn-mini '+enabled5Gclass+'" value="5GHz" onclick="go_setting(5);"></div></td>\n';
 	bc += '  </tr>\n';
 	bc += '  <tr>\n';
 	bc += '    <td><#menu5_1_2#>:</td>\n';
-	bc += '    <td><div class="form-inline"><input type="button" id="wifi2_b_g" class="btn btn-mini '+enabledGuest2Gclass+'" style="'+style_2g+'" value='+title_2g+' onclick="go_wguest(2);">&nbsp;<input type="button" id="wifi5_b_g" style="'+style_5g+'" class="btn btn-mini '+enabledGuest5Gclass+'" value="5G" onclick="go_wguest(5);"></div></td>\n';
+	bc += '    <td><div class="form-inline"><input type="button" id="wifi2_b_g" class="btn btn-mini '+enabledGuest2Gclass+'" style="'+style_2g+'" value='+title_2g+' onclick="go_wguest(2);">&nbsp;<input type="button" id="wifi5_b_g" style="'+style_5g+'" class="btn btn-mini '+enabledGuest5Gclass+'" value="5GHz" onclick="go_wguest(5);"></div></td>\n';
 	bc += '  </tr>\n';
 	bc += '  <tr>\n';
 	bc += '    <td><#General_x_FirmwareVersion_itemname#></td>\n';
@@ -431,16 +436,16 @@ if (found_app_frp()){
 }
 }
 if (found_app_caddy()){
-	tabtitle[17] = new Array("", "<#menu5_27_1#>");
+	tabtitle[17] = new Array("", "<#menu5_27#>");
 }
 if (found_app_wyy()){
-	tabtitle[18] = new Array("", "<#menu5_31_1#>");
+	tabtitle[18] = new Array("", "<#menu5_31#>");
 }
 if (found_app_sqm()){
 	tabtitle[19] = new Array("", "<#menu5_30#>");
 }
 if (found_app_aldriver()){
-	tabtitle[20] = new Array("", "<#menu5_36_1#>");
+	tabtitle[20] = new Array("", "<#menu5_36#>");
 }
 
 //Level 3 Tab title
@@ -585,16 +590,19 @@ if (found_app_shadowsocks()){
 if (found_app_mentohust()){
 	menuL2_link.push(mentohust_array[1]);
 } else menuL2_link.push("");
+
 if (found_app_adbyby()){
 	menuL2_link.push(ad_array[1]);
 } else if (found_app_koolproxy()){
 	menuL2_link.push(kp_array[1]);
 } else menuL2_link.push("");
+
 if (found_app_smartdns()){
 	menuL2_link.push(smartdns_array[1]);
 } else if (found_app_adguardhome()){
 	menuL2_link.push(adg_array[1]);
 } else menuL2_link.push("");
+
 if (found_app_aliddns()){
 	menuL2_link.push(aliddns_array[1]);
 } else if (found_app_zerotier()){
@@ -605,12 +613,15 @@ if (found_app_aliddns()){
 if (found_app_caddy()){
 	menuL2_link.push(caddy_array[1]);
 } else menuL2_link.push("");
+
 if (found_app_wyy()){
 	menuL2_link.push(wyy_array[1]);
 } else menuL2_link.push("");
+
 if (found_app_sqm()){
 	menuL2_link.push(sqm_array[1]);
 } else menuL2_link.push("");
+
 if (found_app_aldriver()){
 	menuL2_link.push(aldriver_array[1]);
 } else menuL2_link.push("");
@@ -846,18 +857,14 @@ function show_loading_obj(){
 function submit_language(){
 	if($("select_lang").value != $("preferred_lang").value){
 		showLoading();
-		
 		with(document.titleForm){
 			action = "/start_apply.htm";
-			
 			if(location.pathname == "/")
 				current_page.value = "/index.asp";
 			else
 				current_page.value = location.pathname;
-			
 			preferred_lang.value = $("select_lang").value;
 			flag.value = "set_language";
-			
 			submit();
 		}
 	}
@@ -1087,10 +1094,10 @@ function validate_string(string_obj, flag){
 	if(string_obj.value.charAt(0) == '"'){
 		if(flag != "noalert")
 			alert('<#JS_validstr1#> ["]');
-		
+
 		string_obj.value = "";
 		string_obj.focus();
-		
+
 		return false;
 	}
 	else{
@@ -1131,7 +1138,7 @@ function validate_psk(psk_obj){
 		psk_obj.value = "00000000";
 		psk_obj.focus();
 		psk_obj.select();
-		
+
 		return false;
 	}
 	if(psk_length > 64){
@@ -1139,7 +1146,7 @@ function validate_psk(psk_obj){
 		psk_obj.value = psk_obj.value.substring(0, 64);
 		psk_obj.focus();
 		psk_obj.select();
-		
+
 		return false;
 	}
 	if(psk_length >= 8 && psk_length <= 63 && !validate_string(psk_obj)){
@@ -1165,10 +1172,9 @@ function checkDuplicateName(newname, targetArray){
 	var existing_string = targetArray.join(',');
 	existing_string = ","+existing_string+",";
 	var newstr = ","+trim(newname)+",";
-	
 	var re = new RegExp(newstr, "gi");
 	var matchArray = existing_string.match(re);
-	
+
 	if(matchArray != null)
 		return true;
 	else
@@ -1509,7 +1515,6 @@ var w_dnsf = '<% nvram_get_x("", "w_dnsf"); %>';
 var w_ss = '<% nvram_get_x("", "w_ss"); %>';
 var w_men = '<% nvram_get_x("", "w_men"); %>';
 var w_adbyby = '<% nvram_get_x("", "w_adbyby"); %>';
-var w_pdnsd = '<% nvram_get_x("", "w_pdnsd"); %>';
 
 if (w_ai==0){
 	menuL1_link[2] = "";
