@@ -138,7 +138,7 @@ function change_aliddns_enable_bridge(mflag){
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="box well grad_colour_dark_blue">
-							<h2 class="box_head round_top"><#menu5_23#> - <#menu5_30#></h2>
+							<h2 class="box_head round_top"><#menu5_23#> - <#menu5_25#></h2>
 							<div class="round_bottom">
 							<div>
 							    <ul class="nav nav-tabs" style="margin-bottom: 10px;">
