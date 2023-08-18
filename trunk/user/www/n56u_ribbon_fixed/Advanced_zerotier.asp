@@ -199,7 +199,7 @@ function showMRULESList(){
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="box well grad_colour_dark_blue">
-							<h2 class="box_head round_top"><#menu5_32#> - <#menu5_30#></h2>
+							<h2 class="box_head round_top"><#menu5_32#> - <#menu5_25#></h2>
 							<div class="round_bottom">
 							<div>
 							    <ul class="nav nav-tabs" style="margin-bottom: 10px;">
@@ -213,7 +213,7 @@ function showMRULESList(){
 								    <a href="Advanced_ddnsto.asp"><#menu5_32_2#></a>
 								</li>
 								<li id="wirlink" style="display:none">
-								    <a href="Advanced_wireguard.asp"><#menu5_35_1#></a>
+								    <a href="Advanced_wireguard.asp"><#menu5_32_3#></a>
 								</li>
 							    </ul>
 							</div>
