@@ -25,14 +25,14 @@
 var $j = jQuery.noConflict();
 <% sqm_status(); %>
 $j(document).ready(function () {
-            init_itoggle('sqm_enable');
-            init_itoggle('sqm_active');
-            init_itoggle('sqm_down_speed');
-            init_itoggle('sqm_up_speed');
-            init_itoggle('sqm_debug_log');
-            init_itoggle('sqm_log_level');
-            init_itoggle('sqm_qdisc');
-            init_itoggle('sqm_script');
+	init_itoggle('sqm_enable');
+	init_itoggle('sqm_active');
+	init_itoggle('sqm_down_speed');
+	init_itoggle('sqm_up_speed');
+	init_itoggle('sqm_debug_log');
+	init_itoggle('sqm_log_level');
+	init_itoggle('sqm_qdisc');
+	init_itoggle('sqm_script');
 });
 
 function initial() {
@@ -144,18 +144,17 @@ function getHash() {
 						<ul class="nav nav-tabs" style="margin-bottom: 10px;">
 							<li class="active">
 								<a href="Advanced_SQM.asp">SQM QOS</a>
-                                			</li>
+							</li>
 						</ul>
 					</div>
 					<div class="row-fluid">
-					<div id="tabMenu" class="submenuBlock"></div>
-					<div class="alert alert-info" style="margin: 10px;">
-					注意:SQM会自动设置相应的HWNAT规则，请勿自行调整WAN页面的HWNAT选项造成流控失效</br>
-					因7621性能所限,大于500M宽带谨慎开启QOS！</br>
-					通过SQM_QoS您可以：对指定接口流量整形,例如自定义5G访客网络。其他接口如5G主接口不会受到影响。</br>
-					访客网络接口名称视机型而定，5G访客：ra1(或rai1） 2.4G访客rax1(或ra1)。
-				</div>
-			</div>
+						<div id="tabMenu" class="submenuBlock"></div>
+							<div class="alert alert-info" style="margin: 10px;">
+								注意:SQM会自动设置相应的HWNAT规则，请勿自行调整WAN页面的HWNAT选项造成流控失效</br>
+								因7621性能所限,大于500M宽带谨慎开启QOS！</br>
+								通过SQM_QoS您可以：对指定接口流量整形,例如自定义5G访客网络。其他接口如5G主接口不会受到影响。</br>
+								访客网络接口名称视机型而定，5G访客：ra1(或rai1） 2.4G访客rax1(或ra1)。
+							</div>
 
 					<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table" style="margin-top: 10px;">
 						<tr style="display:none;">
@@ -166,19 +165,19 @@ function getHash() {
 								<span class="label label-info" style="margin-left: 20px;"><% nvram_get_x("","sqm_script"); %></span>
 							</td>
 						</tr>
+
 						<tr>
 						<th>启用SQM</th>
 							<td colspan="2">
 								<div class="main_itoggle">
 									<div id="sqm_enable_on_of">
-							    			<input type="checkbox" id="sqm_enable_fake"
-							    			<% nvram_match_x("", "sqm_enable", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_enable", "0", "value=0"); %> />
+										<input type="checkbox" id="sqm_enable_fake" <% nvram_match_x("", "sqm_enable", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_enable", "0", "value=0"); %> />
 									</div>
 								</div>
 								<div style="position: absolute; margin-left: -10000px;">
 									<input type="radio" value="1" name="sqm_enable" id="sqm_enable_1" class="input" value="1" <% nvram_match_x("", "sqm_enable", "1", "checked"); %> /><#checkbox_Yes#>
 									<input type="radio" value="0" name="sqm_enable" id="sqm_enable_0" class="input" value="0" <% nvram_match_x("", "sqm_enable", "0", "checked"); %> /><#checkbox_No#>
-						    		</div>
+						    	</div>
 							</td>
 						</tr>
 						<tr>
@@ -194,161 +193,160 @@ function getHash() {
 						</tr>
 					    <tr>
 						<th>自定义接口</th>
-						<td>
-						    <input type="text" maxlength="10" class="input" size="10" name="sqm_active" value="<% nvram_get_x("","sqm_active"); %>"/>
-						</td>
-						<td>
-						    &nbsp;<span style="color:#888;">上项菜单需选择“自定义接口“ 可填写例如:ra0</span>
-						</td>
+							<td>
+								<input type="text" maxlength="10" class="input" size="10" name="sqm_active" value="<% nvram_get_x("","sqm_active"); %>"/>
+							</td>
+							<td>
+						    	&nbsp;<span style="color:#888;">上项菜单需选择“自定义接口“ 可填写例如:ra0</span>
+							</td>
 					    </tr>
 					    <tr>
 						<th>队列规则</th>
-						<td>
-						    <select name="sqm_qdisc" class="input">
-							<option value="fq_codel" <% nvram_match_x("","sqm_qdisc", "fq_codel","selected"); %>>fq_codel (*)</option>
-							<option value="codel" <% nvram_match_x("","sqm_qdisc", "codel","selected"); %>>codel</option>
-							<option value="sfq" <% nvram_match_x("","sqm_qdisc", "sfq","selected"); %>>sfq</option>
-							<option value="cake" <% nvram_match_x("","sqm_qdisc", "cake","selected"); %>>cake</option>
-						    </select>
-						</td>
+							<td>
+						    	<select name="sqm_qdisc" class="input">
+								<option value="fq_codel" <% nvram_match_x("","sqm_qdisc", "fq_codel","selected"); %>>fq_codel (*)</option>
+								<option value="codel" <% nvram_match_x("","sqm_qdisc", "codel","selected"); %>>codel</option>
+								<option value="sfq" <% nvram_match_x("","sqm_qdisc", "sfq","selected"); %>>sfq</option>
+								<option value="cake" <% nvram_match_x("","sqm_qdisc", "cake","selected"); %>>cake</option>
+						    	</select>
+							</td>
 					    </tr>
 					    <tr>
 						<th>队列脚本</th>
-						<td>
-						    <select name="sqm_script" class="input">
-							<option value="simple.qos" <% nvram_match_x("","sqm_script", "simple.qos","selected"); %>>simple (*)</option>
-							<option value="simplest.qos" <% nvram_match_x("","sqm_script", "simplest.qos","selected"); %>>simplest</option>
-							<option value="simplest_tbf.qos" <% nvram_match_x("","sqm_script", "simplest_tbf.qos","selected"); %>>simplest_tbf</option>
-							<option value="piece_of_cake.qos" <% nvram_match_x("","sqm_script", "piece_of_cake.qos","selected"); %>>piece_of_cake</option>
-							<option value="layer_cake.qos" <% nvram_match_x("","sqm_script", "layer_cake.qos","selected"); %>>layer_cake</option>
-						    </select>
-						</td>
+							<td>
+						    	<select name="sqm_script" class="input">
+								<option value="simple.qos" <% nvram_match_x("","sqm_script", "simple.qos","selected"); %>>simple (*)</option>
+								<option value="simplest.qos" <% nvram_match_x("","sqm_script", "simplest.qos","selected"); %>>simplest</option>
+								<option value="simplest_tbf.qos" <% nvram_match_x("","sqm_script", "simplest_tbf.qos","selected"); %>>simplest_tbf</option>
+								<option value="piece_of_cake.qos" <% nvram_match_x("","sqm_script", "piece_of_cake.qos","selected"); %>>piece_of_cake</option>
+								<option value="layer_cake.qos" <% nvram_match_x("","sqm_script", "layer_cake.qos","selected"); %>>layer_cake</option>
+						    	</select>
+							</td>
 					    </tr>
 					    <tr>
 						<th width="32%">宽带下载速度 (<span class="label label-info">kbit/s</span>)</th>
-						<td>
-						    <input type="text" maxlength="10" class="input" size="10" id="sqm_down_speed" name="sqm_down_speed" value="<% nvram_get_x("","sqm_down_speed"); %>"/>
-						</td>
-						<td>
-						    <a href="#bw_calc_dialog" class="btn btn-info" data-toggle="modal">速度计算器</a>
-						</td>
+							<td>
+						    	<input type="text" maxlength="10" class="input" size="10" id="sqm_down_speed" name="sqm_down_speed" value="<% nvram_get_x("","sqm_down_speed"); %>"/>
+							</td>
+							<td>
+						    	<a href="#bw_calc_dialog" class="btn btn-info" data-toggle="modal">速度计算器</a>
+							</td>
 					    </tr>
 					    <tr>
 						<th width="32%">宽带上传速度 (<span class="label label-info">kbit/s</span>)</th>
-						<td>
-						    <input type="text" maxlength="10" class="input" size="10" id="sqm_up_speed" name="sqm_up_speed" value="<% nvram_get_x("","sqm_up_speed"); %>"/>
-						</td>
-						<td>
-						    &nbsp;<span style="color:#888;">测速的80-95％，1 Mbps = 1024 kbit/s 需填写小于下载速度的值</span>
-						</td>
+							<td>
+						    	<input type="text" maxlength="10" class="input" size="10" id="sqm_up_speed" name="sqm_up_speed" value="<% nvram_get_x("","sqm_up_speed"); %>"/>
+							</td>
+							<td>
+						    	&nbsp;<span style="color:#888;">测速的80-95％，1 Mbps = 1024 kbit/s 需填写小于下载速度的值</span>
+							</td>
 					    </tr>
 					    <tr>
 						<th>启用日志</th>
-						<td>
-						    <div class="main_itoggle">
-							<div id="sqm_debug_log_on_of">
-							    <input type="checkbox" id="sqm_debug_log_fake"
-							    <% nvram_match_x("", "sqm_debug_log", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_debug_log", "0", "value=0"); %>
-							    />
-							</div>
-						    </div>
-						    <div style="position: absolute; margin-left: -10000px;">
-							<input type="radio" value="1" name="sqm_debug_log" id="sqm_debug_log_1" class="input" value="1" <% nvram_match_x("", "sqm_debug_log", "1", "checked"); %> /><#checkbox_Yes#>
-							<input type="radio" value="0" name="sqm_debug_log" id="sqm_debug_log_0" class="input" value="0" <% nvram_match_x("", "sqm_debug_log", "0", "checked"); %> /><#checkbox_No#>
-						    </div>
-						</td>
-						<td>
-						    &nbsp;<span style="color:#888;">/var/run/sqm/<% nvram_get_x("","sqm_active"); %>.debug.log</span>
-						</td>
+							<td>
+						    	<div class="main_itoggle">
+								<div id="sqm_debug_log_on_of">
+							    	<input type="checkbox" id="sqm_debug_log_fake"
+									<% nvram_match_x("", "sqm_debug_log", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_debug_log", "0", "value=0"); %> />
+								</div>
+						    	</div>
+						    	<div style="position: absolute; margin-left: -10000px;">
+									<input type="radio" value="1" name="sqm_debug_log" id="sqm_debug_log_1" class="input" value="1" <% nvram_match_x("", "sqm_debug_log", "1", "checked"); %> /><#checkbox_Yes#>
+									<input type="radio" value="0" name="sqm_debug_log" id="sqm_debug_log_0" class="input" value="0" <% nvram_match_x("", "sqm_debug_log", "0", "checked"); %> /><#checkbox_No#>
+						    	</div>
+							</td>
+							<td>
+						    	&nbsp;<span style="color:#888;">/var/run/sqm/<% nvram_get_x("","sqm_active"); %>.debug.log</span>
+							</td>
 					    </tr>
 					    <tr>
 						<th>日志等级</th>
-						<td>
-						    <select name="sqm_log_level" class="input">
-							<option value="0" <% nvram_match_x("","sqm_log_level", "0","selected"); %>>silent</option>
-							<option value="1" <% nvram_match_x("","sqm_log_level", "1","selected"); %>>error</option>
-							<option value="2" <% nvram_match_x("","sqm_log_level", "2","selected"); %>>warn</option>
-							<option value="5" <% nvram_match_x("","sqm_log_level", "5","selected"); %>>info (*)</option>
-							<option value="8" <% nvram_match_x("","sqm_log_level", "8","selected"); %>>debug</option>
-							<option value="10" <% nvram_match_x("","sqm_log_level", "10","selected"); %>>trace</option>
-						    </select>
-						</td>
-						<td>
-						    &nbsp;<span style="color:#888;">仅调试时启用debug/trace</span>
-						</td>
+							<td>
+						    	<select name="sqm_log_level" class="input">
+								<option value="0" <% nvram_match_x("","sqm_log_level", "0","selected"); %>>silent</option>
+								<option value="1" <% nvram_match_x("","sqm_log_level", "1","selected"); %>>error</option>
+								<option value="2" <% nvram_match_x("","sqm_log_level", "2","selected"); %>>warn</option>
+								<option value="5" <% nvram_match_x("","sqm_log_level", "5","selected"); %>>info (*)</option>
+								<option value="8" <% nvram_match_x("","sqm_log_level", "8","selected"); %>>debug</option>
+								<option value="10" <% nvram_match_x("","sqm_log_level", "10","selected"); %>>trace</option>
+								</select>
+							</td>
+							<td>
+						    	&nbsp;<span style="color:#888;">仅调试时启用debug/trace</span>
+							</td>
 					    </tr>
-		</table>
-				<table class="table">
-					    <tr>
-						<td colspan="3" style="border-top: 0 none;">
-						    <br/>
-						    <center>
-							<input class="btn btn-primary" style="width: 219px" type="button" value="<#CTL_apply#>" onclick="applyRule()"/>
-						    </center>
-					    </td>
-					</tr>
-				</table>
-			    </div>
+					</table>
+					<table class="table">
+						<tr>
+							<td colspan="3" style="border-top: 0 none;">
+						    	<br/>
+						    	<center>
+								<input class="btn btn-primary" style="width: 219px" type="button" value="<#CTL_apply#>" onclick="applyRule()"/>
+						    	</center>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
-		    </div>
+			</div>
 		</div>
-	    </div>
+		</div>
 	</div>
-    </div>
-    </form>
-    <div id="footer"></div>
+	</div>
+	</form>
+	<div id="footer"></div>
 </div>
 
 <!-- foreign dns list modal -->
 <div class="modal fade" id="bw_calc_dialog" style="left: 60%;width: 300px;overflow: hidden;">
-    <div class="modal-dialog">
+	<div class="modal-dialog">
 	<div class="modal-content">
-	    <div class="modal-header">
+		<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">
-		    <span aria-hidden="true">&times;</span>
+			<span aria-hidden="true">&times;</span>
 		</button>
 		<h4 class="modal-title">SQM QoS 速度计算器</h4>
-	    </div>
-	    <div class="modal-body">
+		</div>
+		<div class="modal-body">
 		<div>
-		    <span style="display: inline-block; width:68px;">带宽</span>:<input type="text" class="span2" style="margin: 1px 5px;" id="bw_in_Mbps" value="10">Mbps
+			<span style="display: inline-block; width:68px;">带宽</span>:<input type="text" class="span2" style="margin: 1px 5px;" id="bw_in_Mbps" value="10">Mbps
 		</div>
 		<div>
-		    <span style="display: inline-block; width:68px;">百分比</span>:<input type="text" class="span2" style="margin: 1px 5px;" id="bw_percent" value="95"> %
+			<span style="display: inline-block; width:68px;">百分比</span>:<input type="text" class="span2" style="margin: 1px 5px;" id="bw_percent" value="95"> %
 		</div>
 		<div>
-		    <span style="display: inline-block; width:68px;">结果</span>:<input type="text" readonly class="span2" style="margin: 1px 5px;" id="bw_result" value=""> kbit/s
+			<span style="display: inline-block; width:68px;">结果</span>:<input type="text" readonly class="span2" style="margin: 1px 5px;" id="bw_result" value=""> kbit/s
 		</div>
-	    </div>
-	    <div class="modal-footer">
+		</div>
+		<div class="modal-footer">
 		<button type="button" id="bw_set_down_action" class="btn btn-primary">设置下载速度</button>
 		<button type="button" id="bw_set_up_action" class="btn btn-primary">设置上传速度</button>
-	    </div>
+		</div>
 	</div>
-    </div>
+	</div>
 </div>
 <script>
-    (function($) {
+	(function($) {
 	//wait document ready
 	$(function() {
-	    var update_bw_result = function(){
+		var update_bw_result = function(){
 		var bw_val = $('#bw_in_Mbps').val() * 1024 * $('#bw_percent').val() / 100;
 		bw_val = Math.ceil(bw_val);
 		$('#bw_result').val(bw_val);
-	    };
-	    update_bw_result();
-	    $('#bw_in_Mbps').keyup(update_bw_result);
-	    $('#bw_percent').keyup(update_bw_result);
-	    $('#bw_set_down_action').click(function(){
+		};
+		update_bw_result();
+		$('#bw_in_Mbps').keyup(update_bw_result);
+		$('#bw_percent').keyup(update_bw_result);
+		$('#bw_set_down_action').click(function(){
 		$('#sqm_down_speed').val($('#bw_result').val());
 		$('#bw_calc_dialog').modal('hide');
-	    });
-	    $('#bw_set_up_action').click(function(){
+		});
+		$('#bw_set_up_action').click(function(){
 		$('#sqm_up_speed').val($('#bw_result').val());
 		$('#bw_calc_dialog').modal('hide');
-	    });
+		});
 	});
-    })(jQuery);
+	})(jQuery);
 </script>
 </body>
 </html>
