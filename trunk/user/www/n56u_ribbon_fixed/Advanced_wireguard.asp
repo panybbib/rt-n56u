@@ -126,7 +126,7 @@ function done_validating(action){
 								    <a href="Advanced_ddnsto.asp"><#menu5_32_2#></a>
 								</li>
 								<li class="active">
-								    <a href="Advanced_wireguard.asp"><#menu5_35_1#></a>
+								    <a href="Advanced_wireguard.asp"><#menu5_32_3#></a>
 								</li>
 							    </ul>
 							</div>
