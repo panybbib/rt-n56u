@@ -166,7 +166,6 @@ function getHash() {
 								<span class="label label-info" style="margin-left: 20px;"><% nvram_get_x("","sqm_script"); %></span>
 							</td>
 						</tr>
-
 						<tr>
 						<th>启用SQM</th>
 							<td colspan="2">
@@ -177,22 +176,22 @@ function getHash() {
 									</div>
 								</div>
 								<div style="position: absolute; margin-left: -10000px;">
-									<input type="radio" value="1" name="sqm_enable" id="sqm_enable_1" class="input" value="1" <% nvram_match_x("", "sqm_enable", "1", "checked"); %> /> Yes
-									<input type="radio" value="0" name="sqm_enable" id="sqm_enable_0" class="input" value="0" <% nvram_match_x("", "sqm_enable", "0", "checked"); %> /> No
+									<input type="radio" value="1" name="sqm_enable" id="sqm_enable_1" class="input" value="1" <% nvram_match_x("", "sqm_enable", "1", "checked"); %> /><#checkbox_Yes#>
+									<input type="radio" value="0" name="sqm_enable" id="sqm_enable_0" class="input" value="0" <% nvram_match_x("", "sqm_enable", "0", "checked"); %> /><#checkbox_No#>
 						    		</div>
 							</td>
 						</tr>
-					<tr>
+						<tr>
 					    <th>流控对象</th>
-					    <td>
-						<select name="sqm_flag" class="input">
-						    <option value="1" <% nvram_match_x("", "sqm_flag", "1", "selected"); %>>仅有线到外网</option>
-						    <option value="2" <% nvram_match_x("", "sqm_flag", "2", "selected"); %>>仅无线到外网</option>
-						    <option value="3" <% nvram_match_x("", "sqm_flag", "3", "selected"); %>>有线到外网+无线到外网</option>
-						    <option value="4" <% nvram_match_x("", "sqm_flag", "4", "selected"); %>>自定义接口</option>
-						</select>
-					    </td>
-					</tr>
+					    	<td>
+							<select name="sqm_flag" class="input">
+						    	<option value="1" <% nvram_match_x("", "sqm_flag", "1", "selected"); %>>仅有线到外网</option>
+						    	<option value="2" <% nvram_match_x("", "sqm_flag", "2", "selected"); %>>仅无线到外网</option>
+						    	<option value="3" <% nvram_match_x("", "sqm_flag", "3", "selected"); %>>有线到外网+无线到外网</option>
+						    	<option value="4" <% nvram_match_x("", "sqm_flag", "4", "selected"); %>>自定义接口</option>
+							</select>
+					    	</td>
+						</tr>
 					    <tr>
 						<th>自定义接口</th>
 						<td>
@@ -254,8 +253,8 @@ function getHash() {
 							</div>
 						    </div>
 						    <div style="position: absolute; margin-left: -10000px;">
-							<input type="radio" value="1" name="sqm_debug_log" id="sqm_debug_log_1" class="input" value="1" <% nvram_match_x("", "sqm_debug_log", "1", "checked"); %> /> Yes
-							<input type="radio" value="0" name="sqm_debug_log" id="sqm_debug_log_0" class="input" value="0" <% nvram_match_x("", "sqm_debug_log", "0", "checked"); %> /> No
+							<input type="radio" value="1" name="sqm_debug_log" id="sqm_debug_log_1" class="input" value="1" <% nvram_match_x("", "sqm_debug_log", "1", "checked"); %> /><#checkbox_Yes#>
+							<input type="radio" value="0" name="sqm_debug_log" id="sqm_debug_log_0" class="input" value="0" <% nvram_match_x("", "sqm_debug_log", "0", "checked"); %> /><#checkbox_No#>
 						    </div>
 						</td>
 						<td>
