@@ -20,6 +20,7 @@
 <script type="text/javascript" src="/itoggle.js"></script>
 <script type="text/javascript" src="/popup.js"></script>
 <script type="text/javascript" src="/help.js"></script>
+
 <script>
 var $j = jQuery.noConflict();
 <% sqm_status(); %>
@@ -33,9 +34,7 @@ $j(document).ready(function () {
             init_itoggle('sqm_qdisc');
             init_itoggle('sqm_script');
 });
-</script>
 
-<script>
 function initial() {
 	show_banner(2);
 	show_menu(5, 19);
@@ -96,8 +95,6 @@ function getHash() {
 
 <body onload="initial();" onunLoad="return unload_body();">
 
-<div id="Loading" class="popup_bg"></div>
-
 <div class="wrapper">
 	<div class="container-fluid" style="padding-right: 0px">
 		<div class="row-fluid">
@@ -107,6 +104,7 @@ function getHash() {
 			</div>
 		</div>
 	</div>
+	<div id="Loading" class="popup_bg"></div>
 
 	<iframe name="hidden_frame" id="hidden_frame" src="" width="0" height="0" frameborder="0"></iframe>
 
@@ -140,7 +138,7 @@ function getHash() {
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="box well grad_colour_dark_blue">
-							<h2 class="box_head round_top">QoS - <#menu5_30#></h2>
+							<h2 class="box_head round_top">SQM - <#menu5_30#></h2>
 							<div class="round_bottom">
 					<div>
 						<ul class="nav nav-tabs" style="margin-bottom: 10px;">
