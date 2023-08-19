@@ -166,9 +166,12 @@ function getHash() {
 							</div>
 
 					<table width="100%" cellpadding="4" cellspacing="0" class="table">
-						<tr>
-						<th><#running_status#></th>
-							<td id="sqm_status" colspan="2">
+                    	<tr style="display:none;">
+                        <th width="50%"><#running_status#></th>
+							<td colspan="2">
+								<span id="sqm_status" ></span>
+								<span class="label label-info" style="margin-left: 0px;"><% nvram_get_x("","sqm_qdisc"); %></span>
+								<span class="label label-info" style="margin-left: 20px;"><% nvram_get_x("","sqm_script"); %></span>
 							</td>
 						</tr>
 
