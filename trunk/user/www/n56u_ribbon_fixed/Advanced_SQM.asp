@@ -164,15 +164,11 @@ function getHash() {
 								通过SQM_QoS您可以：对指定接口流量整形,例如自定义5G访客网络。其他接口如5G主接口不会受到影响。</br>
 								访客网络接口名称视机型而定，5G访客：ra1(或rai1） 2.4G访客rax1(或ra1)。
 							</div>
-						</div>
 
-					<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table" style="margin-top: 10px;">
+					<table width="100%" cellpadding="4" cellspacing="0" class="table">
 						<tr>
-						<th width="50%"><#running_status#></th>
-							<td colspan="2">
-								<span id="sqm_status" ></span>
-								<span class="label label-info" style="margin-left: 0px;"><% nvram_get_x("","sqm_qdisc"); %></span>
-								<span class="label label-info" style="margin-left: 20px;"><% nvram_get_x("","sqm_script"); %></span>
+						<th><#running_status#></th>
+							<td id="sqm_status" colspan="2">
 							</td>
 						</tr>
 
@@ -255,10 +251,9 @@ function getHash() {
 						<th>启用日志</th>
 							<td>
 						    	<div class="main_itoggle">
-								<div id="sqm_debug_log_on_of">
-							    	<input type="checkbox" id="sqm_debug_log_fake"
-									<% nvram_match_x("", "sqm_debug_log", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_debug_log", "0", "value=0"); %> />
-								</div>
+									<div id="sqm_debug_log_on_of">
+							    		<input type="checkbox" id="sqm_debug_log_fake" <% nvram_match_x("", "sqm_debug_log", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_debug_log", "0", "value=0"); %> />
+									</div>
 						    	</div>
 						    	<div style="position: absolute; margin-left: -10000px;">
 									<input type="radio" value="1" name="sqm_debug_log" id="sqm_debug_log_1" class="input" value="1" <% nvram_match_x("", "sqm_debug_log", "1", "checked"); %> /><#checkbox_Yes#>
@@ -295,13 +290,16 @@ function getHash() {
 						</tr>
 					</table>
 				</div>
+				</div>
 			</div>
 			</div>
 		</div>
 		</div>
 	</div>
 	</div>
+
 	</form>
+
 	<div id="footer"></div>
 </div>
 
