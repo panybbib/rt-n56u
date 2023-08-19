@@ -237,7 +237,8 @@ stop_udpxy(void)
 void
 start_udpxy(char *wan_ifname)
 {
-	if (nvram_get_int("udpxy_enable_x") < 1024)
+	int port = nvram_get_int("udpxy_enable_x");
+	if (port < 1024)
 		return;
 
 	eval("/usr/sbin/udpxy",

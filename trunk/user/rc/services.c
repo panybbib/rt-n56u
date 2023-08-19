@@ -478,6 +478,40 @@ void restart_zerotier(void){
 }
 #endif
 
+#if defined(APP_DDNSTO)
+void stop_ddnsto(void){
+	eval("/usr/bin/ddnsto.sh","stop");
+}
+
+void start_ddnsto(void){
+	int ddnsto_enable = nvram_get_int("ddnsto_enable");
+	if ( ddnsto_enable == 1)
+		eval("/usr/bin/ddnsto.sh","start");
+}
+
+void restart_ddnsto(void){
+	stop_ddnsto();
+	start_ddnsto();
+}
+#endif
+
+#if defined(APP_SQM)
+void stop_sqm(void){
+	eval("/usr/lib/sqm/run.sh","stop");
+}
+
+void start_sqm(void){
+	int sqm_mode = nvram_get_int("sqm_enable");
+	if ( sqm_mode == 1)
+		eval("/usr/lib/sqm/run.sh");
+}
+
+void restart_sqm(void){
+	stop_sqm();
+	start_sqm();
+}
+#endif
+
 #if defined(APP_ADBYBY)
 void stop_adbyby(void){
 	eval("/usr/bin/adbyby.sh","stop");
@@ -498,7 +532,6 @@ void update_adb(void){
 	eval("/usr/bin/adbyby.sh","updateadb");
 }
 #endif
-
 
 #if defined(APP_SMARTDNS)
 void stop_smartdns(void){
@@ -546,22 +579,6 @@ void restart_npc(void){
 	start_npc();
 }
 #endif*/
-#if defined(APP_DDNSTO)
-void stop_ddnsto(void){
-	eval("/usr/bin/ddnsto.sh","stop");
-}
-
-void start_ddnsto(void){
-	int ddnsto_enable = nvram_get_int("ddnsto_enable");
-	if ( ddnsto_enable == 1)
-		eval("/usr/bin/ddnsto.sh","start");
-}
-
-void restart_ddnsto(void){
-	stop_ddnsto();
-	start_ddnsto();
-}
-#endif
 
 #if defined(APP_CADDY)
 void stop_caddy(void){
@@ -923,6 +940,9 @@ stop_services(int stopall)
 #endif
 #if defined(APP_ADBYBY)
 	stop_adbyby();
+#endif
+#if defined(APP_SQM)
+	stop_sqm();
 #endif
 #if defined(APP_WYY)
 	stop_wyy();

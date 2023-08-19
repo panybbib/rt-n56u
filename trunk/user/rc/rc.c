@@ -161,6 +161,7 @@ load_usb_modules(void)
 		char xhci_param[32];
 		snprintf(xhci_param, sizeof(xhci_param), "%s=%d", "usb3_disable", nvram_get_int("usb3_disable"));
 		module_smart_load("xhci_hcd", xhci_param);
+		module_smart_load("xhci_mtk", NULL);
 	}
 #else
 	module_smart_load("ehci_hcd", NULL);
@@ -1350,6 +1351,12 @@ handle_notifications(void)
 			update_kp();
 		}
 #endif
+#if defined(APP_SQM)
+		else if (strcmp(entry->d_name, RCN_RESTART_SQM) == 0)
+		{
+			restart_sqm();
+		}
+#endif
 #if defined(APP_ADBYBY)
 		else if (strcmp(entry->d_name, RCN_RESTART_ADBYBY) == 0)
 		{
@@ -1710,10 +1717,9 @@ static const applet_rc_t applets_rc[] = {
 	{ "detect_link",	detect_link_main	},
 	{ "detect_internet",	detect_internet_main	},
 
-	{ "watchdog",		watchdog_main		},
-	{ "rstats",		rstats_main		},
-
-	{ "mtk_gpio",		cpu_gpio_main		},
+	{ "watchdog",		watchdog_main	},
+	{ "rstats",		rstats_main	},
+	{ "mtk_gpio",		cpu_gpio_main	},
 #if defined (USE_MTK_ESW) || defined (USE_MTK_GSW)
 	{ "mtk_esw",		mtk_esw_main		},
 #endif

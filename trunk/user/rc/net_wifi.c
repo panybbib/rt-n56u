@@ -34,8 +34,15 @@
 static int
 wif_control(const char *wifname, int is_up)
 {
+	int ret;
 	logmessage(LOGNAME, "%s: ifname: %s, isup: %d", __func__, wifname, is_up);
-	return doSystem("ifconfig %s %s 2>/dev/null", wifname, (is_up) ? "up" : "down");
+	ret = doSystem("ifconfig %s %s 2>/dev/null", wifname, (is_up) ? "up" : "down");
+#if defined (USE_MT7615_AP) || defined (USE_MT7915_AP) || defined (USE_MT76X2_AP)
+	if (is_up && is_module_loaded("hw_nat")) {
+		doSystem("iwpriv %s set hw_nat_register=%d", wifname, 1);
+	}
+#endif
+	return ret;
 }
 
 void
@@ -688,7 +695,7 @@ reconnect_apcli(const char *ifname_apcli, int force)
 
 	if (get_apcli_sta_auto(is_aband)) {
 		if (is_aband) {
-#if defined (USE_WID_5G) && (USB_WID_5G==7615 || USE_WID_5G==7915)
+#if defined (USE_WID_5G) && (USE_WID_5G==7615 || USE_WID_5G==7915)
 			doSystem("iwpriv %s set %s=%d", ifname_apcli, "ApCliAutoConnect", 3);
 			logmessage(LOGNAME, "Set ApCliAutoConnect to 3");
 #else
@@ -696,7 +703,7 @@ reconnect_apcli(const char *ifname_apcli, int force)
 			logmessage(LOGNAME, "Set ApCliAutoConnect to 1");
 #endif
 		} else {
-#if defined (USE_WID_2G) && (USB_WID_2G==7615 || USE_WID_2G==7915)
+#if defined (USE_WID_2G) && (USE_WID_2G==7615 || USE_WID_2G==7915)
 			doSystem("iwpriv %s set %s=%d", ifname_apcli, "ApCliAutoConnect", 3);
 			logmessage(LOGNAME, "Set ApCliAutoConnect to 3");
 #else

@@ -597,6 +597,11 @@ void stop_wyy(void);
 void start_wyy(void);
 void restart_wyy(void);
 #endif
+#if defined(APP_SQM)
+void stop_sqm(void);
+void start_sqm(void);
+void restart_sqm(void);
+#endif
 #if defined(APP_ZEROTIER)
 void stop_zerotier(void);
 void start_zerotier(void);
@@ -768,6 +773,13 @@ int  watchdog_main(int argc, char *argv[]);
 int  start_watchdog(void);
 void notify_watchdog_time(void);
 void notify_watchdog_wifi(int is_5ghz);
+
+int  btn_main(int argc, char *argv[]);
+int  start_gpio_btn(void);
+/*int  get_state_led_pwr(void);*/
+void btn_reset_action(void);
+void btn_event_long(int btn_id);
+void btn_event_short(int btn_id);
 
 #if defined (USE_RT3352_MII)
 /* inicd */
