@@ -20,6 +20,7 @@
 <script type="text/javascript" src="/itoggle.js"></script>
 <script type="text/javascript" src="/popup.js"></script>
 <script type="text/javascript" src="/help.js"></script>
+<script type="text/javascript" src="/help_b.js"></script>
 
 <script>
 var $j = jQuery.noConflict();
@@ -38,6 +39,8 @@ $j(document).ready(function() {
 </script>
 
 <script>
+<% login_state_hook(); %>
+
 function initial() {
 	show_banner(2);
 	show_menu(5,20);
@@ -52,14 +55,16 @@ function fill_sqm_status(status_code) {
 		stext = "<#Stopped#>";
 	else if (status_code == 1)
 		stext = "<#Running#>";
-	$("sqm_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'warning' : 'success') + '">' + stext + '</span>';
+	$("sqm_status").innerHTML = '<span class="label label-' + (status_code != 0 ? 'success' : 'warning') + '">' + stext + '</span>';
 }
 
 function applyRule() {
 	showLoading();
+		
 	document.form.action_mode.value = " Restart ";
 	document.form.current_page.value = "/Advanced_SQM.asp";
 	document.form.next_page.value = "";
+		
 	document.form.submit();
 }
 
@@ -98,6 +103,8 @@ function getHash() {
 
 <body onload="initial();" onunLoad="return unload_body();">
 
+<div id="Loading" class="popup_bg"></div>
+
 <div class="wrapper">
 	<div class="container-fluid" style="padding-right: 0px">
 		<div class="row-fluid">
@@ -107,8 +114,6 @@ function getHash() {
 			</div>
 		</div>
 	</div>
-
-	<div id="Loading" class="popup_bg"></div>
 
 	<iframe name="hidden_frame" id="hidden_frame" src="" width="0" height="0" frameborder="0"></iframe>
 
@@ -142,9 +147,9 @@ function getHash() {
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="box well grad_colour_dark_blue">
-							<h2 class="box_head round_top">SQM - <#menu5_30#></h2>
-							<div class="round_bottom">
-					<div>
+						<h2 class="box_head round_top">SQM - <#menu5_30#></h2>
+						<div class="round_bottom">
+						<div>
 						<ul class="nav nav-tabs" style="margin-bottom: 10px;">
 							<li class="active">
 								<a href="Advanced_SQM.asp">SQM QOS</a>
@@ -162,7 +167,7 @@ function getHash() {
 						</div>
 
 					<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table" style="margin-top: 10px;">
-						<tr style="display:none;">
+						<tr>
 						<th width="50%"><#running_status#></th>
 							<td colspan="2">
 								<span id="sqm_status" ></span>
@@ -172,8 +177,8 @@ function getHash() {
 						</tr>
 
 						<tr>
-						<th>启用SQM</th>
-							<td>
+						<th width="30%" style="border-top: 0 none;">启用SQM</th>
+							<td style="border-top: 0 none;">
 								<div class="main_itoggle">
 									<div id="sqm_enable_on_of">
 										<input type="checkbox" id="sqm_enable_fake" <% nvram_match_x("", "sqm_enable", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_enable", "0", "value=0"); %>  />
@@ -285,9 +290,7 @@ function getHash() {
 						<tr>
 							<td colspan="3" style="border-top: 0 none;">
 						    	<br/>
-						    	<center>
-									<input class="btn btn-primary" style="width: 219px" type="button" value="<#CTL_apply#>" onclick="applyRule()"/>
-						    	</center>
+						    	<center><input class="btn btn-primary" style="width: 219px" type="button" value="<#CTL_apply#>" onclick="applyRule()"/></center>
 							</td>
 						</tr>
 					</table>
