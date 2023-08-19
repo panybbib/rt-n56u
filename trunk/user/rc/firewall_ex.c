@@ -898,7 +898,7 @@ ipt_filter_rules(char *man_if, char *wan_if, char *lan_if, char *lan_ip,
 			if (wport == lport || !is_nat_enabled)
 				fprintf(fp, "-A %s -p tcp --dport %d -j %s\n", dtype, lport, logaccept);
 			else
-				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, lport, logaccept);
+				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, wport, logaccept);
 		}
 #if defined (SUPPORT_HTTPS)
 		if ((i_http_proto == 1 || i_http_proto == 2) && nvram_match("https_wopen", "1")) {
@@ -907,7 +907,7 @@ ipt_filter_rules(char *man_if, char *wan_if, char *lan_if, char *lan_ip,
 			if (wport == lport || !is_nat_enabled)
 				fprintf(fp, "-A %s -p tcp --dport %d -j %s\n", dtype, lport, logaccept);
 			else
-				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, lport, logaccept);
+				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, wport, logaccept);
 		}
 #endif
 #if defined (APP_SSHD)
@@ -918,7 +918,7 @@ ipt_filter_rules(char *man_if, char *wan_if, char *lan_if, char *lan_ip,
 			if (wport == lport || !is_nat_enabled)
 				fprintf(fp, "-A %s -p tcp --dport %d -j %s\n", dtype, lport, IPT_CHAIN_NAME_BFP_LIMIT);
 			else
-				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, lport, IPT_CHAIN_NAME_BFP_LIMIT);
+				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, wport, IPT_CHAIN_NAME_BFP_LIMIT);
 		}
 #endif
 #if defined (APP_FTPD)
@@ -928,7 +928,7 @@ ipt_filter_rules(char *man_if, char *wan_if, char *lan_if, char *lan_ip,
 			if (wport == lport || !is_nat_enabled)
 				fprintf(fp, "-A %s -p tcp --dport %d -j %s\n", dtype, lport, logaccept);
 			else
-				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, lport, logaccept);
+				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, wport, logaccept);
 		}
 #endif
 		lport = nvram_get_int("udpxy_enable_x");
@@ -937,7 +937,7 @@ ipt_filter_rules(char *man_if, char *wan_if, char *lan_if, char *lan_ip,
 			if (wport == lport || !is_nat_enabled)
 				fprintf(fp, "-A %s -p tcp --dport %d -j %s\n", dtype, lport, logaccept);
 			else
-				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, lport, logaccept);
+				fprintf(fp, "-A %s -p tcp -d %s --dport %d -j %s\n", dtype, lan_ip, wport, logaccept);
 		}
 #if defined (APP_TRMD)
 		if (nvram_match("trmd_enable", "1") && is_torrent_support()) {
@@ -2134,6 +2134,7 @@ start_firewall_ex(void)
 #if defined (APP_ADBYBY)
 	const char *adbyby_iptables = "/tmp/adbyby.save";
 #endif
+
 	unit = 0;
 
 	snprintf(lan_if, sizeof(lan_if), "%s", IFNAME_BR);
