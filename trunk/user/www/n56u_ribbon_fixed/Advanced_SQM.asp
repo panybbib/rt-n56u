@@ -163,7 +163,7 @@ function getHash() {
 
 					<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table" style="margin-top: 10px;">
 						<tr style="display:none;">
-							<th width="50%"><#running_status#></th>
+						<th width="50%"><#running_status#></th>
 							<td colspan="2">
 								<span id="sqm_status" ></span>
 								<span class="label label-info" style="margin-left: 0px;"><% nvram_get_x("","sqm_qdisc"); %></span>
@@ -188,12 +188,12 @@ function getHash() {
 						<tr>
 					    <th>流控对象</th>
 					    	<td>
-							<select name="sqm_flag" class="input">
-						    	<option value="1" <% nvram_match_x("", "sqm_flag", "1", "selected"); %>>仅有线到外网</option>
-						    	<option value="2" <% nvram_match_x("", "sqm_flag", "2", "selected"); %>>仅无线到外网</option>
-						    	<option value="3" <% nvram_match_x("", "sqm_flag", "3", "selected"); %>>有线到外网+无线到外网</option>
-						    	<option value="4" <% nvram_match_x("", "sqm_flag", "4", "selected"); %>>自定义接口</option>
-							</select>
+								<select name="sqm_flag" class="input">
+						    		<option value="1" <% nvram_match_x("", "sqm_flag", "1", "selected"); %>>仅有线到外网</option>
+						    		<option value="2" <% nvram_match_x("", "sqm_flag", "2", "selected"); %>>仅无线到外网</option>
+						    		<option value="3" <% nvram_match_x("", "sqm_flag", "3", "selected"); %>>有线到外网+无线到外网</option>
+						    		<option value="4" <% nvram_match_x("", "sqm_flag", "4", "selected"); %>>自定义接口</option>
+								</select>
 					    	</td>
 						</tr>
 					    <tr>
@@ -209,10 +209,10 @@ function getHash() {
 						<th>队列规则</th>
 							<td>
 						    	<select name="sqm_qdisc" class="input">
-								<option value="fq_codel" <% nvram_match_x("","sqm_qdisc", "fq_codel","selected"); %>>fq_codel (*)</option>
-								<option value="codel" <% nvram_match_x("","sqm_qdisc", "codel","selected"); %>>codel</option>
-								<option value="sfq" <% nvram_match_x("","sqm_qdisc", "sfq","selected"); %>>sfq</option>
-								<option value="cake" <% nvram_match_x("","sqm_qdisc", "cake","selected"); %>>cake</option>
+									<option value="fq_codel" <% nvram_match_x("","sqm_qdisc", "fq_codel","selected"); %>>fq_codel (*)</option>
+									<option value="codel" <% nvram_match_x("","sqm_qdisc", "codel","selected"); %>>codel</option>
+									<option value="sfq" <% nvram_match_x("","sqm_qdisc", "sfq","selected"); %>>sfq</option>
+									<option value="cake" <% nvram_match_x("","sqm_qdisc", "cake","selected"); %>>cake</option>
 						    	</select>
 							</td>
 					    </tr>
@@ -220,11 +220,11 @@ function getHash() {
 						<th>队列脚本</th>
 							<td>
 						    	<select name="sqm_script" class="input">
-								<option value="simple.qos" <% nvram_match_x("","sqm_script", "simple.qos","selected"); %>>simple (*)</option>
-								<option value="simplest.qos" <% nvram_match_x("","sqm_script", "simplest.qos","selected"); %>>simplest</option>
-								<option value="simplest_tbf.qos" <% nvram_match_x("","sqm_script", "simplest_tbf.qos","selected"); %>>simplest_tbf</option>
-								<option value="piece_of_cake.qos" <% nvram_match_x("","sqm_script", "piece_of_cake.qos","selected"); %>>piece_of_cake</option>
-								<option value="layer_cake.qos" <% nvram_match_x("","sqm_script", "layer_cake.qos","selected"); %>>layer_cake</option>
+									<option value="simple.qos" <% nvram_match_x("","sqm_script", "simple.qos","selected"); %>>simple (*)</option>
+									<option value="simplest.qos" <% nvram_match_x("","sqm_script", "simplest.qos","selected"); %>>simplest</option>
+									<option value="simplest_tbf.qos" <% nvram_match_x("","sqm_script", "simplest_tbf.qos","selected"); %>>simplest_tbf</option>
+									<option value="piece_of_cake.qos" <% nvram_match_x("","sqm_script", "piece_of_cake.qos","selected"); %>>piece_of_cake</option>
+									<option value="layer_cake.qos" <% nvram_match_x("","sqm_script", "layer_cake.qos","selected"); %>>layer_cake</option>
 						    	</select>
 							</td>
 					    </tr>
@@ -268,12 +268,12 @@ function getHash() {
 						<th>日志等级</th>
 							<td>
 						    	<select name="sqm_log_level" class="input">
-								<option value="0" <% nvram_match_x("","sqm_log_level", "0","selected"); %>>silent</option>
-								<option value="1" <% nvram_match_x("","sqm_log_level", "1","selected"); %>>error</option>
-								<option value="2" <% nvram_match_x("","sqm_log_level", "2","selected"); %>>warn</option>
-								<option value="5" <% nvram_match_x("","sqm_log_level", "5","selected"); %>>info (*)</option>
-								<option value="8" <% nvram_match_x("","sqm_log_level", "8","selected"); %>>debug</option>
-								<option value="10" <% nvram_match_x("","sqm_log_level", "10","selected"); %>>trace</option>
+									<option value="0" <% nvram_match_x("","sqm_log_level", "0","selected"); %>>silent</option>
+									<option value="1" <% nvram_match_x("","sqm_log_level", "1","selected"); %>>error</option>
+									<option value="2" <% nvram_match_x("","sqm_log_level", "2","selected"); %>>warn</option>
+									<option value="5" <% nvram_match_x("","sqm_log_level", "5","selected"); %>>info (*)</option>
+									<option value="8" <% nvram_match_x("","sqm_log_level", "8","selected"); %>>debug</option>
+									<option value="10" <% nvram_match_x("","sqm_log_level", "10","selected"); %>>trace</option>
 								</select>
 							</td>
 							<td>
@@ -286,7 +286,7 @@ function getHash() {
 							<td colspan="3" style="border-top: 0 none;">
 						    	<br/>
 						    	<center>
-								<input class="btn btn-primary" style="width: 219px" type="button" value="<#CTL_apply#>" onclick="applyRule()"/>
+									<input class="btn btn-primary" style="width: 219px" type="button" value="<#CTL_apply#>" onclick="applyRule()"/>
 						    	</center>
 							</td>
 						</tr>
