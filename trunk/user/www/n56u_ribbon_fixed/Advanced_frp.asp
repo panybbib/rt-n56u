@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><#Web_Title#> - 内网穿透</title>
+<title><#Web_Title#> - Frp内网穿透</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
@@ -18,8 +18,10 @@
 <script type="text/javascript" src="/state.js"></script>
 <script type="text/javascript" src="/general.js"></script>
 <script type="text/javascript" src="/itoggle.js"></script>
+<script type="text/javascript" src="/client_function.js"></script>
 <script type="text/javascript" src="/popup.js"></script>
 <script type="text/javascript" src="/help.js"></script>
+<script type="text/javascript" src="/help_b.js"></script>
 <script>
 var $j = jQuery.noConflict();
 <% frpc_status(); %>
@@ -37,13 +39,21 @@ $j(document).ready(function() {
 
 function initial(){
 	show_banner(2);
-	show_menu(5,17);
+	show_menu(5,17,0);
+	showmenu();
 	show_footer();
 
-fill_status(frpc_status());
-fill_status2(frps_status());
+	fill_status(frpc_status());
+	fill_status2(frps_status());
 	if (!login_safe())
 		textarea_scripts_enabled(0);
+}
+
+function showmenu(){
+	showhide_div('allink', found_app_aliddns());
+	showhide_div('zelink', found_app_zerotier());
+	showhide_div('dtolink', found_app_ddnsto());
+	showhide_div('wirlink', found_app_wireguard());
 }
 
 function textarea_scripts_enabled(v){
@@ -139,6 +149,25 @@ function done_validating(action){
 						<div class="box well grad_colour_dark_blue">
 							<h2 class="box_head round_top">Frp - 内网穿透</h2>
 							<div class="round_bottom">
+							<div>
+							    <ul class="nav nav-tabs" style="margin-bottom: 10px;">
+								<li id="allink" style="display:none">
+								    <a href="Advanced_aliddns.asp"><#menu5_23_1#></a>
+								</li>
+								<li id="zelink" style="display:none">
+								    <a href="Advanced_zerotier.asp"><#menu5_32_1#></a>
+								</li>
+								<li id="dtolink" style="display:none">
+								    <a href="Advanced_ddnsto.asp"><#menu5_32_2#></a>
+								</li>
+								<li id="wirlink" style="display:none">
+								    <a href="Advanced_wireguard.asp"><#menu5_32_3#></a>
+								</li>
+								<li class="active">
+								    <a href="Advanced_frp.asp"><#menu5_34_1#></a>
+								</li>
+							    </ul>
+							</div>
 								<div class="row-fluid">
 									<div id="tabMenu" class="submenuBlock"></div>
 									<div class="alert alert-info" style="margin: 10px;">frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp 协议，为 http 和 https 应用协议提供了额外的能力，且尝试性支持了点对点穿透。

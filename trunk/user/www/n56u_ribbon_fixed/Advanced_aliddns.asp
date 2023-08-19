@@ -50,6 +50,7 @@ function showmenu(){
 	showhide_div('dtolink', found_app_ddnsto());
 	showhide_div('zelink', found_app_zerotier());
 	showhide_div('wirlink', found_app_wireguard());
+	showhide_div('frplink', found_app_frp());
 }
 
 function textarea_scripts_enabled(v){
@@ -152,7 +153,10 @@ function change_aliddns_enable_bridge(mflag){
 								    <a href="Advanced_ddnsto.asp"><#menu5_32_2#></a>
 								</li>
 								<li id="wirlink" style="display:none">
-								    <a href="Advanced_wireguard.asp"><#menu5_35_1#></a>
+								    <a href="Advanced_wireguard.asp"><#menu5_32_3#></a>
+								</li>
+								<li id="frplink" style="display:none">
+								    <a href="Advanced_frp.asp"><#menu5_34_1#></a>
 								</li>
 							    </ul>
 							</div>

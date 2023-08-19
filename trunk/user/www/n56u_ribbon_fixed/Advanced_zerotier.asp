@@ -57,9 +57,10 @@ function initial(){
 }
 
 function showmenu(){
-showhide_div('allink', found_app_aliddns());
-showhide_div('dtolink', found_app_ddnsto());
-showhide_div('wirlink', found_app_wireguard());
+	showhide_div('allink', found_app_aliddns());
+	showhide_div('dtolink', found_app_ddnsto());
+	showhide_div('wirlink', found_app_wireguard());
+	showhide_div('frplink', found_app_frp());
 }
 function applyRule(){
 //	if(validForm()){
@@ -215,6 +216,9 @@ function showMRULESList(){
 								<li id="wirlink" style="display:none">
 								    <a href="Advanced_wireguard.asp"><#menu5_32_3#></a>
 								</li>
+								<li id="frplink" style="display:none">
+								    <a href="Advanced_frp.asp"><#menu5_34_1#></a>
+								</li>
 							    </ul>
 							</div>
 								<div class="row-fluid">
@@ -231,7 +235,7 @@ function showMRULESList(){
 										<tr>
 											<th width="30%" style="border-top: 0 none;">启用ZeroTier客户端</th>
 											<td style="border-top: 0 none;">
-													<div class="main_itoggle">
+												<div class="main_itoggle">
 													<div id="zerotier_enable_on_of">
 														<input type="checkbox" id="zerotier_enable_fake" <% nvram_match_x("", "zerotier_enable", "1", "value=1 checked"); %><% nvram_match_x("", "zerotier_enable", "0", "value=0"); %>  />
 													</div>

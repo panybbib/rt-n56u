@@ -24,6 +24,7 @@
 <script>
 var $j = jQuery.noConflict();
 <% sqm_status(); %>
+
 $j(document).ready(function() {
 	init_itoggle('sqm_enable');
 	init_itoggle('sqm_active');
@@ -106,6 +107,7 @@ function getHash() {
 			</div>
 		</div>
 	</div>
+
 	<div id="Loading" class="popup_bg"></div>
 
 	<iframe name="hidden_frame" id="hidden_frame" src="" width="0" height="0" frameborder="0"></iframe>
@@ -157,6 +159,7 @@ function getHash() {
 								通过SQM_QoS您可以：对指定接口流量整形,例如自定义5G访客网络。其他接口如5G主接口不会受到影响。</br>
 								访客网络接口名称视机型而定，5G访客：ra1(或rai1） 2.4G访客rax1(或ra1)。
 							</div>
+						</div>
 
 					<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table" style="margin-top: 10px;">
 						<tr style="display:none;">
@@ -170,10 +173,10 @@ function getHash() {
 
 						<tr>
 						<th>启用SQM</th>
-							<td colspan="2">
+							<td>
 								<div class="main_itoggle">
 									<div id="sqm_enable_on_of">
-										<input type="checkbox" id="sqm_enable_fake" <% nvram_match_x("", "sqm_enable", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_enable", "0", "value=0"); %> />
+										<input type="checkbox" id="sqm_enable_fake" <% nvram_match_x("", "sqm_enable", "1", "value=1 checked"); %><% nvram_match_x("", "sqm_enable", "0", "value=0"); %>  />
 									</div>
 								</div>
 								<div style="position: absolute; margin-left: -10000px;">

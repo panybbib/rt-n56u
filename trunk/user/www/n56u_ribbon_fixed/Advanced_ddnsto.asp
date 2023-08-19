@@ -48,6 +48,7 @@ function showmenu(){
 	showhide_div('allink', found_app_aliddns());
 	showhide_div('zelink', found_app_zerotier());
 	showhide_div('wirlink', found_app_wireguard());
+	showhide_div('frplink', found_app_frp());
 }
 
 function fill_status(status_code){
@@ -139,6 +140,9 @@ function done_validating(action){
 								</li>
 								<li id="wirlink" style="display:none">
 								    <a href="Advanced_wireguard.asp"><#menu5_32_3#></a>
+								</li>
+								<li id="frplink" style="display:none">
+								    <a href="Advanced_frp.asp"><#menu5_34_1#></a>
 								</li>
 							    </ul>
 							</div>
