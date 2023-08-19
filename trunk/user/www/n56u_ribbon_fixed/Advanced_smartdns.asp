@@ -69,7 +69,7 @@ if(m_list.length > 0){
 }
 function initial(){
 	show_banner(2);
-	show_menu(5,21);
+	show_menu(5,16);
 	show_footer();
 	showTab(getHash());
 	showMRULESList();

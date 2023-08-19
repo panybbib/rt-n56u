@@ -24,7 +24,7 @@
 <script>
 var $j = jQuery.noConflict();
 <% sqm_status(); %>
-$j(document).ready(function () {
+$j(document).ready(function() {
 	init_itoggle('sqm_enable');
 	init_itoggle('sqm_active');
 	init_itoggle('sqm_down_speed');
@@ -34,10 +34,12 @@ $j(document).ready(function () {
 	init_itoggle('sqm_qdisc');
 	init_itoggle('sqm_script');
 });
+</script>
 
+<script>
 function initial() {
 	show_banner(2);
-	show_menu(5, 19);
+	show_menu(5,20);
 	show_footer();
 	fill_sqm_status(sqm_status());
 	showTab(getHash());

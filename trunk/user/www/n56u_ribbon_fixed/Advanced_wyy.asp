@@ -50,7 +50,7 @@ var clients_info = getclients(1,0);
 var isMenuopen = 0;
 function initial(){
 	show_banner(2);
-	show_menu(5,20,0);
+	show_menu(5,19,0);
 
 	show_footer();
 	showMDHCPList();
