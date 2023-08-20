@@ -442,8 +442,10 @@ EOF
 		fi
 		# dnsmasq optimization
 		sed -i '/min-cache-ttl/d' /etc/storage/dnsmasq/dnsmasq.conf
+		sed -i '/dns-forward-max/d' /etc/storage/dnsmasq/dnsmasq.conf
 		cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
 min-cache-ttl=1800
+dns-forward-max=1024
 EOF
 		# restart dnsmasq
 		killall dnsmasq
