@@ -334,7 +334,8 @@ start_redir_udp() {
 	#return $?
 
 sdns_on () {
-if [ "$(nvram get sdns_enable)" = 1 ]; then
+if [ -z "$(pidof smartdns)" ]; then
+	if [ "$(nvram get sdns_enable)" = 1 ]; then
 	sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sdns_port=`nvram get sdns_port`
@@ -345,6 +346,7 @@ EOF
 	logger -t "SmartDNS" "添加DNS转发到$sdns_port端口"
 	[ "$(nvram get sdns_enable)" = 1 ] && /usr/bin/smartdns.sh restart
 	[ "$(nvram get adg_enable)" = 1 ] && /usr/bin/adguardhome.sh dnss
+	fi
 fi
 }
 
@@ -601,11 +603,11 @@ EOF
 
 # ================================= 启动 SS ===============================
 ssp_start() { 
-    ss_enable=`nvram get ss_enable`
+	ss_enable=`nvram get ss_enable`
 	if rules; then
 		if start_redir_tcp; then
 			start_redir_udp
-        	#start_rules
+			#start_rules
 			#start_AD
 			start_dns
 		fi
@@ -638,7 +640,7 @@ ssp_close() {
 	fi
 	clear_iptable
 	/sbin/restart_dhcpd
-	[ -z "$(pidof smartdns)" ] && sdns_on
+	sdns_on
 }
 
 
