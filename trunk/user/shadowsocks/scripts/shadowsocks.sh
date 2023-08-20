@@ -393,7 +393,7 @@ stop_dns_proxy() {
 }
 
 start_dns_proxy() {
-	pdnsd_enable=$(nvram get pdnsd_enable) # 1: dnsproxy , 2: dns2tcp
+	pdnsd_enable="$(nvram get pdnsd_enable)" # 1: dnsproxy , 2: dns2tcp
 	pdnsd_enable_flag=$pdnsd_enable
 	dnsstr="$(nvram get tunnel_forward)"
 	dnsserver=$(echo "$dnsstr" | awk -F '#' '{print $1}')
@@ -453,7 +453,7 @@ EOF
 	#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
   	case "$run_mode" in
 	router)
-		if [ $(nvram get pdnsd_enable) != 0 ]; then
+		if [ "$(nvram get pdnsd_enable)" != 0 ]; then
 		sdns_off
 		# 不论chinadns-ng打开与否，都重启dns_proxy 
 		# 原因是针对gfwlist ipset有一个专有的dnsmasq配置表（由ss-rule创建放在/tmp/dnsmasq.dom/gfwlist_list.conf)
@@ -466,7 +466,7 @@ EOF
 		fi
 	;;
 	gfw)
-		if [ $(nvram get pdnsd_enable) != 0 ]; then
+		if [ "$(nvram get pdnsd_enable)" != 0 ]; then
 		sdns_off
 		ipset add gfwlist $dnsserver 2>/dev/null
 		stop_dns_proxy
