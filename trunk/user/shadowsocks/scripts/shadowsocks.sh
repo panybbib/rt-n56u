@@ -638,7 +638,7 @@ ssp_close() {
 	fi
 	clear_iptable
 	/sbin/restart_dhcpd
-	sdns_on
+	[ -z "$(pidof smartdns)" ] && sdns_on
 }
 
 
