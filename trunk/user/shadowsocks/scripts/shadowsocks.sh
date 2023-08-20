@@ -334,7 +334,7 @@ start_redir_udp() {
 	#return $?
 
 sdns_on () {
-if [ $(nvram get sdns_enable) = 1 ]; then
+if [ "$(nvram get sdns_enable)" = 1 ]; then
 	sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sed -i '/server=127.0.0.1/d' /etc/storage/dnsmasq/dnsmasq.conf
 	sdns_port=`nvram get sdns_port`
@@ -343,6 +343,7 @@ no-resolv
 server=127.0.0.1#$sdns_port
 EOF
 	logger -t "SmartDNS" "添加DNS转发到$sdns_port端口"
+	[ "$(nvram get sdns_enable)" = 1 ] && /usr/bin/smartdns.sh restart
 	[ "$(nvram get adg_enable)" = 1 ] && /usr/bin/adguardhome.sh dnss
 fi
 }
@@ -452,7 +453,6 @@ EOF
 	#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
   	case "$run_mode" in
 	router)
- 		ipset add gfwlist $dnsserver 2>/dev/null
 		if [ $(nvram get pdnsd_enable) != 0 ]; then
 		sdns_off
 		# 不论chinadns-ng打开与否，都重启dns_proxy 
@@ -461,14 +461,21 @@ EOF
 		stop_dns_proxy
 		start_dns_proxy
 		start_chinadns
+		else
+		sdns_on
 		fi
 	;;
 	gfw)
+		if [ $(nvram get pdnsd_enable) != 0 ]; then
+		sdns_off
 		ipset add gfwlist $dnsserver 2>/dev/null
 		stop_dns_proxy
 		start_dns_proxy
 		start_chinadns
 		log "开始处理 gfwlist..."
+		else
+		sdns_on
+		fi
 	;;
 	oversea)
 		ipset add gfwlist $dnsserver 2>/dev/null
