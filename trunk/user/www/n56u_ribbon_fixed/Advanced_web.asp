@@ -25,7 +25,7 @@
 var $j = jQuery.noConflict();
 
 $j(document).ready(function() {
-    init_itoggle('w_ai');
+	init_itoggle('w_ai');
 	init_itoggle('w_vpn_s');
 	init_itoggle('w_vpn_c');
 	init_itoggle('w_wnet');

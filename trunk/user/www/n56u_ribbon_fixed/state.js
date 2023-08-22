@@ -1505,6 +1505,7 @@ var w_dnsf = '<% nvram_get_x("", "w_dnsf"); %>';
 var w_ss = '<% nvram_get_x("", "w_ss"); %>';
 var w_men = '<% nvram_get_x("", "w_men"); %>';
 var w_adbyby = '<% nvram_get_x("", "w_adbyby"); %>';
+var w_pdnsd = '<% nvram_get_x("", "w_pdnsd"); %>';
 
 if (w_ai==0){
 	menuL1_link[2] = "";
@@ -1557,6 +1558,10 @@ if (w_men==0){
 if (w_adbyby==0){
 	menuL2_link[15] = "";
 	menuL2_title[15] = "";
+}
+if (w_pdnsd==0){
+	menuL2_link[16] = "";
+	menuL2_title[16] = "";
 }
 
 (function($){
