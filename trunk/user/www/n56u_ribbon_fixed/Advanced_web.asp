@@ -308,7 +308,7 @@ function applyRule(){
 											</td>
 										</tr>
 										<tr id="row_wpdnsd" style="display:none">
-											<th width="50%" >DNS加速</th>
+											<th width="50%" >DNS服务</th>
 											<td>
 													<div class="main_itoggle">
 													<div id="w_pdnsd_on_of">
