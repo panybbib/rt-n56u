@@ -404,11 +404,13 @@ start_dns_proxy() {
 	    log "启动 dns2tcp：5353 端口..."
 		# 将dnsserver (上游国外DNS: 比如 8.8.8.8) 放入ipset:gfwlist，强制走SS_SPEC_WAN_FW代理
 		ipset add gfwlist $dnsserver 2>/dev/null
+		log "处理 gfwlist..."
 		dns2tcp -L"127.0.0.1#5353" -R"$dnsserver" >/dev/null 2>&1 &
 	elif [ $pdnsd_enable = 1 ]; then
 		log "启动 dnsproxy：5353 端口..."
 		# 将dnsserver (上游国外DNS: 比如 8.8.8.8) 放入ipset:gfwlist，强制走SS_SPEC_WAN_FW代理
 		ipset add gfwlist $dnsserver 2>/dev/null
+		log "处理 gfwlist..."
 		dnsproxy -d -p 5353 -R $dnsserver >/dev/null 2>&1 &
 	else
 		log "DNS解析方式不支持该选项: $pdnsd_enable , 请手动选择其他DNS"
@@ -416,22 +418,17 @@ start_dns_proxy() {
 }
 
 start_dns() {
-	echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
-	awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
-	ipset -! flush china
-	ipset -! restore </tmp/china.ipset 2>/dev/null
-	rm -f /tmp/china.ipset
 	start_chinadns() {
 		ss_chdns=$(nvram get ss_chdns)
 		if [ $ss_chdns = 1 ]; then
 			chinadnsng_enable_flag=1
 			local_chnlist_file='/etc/storage/chinadns/chnlist_mini.txt'
 			if [ -f "$local_chnlist_file" ]; then
-			  log "启动chinadns分流，仅国外域名走DNS代理..."
-			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china -M -m $local_chnlist_file >/dev/null 2>&1 &
+				log "启动chinadns分流，仅国外域名走DNS代理..."
+				chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china -M -m $local_chnlist_file >/dev/null 2>&1 &
 			else
-			  log "启动chinadns分流，全部域名走DNS代理...本次不使用本地cdn域名文件$local_chnlist_file, 下次可以自已创建，文件中每行表示一个域名（不用要子域名）"
-			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china >/dev/null 2>&1 &
+				log "启动chinadns分流，全部域名走DNS代理...本次不使用本地cdn域名文件$local_chnlist_file, 下次可以自已创建，文件中每行表示一个域名（不用要子域名）"
+				chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china >/dev/null 2>&1 &
 			fi
 			# adding upstream chinadns-ng 
 			sed -i '/no-resolv/d' /etc/storage/dnsmasq/dnsmasq.conf
@@ -458,6 +455,11 @@ EOF
 	#dnsport=$(echo "$dnsstr" | awk -F '#' '{print $2}')
   	case "$run_mode" in
 	router)
+		echo "create china hash:net family inet hashsize 1024 maxelem 65536" >/tmp/china.ipset
+		awk '!/^$/&&!/^#/{printf("add china %s'" "'\n",$0)}' /etc/storage/chinadns/chnroute.txt >>/tmp/china.ipset
+		ipset -! flush china
+		ipset -! restore </tmp/china.ipset 2>/dev/null
+		rm -f /tmp/china.ipset
 		if [ "$(nvram get pdnsd_enable)" != 0 ]; then
 		sdns_off
 		# 不论chinadns-ng打开与否，都重启dns_proxy 
@@ -473,11 +475,9 @@ EOF
 	gfw)
 		if [ "$(nvram get pdnsd_enable)" != 0 ]; then
 		sdns_off
-		ipset add gfwlist $dnsserver 2>/dev/null
 		stop_dns_proxy
 		start_dns_proxy
-		start_chinadns
-		log "开始处理 gfwlist..."
+		#start_chinadns
 		else
 		sdns_on
 		fi
