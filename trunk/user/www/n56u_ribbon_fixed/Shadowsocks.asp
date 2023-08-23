@@ -1733,13 +1733,13 @@
 														</td>
 													</tr>
 													<tr id="row_pdnsd_enable">
-														<th width="50%">DNS解析方式（用于gfw及绕过大陆IP模式）</th>
+														<th width="50%">DNS解析方式(内置解析仅用于gfw及绕过大陆IP模式)</th>
 														<td>
 															<select name="pdnsd_enable" id="pdnsd_enable" class="input"
 																style="width: 200px;" onchange="switch_dns()">
 																<option value="1">使用dnsproxy查询</option>
 																<option value="2">使用dns2tcp查询</option>
-																<option value="0">手动设置服务器查询</option>
+																<option value="0">手动设置外部解析方式</option>
 															</select>
 														</td>
 													</tr>
