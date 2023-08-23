@@ -1733,7 +1733,7 @@
 														</td>
 													</tr>
 													<tr id="row_pdnsd_enable">
-														<th width="50%">DNS解析方式</th>
+														<th width="50%">DNS解析方式（用于gfw及绕过大陆IP模式）</th>
 														<td>
 															<select name="pdnsd_enable" id="pdnsd_enable" class="input"
 																style="width: 200px;" onchange="switch_dns()">
