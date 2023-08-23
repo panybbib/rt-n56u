@@ -124,7 +124,8 @@ gen_config_file() {
 				else
 					log "v2ray二进制文件下载失败，可能是地址失效或者网络异常！"
 					rm -f $v2ray_local
-					ssp_close && exit 1
+					ssp_close
+					nvram set ss_enable=0 && exit 1
 				fi
 			fi
 		fi
@@ -429,7 +430,7 @@ start_dns() {
 			  log "启动chinadns分流，仅国外域名走DNS代理..."
 			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china -M -m $local_chnlist_file >/dev/null 2>&1 &
 			else
-			  log "启动chinadns分流，全部域名走DNS代理...本次不使用本地cdn域名文件$local_chnlist_file, 下次你自已可以创建它，文件中每行表示一个域名（不用要子域名）"
+			  log "启动chinadns分流，全部域名走DNS代理...本次不使用本地cdn域名文件$local_chnlist_file, 下次可以自已创建，文件中每行表示一个域名（不用要子域名）"
 			  chinadns-ng -b 0.0.0.0 -l 65353 -c $(nvram get china_dns) -t 127.0.0.1#5353 -4 china >/dev/null 2>&1 &
 			fi
 			# adding upstream chinadns-ng 
