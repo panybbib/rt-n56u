@@ -1,4 +1,4 @@
-SRC_NAME := v2ray-5.7.0
+SRC_NAME := v2ray-core-5.7.0
 SRC_URL := https://github.com/v2fly/v2ray-core/archive/refs/tags/v5.7.0.tar.gz
 
 THISDIR = $(shell pwd)
