@@ -26,4 +26,4 @@ clean:
 	rm -f v2ray
 
 romfs:
-	$(ROMFSINST) -p +x $(THISDIR)/v2ray /usr/bin/v2ray
+	$(ROMFSINST) -p +x $(THISDIR)/bin/v2ray /usr/bin/v2ray
