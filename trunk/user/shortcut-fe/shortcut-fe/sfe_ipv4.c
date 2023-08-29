@@ -3594,4 +3594,3 @@ EXPORT_SYMBOL(sfe_unregister_flow_cookie_cb);
 
 MODULE_DESCRIPTION("Shortcut Forwarding Engine - IPv4 edition");
 MODULE_LICENSE("Dual BSD/GPL");
-

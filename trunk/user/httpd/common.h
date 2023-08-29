@@ -178,7 +178,7 @@ typedef u_int8_t u8;
 #define EVT_RESTART_DDNSTO      	2
 #define EVT_RESTART_ALDRIVER     	2
 #define EVT_RESTART_WIREGUARD     	2
-#define EVT_RESTART_SQM		2
+#define EVT_RESTART_SQM				2
 #define EVT_RESTART_REBOOT			40
 
 struct variable

@@ -13,7 +13,7 @@ redir_tcp_process=$2
 redir_udp_process=$3
 tunnel_process=$4
 trojan_process=$5
-v2ray_process=$6
+xray_process=$6
 local_process=$7
 pdnsd_process=$8
 chinadnsng_process=$9
@@ -98,7 +98,7 @@ do
 		fi   
 	fi
 	#V2RAY/XRAY
-	if [ $v2ray_process -gt 0 ]; then
+	if [ $xray_process -gt 0 ]; then
 		bin=$(nvram get d_type)
 		bin2=$(echo -e "v2ray\nxray" | grep -v $bin)
 		if [ -f "/usr/bin/$bin" ]; then
@@ -107,11 +107,11 @@ do
 		elif [ -f "/usr/bin/$bin2" ]; then
 			icount=`ps -w | grep $bin2 | grep -v grep | wc -l` && bin="$bin2"
 			bing="/usr/bin/$bin2"
-		elif [ -s "$(nvram get v2_local)" ]; then
-			icount=`ps -w | grep v2ray | grep -v grep | wc -l` && bin="v2ray"
-			bing=`nvram get v2_local`
+		elif [ -s "$(nvram get xray_local)" ]; then
+			icount=`ps -w | grep xray | grep -v grep | wc -l` && bin="xray"
+			bing=`nvram get xray_local`
 		fi
-		if [ $icount -lt $v2ray_process ]; then  #如果进程挂掉就重启它
+		if [ $icount -lt $xray_process ]; then  #如果进程挂掉就重启它
 			log "检测到 $bin 进程挂掉，重新启动!"
 			killall -q -9 $bin		
 			$bing -config /tmp/v2-redir.json >/dev/null 2>&1 &

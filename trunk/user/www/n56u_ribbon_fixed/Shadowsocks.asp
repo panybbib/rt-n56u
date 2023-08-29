@@ -76,18 +76,18 @@
 					document.getElementById('s5_aut').value = 0;
 				}
 			});
-			$j("#v2_tls").change(function () {
-				if ($j("#v2_tls").val() != '0') {
+			$j("#xray_tls").change(function () {
+				if ($j("#xray_tls").val() != '0') {
 					showhide_div('row_tj_tls_host', 1);
 				} else {
 					showhide_div('row_tj_tls_host', 0);
 				}
 			});
-			$j("#v2_mux").change(function () {
-				if ($j("#v2_mux").is(':checked')) {
-					document.getElementById('v2_mux').value = 1;
+			$j("#xray_mux").change(function () {
+				if ($j("#xray_mux").is(':checked')) {
+					document.getElementById('xray_mux').value = 1;
 				} else {
-					document.getElementById('v2_mux').value = 0;
+					document.getElementById('xray_mux').value = 0;
 				}
 			});
 			$j("#ssp_insecure").change(function () {
@@ -203,32 +203,32 @@
 			showhide_div('row_ss_protocol', 0);
 			showhide_div('row_ssp_insecure', 0);
 			showhide_div('row_tj_tls_host', 0);
-			showhide_div('row_v2_aid', 0);
-			showhide_div('row_v2_http2_host', 0);
-			showhide_div('row_v2_http2_path', 0);
-			showhide_div('row_v2_mkcp_congestion', 0);
-			showhide_div('row_v2_mkcp_downlink', 0);
-			showhide_div('row_v2_mkcp_mtu', 0);
-			showhide_div('row_v2_mkcp_readbu', 0);
-			showhide_div('row_v2_mkcp_tti', 0);
-			showhide_div('row_v2_mkcp_uplink', 0);
-			showhide_div('row_v2_mkcp_writebu', 0);
-			showhide_div('row_v2_mux', 0);
-			showhide_div('row_v2_net', 0);
-			showhide_div('row_v2_security', 0);
-			showhide_div('row_v2_tls', 0);
-			showhide_div('row_v2_flow', 0);
-			showhide_div('row_v2_type_tcp', 0);
-			showhide_div('row_v2_type', 0);
-			showhide_div('row_v2_vid', 0);
-			showhide_div('row_v2_webs_host', 0);
-			showhide_div('row_v2_webs_path', 0);
-			showhide_div('row_v2_grpc_path', 0);
+			showhide_div('row_xray_aid', 0);
+			showhide_div('row_xray_http2_host', 0);
+			showhide_div('row_xray_http2_path', 0);
+			showhide_div('row_xray_mkcp_congestion', 0);
+			showhide_div('row_xray_mkcp_downlink', 0);
+			showhide_div('row_xray_mkcp_mtu', 0);
+			showhide_div('row_xray_mkcp_readbu', 0);
+			showhide_div('row_xray_mkcp_tti', 0);
+			showhide_div('row_xray_mkcp_uplink', 0);
+			showhide_div('row_xray_mkcp_writebu', 0);
+			showhide_div('row_xray_mux', 0);
+			showhide_div('row_xray_net', 0);
+			showhide_div('row_xray_security', 0);
+			showhide_div('row_xray_tls', 0);
+			showhide_div('row_xray_flow', 0);
+			showhide_div('row_xray_type_tcp', 0);
+			showhide_div('row_xray_type', 0);
+			showhide_div('row_xray_vid', 0);
+			showhide_div('row_xray_webs_host', 0);
+			showhide_div('row_xray_webs_path', 0);
+			showhide_div('row_xray_grpc_path', 0);
 			showhide_div('row_s5_enable', 0);
 			showhide_div('row_s5_username', 0);
 			showhide_div('row_s5_password', 0);
-			showhide_div('row_v2_http_host', 0);
-			showhide_div('row_v2_http_path', 0);
+			showhide_div('row_xray_http_host', 0);
+			showhide_div('row_xray_http_path', 0);
 			var b = document.form.ssp_type.value;
 			if (b == "ss") {
 				showhide_div('row_ss_password', 1);
@@ -244,19 +244,19 @@
 				showhide_div('row_ss_method', 1);
 			} else if (b == "trojan") {
 				showhide_div('row_ss_password', 1);
-				//showhide_div('row_v2_tls', 1);
+				//showhide_div('row_xray_tls', 1);
 				showhide_div('row_tj_tls_host', 1);
 				showhide_div('row_ssp_insecure', 1);
 			} else if (b == "v2ray" || b == "xray") {
-				switch_v2_type();
-				showhide_div('row_v2_aid', 1);
-				showhide_div('row_v2_vid', 1);
-				showhide_div('row_v2_security', 1);
-				showhide_div('row_v2_net', 1);
-				showhide_div('row_v2_type', 1);
-				showhide_div('row_v2_tls', 1);
-				showhide_div('row_v2_flow', 1);
-				showhide_div('row_v2_mux', 1);
+				switch_xray_type();
+				showhide_div('row_xray_aid', 1);
+				showhide_div('row_xray_vid', 1);
+				showhide_div('row_xray_security', 1);
+				showhide_div('row_xray_net', 1);
+				showhide_div('row_xray_type', 1);
+				showhide_div('row_xray_tls', 1);
+				showhide_div('row_xray_flow', 1);
+				showhide_div('row_xray_mux', 1);
 				showhide_div('row_tj_tls_host', 1);
 				showhide_div('row_ssp_insecure', 1);
 			} else if (b == "socks5") {
@@ -265,51 +265,51 @@
 				showhide_div('row_s5_password', 1);
 			}
 		}
-		function switch_v2_type() {
+		function switch_xray_type() {
 			showhide_div('row_quic_header', 0);
 			showhide_div('row_quic_key', 0);
 			showhide_div('row_quic_security', 0);
-			showhide_div('row_v2_http_host', 0);
-			showhide_div('row_v2_http_path', 0);
-			showhide_div('row_v2_http2_host', 0);
-			showhide_div('row_v2_http2_path', 0);
-			showhide_div('row_v2_mkcp_congestion', 0);
-			showhide_div('row_v2_mkcp_downlink', 0);
-			showhide_div('row_v2_mkcp_mtu', 0);
-			showhide_div('row_v2_mkcp_readbu', 0);
-			showhide_div('row_v2_mkcp_tti', 0);
-			showhide_div('row_v2_mkcp_uplink', 0);
-			showhide_div('row_v2_mkcp_writebu', 0);
-			showhide_div('row_v2_type_tcp', 0);
-			showhide_div('row_v2_type', 0);
-			showhide_div('row_v2_webs_host', 0);
-			showhide_div('row_v2_webs_path', 0);
-			showhide_div('v2_kcp_guise', 0);
-			showhide_div('v2_tcp_guise', 0);
-			var b = document.form.v2_transport.value;
+			showhide_div('row_xray_http_host', 0);
+			showhide_div('row_xray_http_path', 0);
+			showhide_div('row_xray_http2_host', 0);
+			showhide_div('row_xray_http2_path', 0);
+			showhide_div('row_xray_mkcp_congestion', 0);
+			showhide_div('row_xray_mkcp_downlink', 0);
+			showhide_div('row_xray_mkcp_mtu', 0);
+			showhide_div('row_xray_mkcp_readbu', 0);
+			showhide_div('row_xray_mkcp_tti', 0);
+			showhide_div('row_xray_mkcp_uplink', 0);
+			showhide_div('row_xray_mkcp_writebu', 0);
+			showhide_div('row_xray_type_tcp', 0);
+			showhide_div('row_xray_type', 0);
+			showhide_div('row_xray_webs_host', 0);
+			showhide_div('row_xray_webs_path', 0);
+			showhide_div('xray_kcp_guise', 0);
+			showhide_div('xray_tcp_guise', 0);
+			var b = document.form.xray_transport.value;
 			if (b == "tcp") {
-				showhide_div('row_v2_type', 1);
-				showhide_div('v2_tcp_guise', 1);
-				showhide_div('row_v2_http_host', 1);
-				showhide_div('row_v2_http_path', 1);
+				showhide_div('row_xray_type', 1);
+				showhide_div('xray_tcp_guise', 1);
+				showhide_div('row_xray_http_host', 1);
+				showhide_div('row_xray_http_path', 1);
 			} else if (b == "kcp") {
-				showhide_div('row_v2_type', 1);
-				showhide_div('v2_kcp_guise', 1);
-				showhide_div('row_v2_mkcp_mtu', 1);
-				showhide_div('row_v2_mkcp_tti', 1);
-				showhide_div('row_v2_mkcp_uplink', 1);
-				showhide_div('row_v2_mkcp_downlink', 1);
-				showhide_div('row_v2_mkcp_readbu', 1);
-				showhide_div('row_v2_mkcp_writebu', 1);
-				showhide_div('row_v2_mkcp_congestion', 1);
+				showhide_div('row_xray_type', 1);
+				showhide_div('xray_kcp_guise', 1);
+				showhide_div('row_xray_mkcp_mtu', 1);
+				showhide_div('row_xray_mkcp_tti', 1);
+				showhide_div('row_xray_mkcp_uplink', 1);
+				showhide_div('row_xray_mkcp_downlink', 1);
+				showhide_div('row_xray_mkcp_readbu', 1);
+				showhide_div('row_xray_mkcp_writebu', 1);
+				showhide_div('row_xray_mkcp_congestion', 1);
 			} else if (b == "ws") {
-				showhide_div('row_v2_webs_host', 1);
-				showhide_div('row_v2_webs_path', 1);
+				showhide_div('row_xray_webs_host', 1);
+				showhide_div('row_xray_webs_path', 1);
 			} else if (b == "grpc") {
-				showhide_div('row_v2_grpc_path', 1);
+				showhide_div('row_xray_grpc_path', 1);
 			} else if (b == "h2") {
-				showhide_div('row_v2_http2_host', 1);
-				showhide_div('row_v2_http2_path', 1);
+				showhide_div('row_xray_http2_host', 1);
+				showhide_div('row_xray_http2_path', 1);
 			} else if (b == "quic") {
 				showhide_div('row_quic_security', 1);
 				showhide_div('row_quic_key', 1);
@@ -716,42 +716,42 @@
 			document.getElementById("ss_protocol_param").value = '';
 			document.getElementById("ss_obfs").value = 'plain';
 			document.getElementById("ss_obfs_param").value = '';
-			//v2
+			//xray
 			document.getElementById("ssp_insecure").value = 0;
 			document.getElementById("ssp_insecure").checked = false;
-			document.getElementById("v2_mux").value = 0;
-			document.getElementById("v2_mux").checked = false;
-			document.getElementById("v2_security").value = 'none';
-			document.getElementById("v2_vmess_id").value = '';
-			document.getElementById("v2_alter_id").value = '';
-			document.getElementById("v2_transport").value = 'tcp';
-			document.getElementById("v2_tcp_guise").value = 'none';
-			document.getElementById("v2_tls").value = '0';
-			document.getElementById("v2_flow").value = '0';
-			document.getElementById("v2_http_host").value = '';
-			document.getElementById("v2_http_path").value = '/';
-			//document.getElementById("v2_tls").checked = false;
+			document.getElementById("xray_mux").value = 0;
+			document.getElementById("xray_mux").checked = false;
+			document.getElementById("xray_security").value = 'none';
+			document.getElementById("xray_vmess_id").value = '';
+			document.getElementById("xray_alter_id").value = '';
+			document.getElementById("xray_transport").value = 'tcp';
+			document.getElementById("xray_tcp_guise").value = 'none';
+			document.getElementById("xray_tls").value = '0';
+			document.getElementById("xray_flow").value = '0';
+			document.getElementById("xray_http_host").value = '';
+			document.getElementById("xray_http_path").value = '/';
+			//document.getElementById("xray_tls").checked = false;
 			document.getElementById("ssp_tls_host").value = '';
-			//"v2 tcp"
-			document.getElementById("v2_kcp_guise").value = 'none';
-			document.getElementById("v2_mtu").value = '';
-			document.getElementById("v2_tti").value = '';
-			document.getElementById("v2_uplink_capacity").value = '';
-			document.getElementById("v2_downlink_capacity").value = '';
-			document.getElementById("v2_read_buffer_size").value = '';
-			document.getElementById("v2_write_buffer_size").value = '';
-			//v2 ws
-			document.getElementById("v2_ws_host").value = '';
-			document.getElementById("v2_ws_path").value = '';
-			//v2 grpc
-			document.getElementById("v2_grpc_path").value = '';
-			//v2 h2
-			document.getElementById("v2_h2_host").value = '';
-			document.getElementById("v2_h2_path").value = '';
-			//v2 quic
-			document.getElementById("v2_quic_key").value = '';
-			document.getElementById("v2_quic_guise").value = 'none';
-			document.getElementById("v2_quic_security").value = 'none';
+			//"xray tcp"
+			document.getElementById("xray_kcp_guise").value = 'none';
+			document.getElementById("xray_mtu").value = '';
+			document.getElementById("xray_tti").value = '';
+			document.getElementById("xray_uplink_capacity").value = '';
+			document.getElementById("xray_downlink_capacity").value = '';
+			document.getElementById("xray_read_buffer_size").value = '';
+			document.getElementById("xray_write_buffer_size").value = '';
+			//xray ws
+			document.getElementById("xray_ws_host").value = '';
+			document.getElementById("xray_ws_path").value = '';
+			//xray grpc
+			document.getElementById("xray_grpc_path").value = '';
+			//xray h2
+			document.getElementById("xray_h2_host").value = '';
+			document.getElementById("xray_h2_path").value = '';
+			//xray quic
+			document.getElementById("xray_quic_key").value = '';
+			document.getElementById("xray_quic_guise").value = 'none';
+			document.getElementById("xray_quic_security").value = 'none';
 			//sock5
 			document.getElementById("s5_password").value = '';
 			document.getElementById("s5_username").value = '';
@@ -782,45 +782,45 @@
 				var transport = getProperty(ss, 'transport', 'tcp');
 				document.getElementById("ssp_insecure").value = getProperty(ss, 'insecure', 0);
 				document.getElementById("ssp_insecure").checked = document.getElementById("ssp_insecure").value != 0;
-				document.getElementById("v2_mux").value = getProperty(ss, 'mux', 0);
-				document.getElementById("v2_mux").checked = document.getElementById("v2_mux").value != 0;
-				document.getElementById("v2_security").value = getProperty(ss, 'security', 'auto');
-				document.getElementById("v2_vmess_id").value = getProperty(ss, 'vmess_id', '');
-				document.getElementById("v2_alter_id").value = getProperty(ss, 'alter_id', '');
-				document.getElementById("v2_transport").value = transport;
-				document.getElementById("v2_tcp_guise").value = getProperty(ss, 'tcp_guise', 'none');
-				document.getElementById("v2_http_host").value = getProperty(ss, 'http_host', '');
-				document.getElementById("v2_http_path").value = getProperty(ss, 'http_path', '');
-				document.getElementById("v2_tls").value = getProperty(ss, 'tls', '0');
-				document.getElementById("v2_flow").value = getProperty(ss, 'flow', '0');
-				//document.getElementById("v2_tls").checked =  document.getElementById("v2_tls").value != 0;
+				document.getElementById("xray_mux").value = getProperty(ss, 'mux', 0);
+				document.getElementById("xray_mux").checked = document.getElementById("xray_mux").value != 0;
+				document.getElementById("xray_security").value = getProperty(ss, 'security', 'auto');
+				document.getElementById("xray_vmess_id").value = getProperty(ss, 'vmess_id', '');
+				document.getElementById("xray_alter_id").value = getProperty(ss, 'alter_id', '');
+				document.getElementById("xray_transport").value = transport;
+				document.getElementById("xray_tcp_guise").value = getProperty(ss, 'tcp_guise', 'none');
+				document.getElementById("xray_http_host").value = getProperty(ss, 'http_host', '');
+				document.getElementById("xray_http_path").value = getProperty(ss, 'http_path', '');
+				document.getElementById("xray_tls").value = getProperty(ss, 'tls', '0');
+				document.getElementById("xray_flow").value = getProperty(ss, 'flow', '0');
+				//document.getElementById("xray_tls").checked =  document.getElementById("xray_tls").value != 0;
 				document.getElementById("ssp_tls_host").value = getProperty(ss, 'tls_host', '');
 				if (transport == "kcp") {
-					document.getElementById("v2_kcp_guise").value = getProperty(ss, 'kcp_guise', 'none');
-					document.getElementById("v2_mtu").value = getProperty(ss, 'mtu', '');
-					document.getElementById("v2_tti").value = getProperty(ss, 'tti', '');
-					document.getElementById("v2_uplink_capacity").value = getProperty(ss, 'uplink_capacity', '');
-					document.getElementById("v2_downlink_capacity").value = getProperty(ss, 'downlink_capacity', '');
-					document.getElementById("v2_read_buffer_size").value = getProperty(ss, 'read_buffer_size', '');
-					document.getElementById("v2_write_buffer_size").value = getProperty(ss, 'write_buffer_size', '');
+					document.getElementById("xray_kcp_guise").value = getProperty(ss, 'kcp_guise', 'none');
+					document.getElementById("xray_mtu").value = getProperty(ss, 'mtu', '');
+					document.getElementById("xray_tti").value = getProperty(ss, 'tti', '');
+					document.getElementById("xray_uplink_capacity").value = getProperty(ss, 'uplink_capacity', '');
+					document.getElementById("xray_downlink_capacity").value = getProperty(ss, 'downlink_capacity', '');
+					document.getElementById("xray_read_buffer_size").value = getProperty(ss, 'read_buffer_size', '');
+					document.getElementById("xray_write_buffer_size").value = getProperty(ss, 'write_buffer_size', '');
 				} else if (transport == "ws") {
-					document.getElementById("v2_ws_host").value = getProperty(ss, 'ws_host', '');
-					document.getElementById("v2_ws_path").value = getProperty(ss, 'ws_path', '');
+					document.getElementById("xray_ws_host").value = getProperty(ss, 'ws_host', '');
+					document.getElementById("xray_ws_path").value = getProperty(ss, 'ws_path', '');
 				} else if (transport == "grpc") {
-					document.getElementById("v2_grpc_path").value = getProperty(ss, 'grpc_path', '');
+					document.getElementById("xray_grpc_path").value = getProperty(ss, 'grpc_path', '');
 				} else if (transport == "h2") {
-					document.getElementById("v2_h2_host").value = getProperty(ss, 'h2_host', '');
-					document.getElementById("v2_h2_path").value = getProperty(ss, 'h2_path', '');
+					document.getElementById("xray_h2_host").value = getProperty(ss, 'h2_host', '');
+					document.getElementById("xray_h2_path").value = getProperty(ss, 'h2_path', '');
 				} else if (transport == "quic") {
-					document.getElementById("v2_quic_guise").value = getProperty(ss, 'quic_guise', 'none');
-					document.getElementById("v2_quic_key").value = getProperty(ss, 'quic_key', '');
-					document.getElementById("v2_quic_security").value = getProperty(ss, 'quic_security', 'none');
+					document.getElementById("xray_quic_guise").value = getProperty(ss, 'quic_guise', 'none');
+					document.getElementById("xray_quic_key").value = getProperty(ss, 'quic_key', '');
+					document.getElementById("xray_quic_security").value = getProperty(ss, 'quic_security', 'none');
 				}
 			} else if (type == "trojan") {
 				document.getElementById("ssp_insecure").value = getProperty(ss, 'insecure', 0);
 				document.getElementById("ssp_insecure").checked = document.getElementById("ssp_insecure").value != 0;
-				document.getElementById("v2_tls").value = 1;
-				//document.getElementById("v2_tls").checked = document.getElementById("v2_tls") != 0;
+				document.getElementById("xray_tls").value = 1;
+				//document.getElementById("xray_tls").checked = document.getElementById("xray_tls") != 0;
 				document.getElementById("ssp_tls_host").value = getProperty(ss, 'tls_host', '');
 			} else if (type == "socks5") {
 				//
@@ -1123,7 +1123,7 @@
 				document.getElementById('ssp_server').value = serverPart[0];
 				document.getElementById('ssp_prot').value = port || '443';;
 				document.getElementById('ss_password').value = password;
-				document.getElementById('v2_tls').value = '1';
+				document.getElementById('xray_tls').value = '1';
 				document.getElementById('ssp_tls_host').value = queryParam.sni || '';
 				if (param != undefined) {
 					document.getElementById('ssp_name').value = decodeURI(param);
@@ -1145,42 +1145,42 @@
 				document.getElementById('ssp_name').value = ssm.ps;
 				document.getElementById('ssp_server').value = ssm.add;
 				document.getElementById('ssp_prot').value = ssm.port;
-				document.getElementById('v2_alter_id').value = ssm.aid;
-				document.getElementById('v2_vmess_id').value = ssm.id;
-				document.getElementById('v2_transport').value = ssm.net;
-				document.getElementById('v2_transport').dispatchEvent(event);
+				document.getElementById('xray_alter_id').value = ssm.aid;
+				document.getElementById('xray_vmess_id').value = ssm.id;
+				document.getElementById('xray_transport').value = ssm.net;
+				document.getElementById('xray_transport').dispatchEvent(event);
 				if (ssm.net == "tcp") {
 					if (ssm.type && ssm.type != "http") {
 						ssm.type = "none"
 					}
-					document.getElementById('v2_tcp_guise').value = ssm.type;
-					document.getElementById('v2_http_host').value = ssm.host;
+					document.getElementById('xray_tcp_guise').value = ssm.type;
+					document.getElementById('xray_http_host').value = ssm.host;
 					if (ssm.path != undefined) {
-						document.getElementById('v2_http_path').value = ssm.path;
+						document.getElementById('xray_http_path').value = ssm.path;
 					}
 					else {
-						document.getElementById('v2_http_path').value = '/';
+						document.getElementById('xray_http_path').value = '/';
 					}
 				}
 				if (ssm.net == "ws") {
-					document.getElementById('v2_ws_host').value = ssm.host;
-					document.getElementById('v2_ws_path').value = ssm.path;
+					document.getElementById('xray_ws_host').value = ssm.host;
+					document.getElementById('xray_ws_path').value = ssm.path;
 				}
 				if (ssm.net == "grpc") {
-					document.getElementById('v2_grpc_path').value = ssm.path;
+					document.getElementById('xray_grpc_path').value = ssm.path;
 				}
 				if (ssm.net == "h2") {
-					document.getElementById('v2_h2_host').value = ssm.host;
-					document.getElementById('v2_h2_path').value = ssm.path;
+					document.getElementById('xray_h2_host').value = ssm.host;
+					document.getElementById('xray_h2_path').value = ssm.path;
 				}
 				if (ssm.tls == "tls") {
-					document.getElementById('v2_tls').value = '1';
-					//document.getElementById('v2_tls').checked = true;
+					document.getElementById('xray_tls').value = '1';
+					//document.getElementById('xray_tls').checked = true;
 					document.getElementById('ssp_insecure').value = 1;
 					document.getElementById('ssp_insecure').checked = true;
 					document.getElementById('ssp_tls_host').value = ssm.host;
 				}
-				s.innerHTML = "<font color='green'>导入V2ray配置信息成功</font>";
+				s.innerHTML = "<font color='green'>导入xray配置信息成功</font>";
 				return false;
 			} else if (ssu[0] == "vless") {
 				var url0, param = "";
@@ -1211,53 +1211,53 @@
 				}
 				document.getElementById('ssp_server').value = serverPart[0];
 				document.getElementById('ssp_prot').value = port;
-				document.getElementById('v2_vmess_id').value = password;
-				document.getElementById('v2_alter_id').value = "0";
+				document.getElementById('xray_vmess_id').value = password;
+				document.getElementById('xray_alter_id').value = "0";
 				document.getElementById('ssp_type').value = "xray";
 				document.getElementById('ssp_type').dispatchEvent(event);
-				document.getElementById('v2_security').value = queryParam.encryption || "none";
-				document.getElementById('v2_transport').value = queryParam.type || "tcp";
-				document.getElementById('v2_transport').dispatchEvent(event);
+				document.getElementById('xray_security').value = queryParam.encryption || "none";
+				document.getElementById('xray_transport').value = queryParam.type || "tcp";
+				document.getElementById('xray_transport').dispatchEvent(event);
 
 				if (queryParam.security == "tls") {
-					document.getElementById('v2_tls').value = '1';
-					document.getElementById('v2_flow').value = '0';
-					//document.getElementById('v2_tls').checked = true;
+					document.getElementById('xray_tls').value = '1';
+					document.getElementById('xray_flow').value = '0';
+					//document.getElementById('xray_tls').checked = true;
 					document.getElementById('ssp_insecure').value = 0;
 					document.getElementById('ssp_insecure').checked = false;
 					document.getElementById('ssp_tls_host').value = queryParam.sni || serverPart[0];
 				}
 
 				if (queryParam.type == "ws") {
-					document.getElementById('v2_ws_host').value = queryParam.host;
-					document.getElementById('v2_ws_path').value = queryParam.path;
+					document.getElementById('xray_ws_host').value = queryParam.host;
+					document.getElementById('xray_ws_path').value = queryParam.path;
 				}
 				if (queryParam.type == "grpc") {
-					document.getElementById('v2_grpc_path').value =  queryParam.serviceName;
+					document.getElementById('xray_grpc_path').value =  queryParam.serviceName;
 				}
 				if (queryParam.type == "h2") {
-					document.getElementById('v2_h2_host').value = queryParam.host;
-					document.getElementById('v2_h2_path').value = queryParam.path;
+					document.getElementById('xray_h2_host').value = queryParam.host;
+					document.getElementById('xray_h2_path').value = queryParam.path;
 				}
 
 				if (queryParam.security == "xtls") {
-					document.getElementById('v2_tls').value = '2';
+					document.getElementById('xray_tls').value = '2';
 					if (queryParam.flow != undefined) {
 						if (queryParam.flow == 'xtls-rprx-direct') {
-							document.getElementById('v2_flow').value = '1';
+							document.getElementById('xray_flow').value = '1';
 						}
 						else if (queryParam.flow == 'xtls-rprx-splice') {
-							document.getElementById('v2_flow').value = '2';
+							document.getElementById('xray_flow').value = '2';
 						}
 						else {
-							document.getElementById('v2_flow').value = '0';
+							document.getElementById('xray_flow').value = '0';
 						}
 
 					}
 					else {
-						document.getElementById('v2_flow').value = '1';
+						document.getElementById('xray_flow').value = '1';
 					}
-					//document.getElementById('v2_tls').checked = true;
+					//document.getElementById('xray_tls').checked = true;
 					document.getElementById('ssp_insecure').value = 0;
 					document.getElementById('ssp_insecure').checked = false;
 					document.getElementById('ssp_tls_host').value = queryParam.sni || serverPart[0];
@@ -1359,47 +1359,47 @@
 					coustom: "1",
 				}
 			} else if (type == "v2ray" || type == "xray") {
-				var http_pathnew = document.getElementById("v2_http_path").value;
-				if (http_pathnew == '') { document.getElementById("v2_http_path").value = '/'; }
+				var http_pathnew = document.getElementById("xray_http_path").value;
+				if (http_pathnew == '') { document.getElementById("xray_http_path").value = '/'; }
 				var DataObj = {
 					type: document.getElementById("ssp_type").value,
 					alias: document.getElementById("ssp_name").value,
 					server: document.getElementById("ssp_server").value,
 					server_port: document.getElementById("ssp_prot").value,
 					insecure: document.getElementById("ssp_insecure").value,
-					mux: document.getElementById("v2_mux").value,
-					security: document.getElementById("v2_security").value,
-					vmess_id: document.getElementById("v2_vmess_id").value,
-					alter_id: document.getElementById("v2_alter_id").value,
-					transport: document.getElementById("v2_transport").value,
-					tcp_guise: document.getElementById("v2_tcp_guise").value,
-					http_host: document.getElementById("v2_http_host").value,
-					http_path: document.getElementById("v2_http_path").value,
-					tls: document.getElementById("v2_tls").value,
-					flow: document.getElementById("v2_flow").value,
+					mux: document.getElementById("xray_mux").value,
+					security: document.getElementById("xray_security").value,
+					vmess_id: document.getElementById("xray_vmess_id").value,
+					alter_id: document.getElementById("xray_alter_id").value,
+					transport: document.getElementById("xray_transport").value,
+					tcp_guise: document.getElementById("xray_tcp_guise").value,
+					http_host: document.getElementById("xray_http_host").value,
+					http_path: document.getElementById("xray_http_path").value,
+					tls: document.getElementById("xray_tls").value,
+					flow: document.getElementById("xray_flow").value,
 					tls_host: document.getElementById("ssp_tls_host").value,
 					coustom: "1",
 				}
-				if (document.getElementById("v2_transport").value == "kcp") {
-					DataObj.kcp_guise = document.getElementById("v2_kcp_guise").value;
-					DataObj.mtu = document.getElementById("v2_mtu").value;
-					DataObj.tti = document.getElementById("v2_tti").value;
-					DataObj.uplink_capacity = document.getElementById("v2_uplink_capacity").value;
-					DataObj.downlink_capacity = document.getElementById("v2_downlink_capacity").value;
-					DataObj.read_buffer_size = document.getElementById("v2_read_buffer_size").value;
-					DataObj.write_buffer_size = document.getElementById("v2_write_buffer_size").value;
-				} else if (document.getElementById("v2_transport").value == "ws") {
-					DataObj.ws_host = document.getElementById("v2_ws_host").value;
-					DataObj.ws_path = document.getElementById("v2_ws_path").value;
-				} else if (document.getElementById("v2_transport").value == "grpc") {
-					DataObj.grpc_path = document.getElementById("v2_grpc_path").value;
-				} else if (document.getElementById("v2_transport").value == "h2") {
-					DataObj.h2_host = document.getElementById("v2_h2_host").value;
-					DataObj.h2_path = document.getElementById("v2_h2_path").value;
-				} else if (document.getElementById("v2_transport").value == "quic") {
-					DataObj.quic_guise = document.getElementById("v2_quic_guise").value;
-					DataObj.quic_key = document.getElementById("v2_quic_key").value;
-					DataObj.quic_security = document.getElementById("v2_quic_security").value;
+				if (document.getElementById("xray_transport").value == "kcp") {
+					DataObj.kcp_guise = document.getElementById("xray_kcp_guise").value;
+					DataObj.mtu = document.getElementById("xray_mtu").value;
+					DataObj.tti = document.getElementById("xray_tti").value;
+					DataObj.uplink_capacity = document.getElementById("xray_uplink_capacity").value;
+					DataObj.downlink_capacity = document.getElementById("xray_downlink_capacity").value;
+					DataObj.read_buffer_size = document.getElementById("xray_read_buffer_size").value;
+					DataObj.write_buffer_size = document.getElementById("xray_write_buffer_size").value;
+				} else if (document.getElementById("xray_transport").value == "ws") {
+					DataObj.ws_host = document.getElementById("xray_ws_host").value;
+					DataObj.ws_path = document.getElementById("xray_ws_path").value;
+				} else if (document.getElementById("xray_transport").value == "grpc") {
+					DataObj.grpc_path = document.getElementById("xray_grpc_path").value;
+				} else if (document.getElementById("xray_transport").value == "h2") {
+					DataObj.h2_host = document.getElementById("xray_h2_host").value;
+					DataObj.h2_path = document.getElementById("xray_h2_path").value;
+				} else if (document.getElementById("xray_transport").value == "quic") {
+					DataObj.quic_guise = document.getElementById("xray_quic_guise").value;
+					DataObj.quic_key = document.getElementById("xray_quic_key").value;
+					DataObj.quic_security = document.getElementById("xray_quic_security").value;
 				}
 			} else if (type == "trojan") {
 				var DataObj = {
@@ -1409,7 +1409,7 @@
 					server_port: document.getElementById("ssp_prot").value,
 					password: document.getElementById("ss_password").value,
 					insecure: document.getElementById("ssp_insecure").value,
-					tls: document.getElementById("v2_tls").value,
+					tls: document.getElementById("xray_tls").value,
 					tls_host: document.getElementById("ssp_tls_host").value,
 					coustom: "1",
 				}
@@ -2181,28 +2181,28 @@
 																		class="icon-eye-close"></i></button>
 															</td>
 														</tr>
-														<!--V2RAY-->
-														<tr id="row_v2_aid" style="display:none;">
+														<!--XRAY-->
+														<tr id="row_xray_aid" style="display:none;">
 															<th width="50%">AlterId(Level)</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_alter_id" id="v2_alter_id"
+																	name="xray_alter_id" id="xray_alter_id"
 																	style="width: 200px" value="" />
 															</td>
 														</tr>
-														<tr id="row_v2_vid" style="display:none;">
+														<tr id="row_xray_vid" style="display:none;">
 															<th width="50%">VmessId/VlessId (UUID)</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_vmess_id" id="v2_vmess_id"
+																	name="xray_vmess_id" id="xray_vmess_id"
 																	style="width: 200px" value="<% nvram_get_x("","
-																	v2_vid_x_0"); %>" />
+																	xray_vid_x_0"); %>" />
 															</td>
 														</tr>
-														<tr id="row_v2_security" style="display:none;">
+														<tr id="row_xray_security" style="display:none;">
 															<th width="50%">加密</th>
 															<td>
-																<select name="v2_security" id="v2_security"
+																<select name="xray_security" id="xray_security"
 																	class="input" style="width: 200px;">
 																	<option value="auto">AUTO</option>
 																	<option value="none">NONE</option>
@@ -2213,12 +2213,12 @@
 																</select>
 															</td>
 														</tr>
-														<tr id="row_v2_net" style="display:none;">
+														<tr id="row_xray_net" style="display:none;">
 															<th width="50%">传输方式</th>
 															<td>
-																<select name="v2_transport" id="v2_transport"
+																<select name="xray_transport" id="xray_transport"
 																	class="input" style="width: 200px;"
-																	onchange="switch_v2_type()">
+																	onchange="switch_xray_type()">
 																	<option value="tcp">TCP</option>
 																	<option value="kcp">mKCP</option>
 																	<option value="ws">WebSocket</option>
@@ -2228,15 +2228,15 @@
 																</select>
 															</td>
 														</tr>
-														<tr id="row_v2_type" style="display:none;">
+														<tr id="row_xray_type" style="display:none;">
 															<th width="50%">伪装类型</th>
 															<td>
-																<select id="v2_tcp_guise" name="v2_tcp_guise"
+																<select id="xray_tcp_guise" name="xray_tcp_guise"
 																	class="input" style="width: 200px;display:none;">
 																	<option value="none">未配置</option>
 																	<option value="http">HTTP</option>
 																</select>
-																<select id="v2_kcp_guise" name="v2_kcp_guise"
+																<select id="xray_kcp_guise" name="xray_kcp_guise"
 																	class="input" style="width: 200px;display:none;">
 																	<option value="none">未配置</option>
 																	<option value="srtp">VideoCall (SRTP)</option>
@@ -2247,118 +2247,118 @@
 																</select>
 															</td>
 														</tr>
-														<tr id="row_v2_http_host" style="display:none;">
+														<tr id="row_xray_http_host" style="display:none;">
 															<th width="50%">HTTP Host</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_http_host" id="v2_http_host"
+																	name="xray_http_host" id="xray_http_host"
 																	style="width: 200px" value="" />
 															</td>
 														</tr>
-														<tr id="row_v2_http_path" style="display:none;">
+														<tr id="row_xray_http_path" style="display:none;">
 															<th width="50%">HTTP Path</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_http_path" id="v2_http_path"
+																	name="xray_http_path" id="xray_http_path"
 																	style="width: 200px" value="" />
 															</td>
 														</tr>
-														<tr id="row_v2_mkcp_mtu" style="display:none;">
+														<tr id="row_xray_mkcp_mtu" style="display:none;">
 															<th width="50%">MTU</th>
 															<td>
-																<input type="text" class="input" size="15" name="v2_mtu"
-																	id="v2_mtu" style="width: 200px" value="1350" />
+																<input type="text" class="input" size="15" name="xray_mtu"
+																	id="xray_mtu" style="width: 200px" value="1350" />
 															</td>
 														</tr>
-														<tr id="row_v2_mkcp_tti" style="display:none;">
+														<tr id="row_xray_mkcp_tti" style="display:none;">
 															<th width="50%">TTI</th>
 															<td>
-																<input type="text" class="input" size="15" name="v2_tti"
-																	id="v2_tti" style="width: 200px" value="50" />
+																<input type="text" class="input" size="15" name="xray_tti"
+																	id="xray_tti" style="width: 200px" value="50" />
 															</td>
 														</tr>
-														<tr id="row_v2_mkcp_uplink" style="display:none;">
+														<tr id="row_xray_mkcp_uplink" style="display:none;">
 															<th width="50%">Uplink Capacity</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_uplink_capacity" id="v2_uplink_capacity"
+																	name="xray_uplink_capacity" id="xray_uplink_capacity"
 																	style="width: 200px" value="5" />
 															</td>
 														</tr>
-														<tr id="row_v2_mkcp_downlink" style="display:none;">
+														<tr id="row_xray_mkcp_downlink" style="display:none;">
 															<th width="50%">Downlink Capacity</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_downlink_capacity"
-																	id="v2_downlink_capacity" style="width: 200px"
+																	name="xray_downlink_capacity"
+																	id="xray_downlink_capacity" style="width: 200px"
 																	value="20" />
 															</td>
 														</tr>
-														<tr id="row_v2_mkcp_readbu" style="display:none;">
+														<tr id="row_xray_mkcp_readbu" style="display:none;">
 															<th width="50%">Read Buffer Size</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_read_buffer_size" id="v2_read_buffer_size"
+																	name="xray_read_buffer_size" id="xray_read_buffer_size"
 																	style="width: 200px" value="2" />
 															</td>
 														</tr>
-														<tr id="row_v2_mkcp_writebu" style="display:none;">
+														<tr id="row_xray_mkcp_writebu" style="display:none;">
 															<th width="50%">Write Buffer Size</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_write_buffer_size"
-																	id="v2_write_buffer_size" style="width: 200px"
+																	name="xray_write_buffer_size"
+																	id="xray_write_buffer_size" style="width: 200px"
 																	value="2" />
 															</td>
 														</tr>
-														<tr id="row_v2_webs_host" style="display:none;">
+														<tr id="row_xray_webs_host" style="display:none;">
 															<th width="50%">WebSocket Host</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_ws_host" id="v2_ws_host"
+																	name="xray_ws_host" id="xray_ws_host"
 																	style="width: 200px" value="<% nvram_get_x("","
-																	v2_webs_host_x_0"); %>" />
+																	xray_webs_host_x_0"); %>" />
 															</td>
 														</tr>
-														<tr id="row_v2_webs_path" style="display:none;">
+														<tr id="row_xray_webs_path" style="display:none;">
 															<th width="50%">WebSocket Path</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_ws_path" id="v2_ws_path"
+																	name="xray_ws_path" id="xray_ws_path"
 																	style="width: 200px" value="<% nvram_get_x("","
-																	v2_webs_path_x_0"); %>" />
+																	xray_webs_path_x_0"); %>" />
 															</td>
 														</tr>
-														<tr id="row_v2_grpc_path" style="display:none;">
+														<tr id="row_xray_grpc_path" style="display:none;">
 															<th width="50%">GRPC Path (serviceName)</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_grpc_path" id="v2_grpc_path"
+																	name="xray_grpc_path" id="xray_grpc_path"
 																	style="width: 200px" value="" />
 															</td>
 														</tr>
-														<tr id="row_v2_http2_host" style="display:none;">
+														<tr id="row_xray_http2_host" style="display:none;">
 															<th width="50%">HTTP/2 Host</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_h2_host" id="v2_h2_host"
+																	name="xray_h2_host" id="xray_h2_host"
 																	style="width: 200px" value="<% nvram_get_x("","
-																	v2_http2_host_x_0"); %>" />
+																	xray_http2_host_x_0"); %>" />
 															</td>
 														</tr>
-														<tr id="row_v2_http2_path" style="display:none;">
+														<tr id="row_xray_http2_path" style="display:none;">
 															<th width="50%">HTTP/2 Path</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_h2_path" id="v2_h2_path"
+																	name="xray_h2_path" id="xray_h2_path"
 																	style="width: 200px" value="<% nvram_get_x("","
-																	v2_http2_path_x_0"); %>" />
+																	xray_http2_path_x_0"); %>" />
 															</td>
 														</tr>
 														<tr id="row_quic_security" style="display:none;">
 															<th width="50%">QUIC Security</th>
 															<td>
-																<select name="v2_quic_security" id="v2_quic_security"
+																<select name="xray_quic_security" id="xray_quic_security"
 																	class="input" style="width: 200px;">
 																	<option value="none">未配置</option>
 																	<option value="aes-128-gcm">aes-128-gcm</option>
@@ -2371,14 +2371,14 @@
 															<th width="50%">QUIC Key</th>
 															<td>
 																<input type="text" class="input" size="15"
-																	name="v2_quic_key" id="v2_quic_key"
+																	name="xray_quic_key" id="xray_quic_key"
 																	style="width: 200px" value="" />
 															</td>
 														</tr>
 														<tr id="row_quic_header" style="display:none;">
 															<th width="50%">QUIC Header</th>
 															<td>
-																<select name="v2_quic_guise" id="v2_quic_guise"
+																<select name="xray_quic_guise" id="xray_quic_guise"
 																	class="input" style="width: 200px;">
 																	<option value="none">未配置</option>
 																	<option value="srtp">VideoCall (SRTP)</option>
@@ -2396,10 +2396,10 @@
 																	id="ssp_insecure">
 															</td>
 														</tr>
-														<tr id="row_v2_tls" style="display:none;">
+														<tr id="row_xray_tls" style="display:none;">
 															<th>TLS/XTLS</th>
 															<td>
-																<select name="v2_tls" id="v2_tls" class="input"
+																<select name="xray_tls" id="xray_tls" class="input"
 																	style="width: 200px;">
 																	<option value="0">未配置</option>
 																	<option value="1">tls</option>
@@ -2408,10 +2408,10 @@
 
 															</td>
 														</tr>
-														<tr id="row_v2_flow" style="display:none;">
+														<tr id="row_xray_flow" style="display:none;">
 															<th>XTLS flow</th>
 															<td>
-																<select name="v2_flow" id="v2_flow" class="input"
+																<select name="xray_flow" id="xray_flow" class="input"
 																	style="width: 200px;">
 																	<option value="0">未配置</option>
 																	<option value="1">xtls-rprx-direct</option>
@@ -2428,10 +2428,10 @@
 																	style="width: 200px" value="">
 															</td>
 														</tr>
-														<tr id="row_v2_mux" style="display:none;">
+														<tr id="row_xray_mux" style="display:none;">
 															<th>MUX</th>
 															<td>
-																<input type="checkbox" name="v2_mux" id="v2_mux">
+																<input type="checkbox" name="xray_mux" id="xray_mux">
 															</td>
 														</tr>
 														<tr>

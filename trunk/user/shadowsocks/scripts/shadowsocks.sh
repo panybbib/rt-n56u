@@ -14,6 +14,8 @@ trojan_local=`nvram get trojan_local`
 trojan_link=`nvram get trojan_link`
 v2ray_local=`nvram get v2_local`
 v2ray_link=`nvram get v2_link`
+xray_local=`nvram get xray_local`
+xray_link=`nvram get xray_link`
 http_username=`nvram get http_username`
 CONFIG_FILE=/tmp/${NAME}.json
 CONFIG_UDP_FILE=/tmp/${NAME}_u.json
@@ -23,7 +25,7 @@ trojan_json_file="/tmp/tj-redir.json"
 server_count=0
 redir_tcp=0
 trojan_enable=0
-v2ray_enable=0
+xray_enable=0
 redir_udp=0
 tunnel_enable=0
 local_enable=0
@@ -66,7 +68,7 @@ find_bin() {
 		elif [ -f "/usr/bin/$bin2" ]; then
 			ret="/usr/bin/$bin2"
 		else
-			ret="$v2ray_local"
+			ret="$xray_local"
 		fi
 	;;
 	esac
@@ -129,7 +131,7 @@ gen_config_file() {
 				fi
 			fi
 		fi
-		v2ray_enable=1
+		xray_enable=1
 		if [ "$2" = "1" ]; then
 			lua /etc_ro/ss/genv2config.lua $1 udp 1080 >/tmp/v2-ssr-reudp.json
 			sed -i 's/\\//g' /tmp/v2-ssr-reudp.json
@@ -139,7 +141,21 @@ gen_config_file() {
 		fi
 		;;
 	xray)
-		v2ray_enable=1
+		if [ ! -f "/usr/bin/xray" ]; then
+			if [ ! -s "$xray_local" ];then
+				curl -k -s -o $xray_local --connect-timeout 10 --retry 3 $xray_link
+				if [ -s "$xray_local" ] && [ `grep -c "404 Not Found" "$xray_local"` == '0' ]; then
+                			chmod -R 777 $xray_local
+					log "xray二进制文件下载成功"
+				else
+					log "xray二进制文件下载失败，可能是地址失效或者网络异常！"
+					rm -f $xray_local
+					ssp_close
+					nvram set ss_enable=0 && exit 1
+				fi
+			fi
+		fi
+		xray_enable=1
 		if [ "$2" = "1" ]; then
 			lua /etc_ro/ss/genxrayconfig.lua $1 udp 1080 >/tmp/v2-ssr-reudp.json
 			sed -i 's/\\//g' /tmp/v2-ssr-reudp.json
@@ -580,10 +596,10 @@ rules() {
 
 start_watchcat() {
 	if [ $(nvram get ss_watchcat) = 1 ]; then
-		let total_count=server_count+redir_tcp+redir_udp+tunnel_enable+trojan_enable+v2ray_enable+local_enable+pdnsd_enable_flag+chinadnsng_enable_flag
+		let total_count=server_count+redir_tcp+redir_udp+tunnel_enable+trojan_enable+xray_enable+local_enable+pdnsd_enable_flag+chinadnsng_enable_flag
 		if [ $total_count -gt 0 ]; then
 			#param:server(count) redir_tcp(0:no,1:yes)  redir_udp tunnel kcp local gfw
-			/usr/bin/ssr-monitor $server_count $redir_tcp $redir_udp $tunnel_enable $trojan_enable $v2ray_enable $local_enable $pdnsd_enable_flag $chinadnsng_enable_flag >/dev/null 2>&1 &
+			/usr/bin/ssr-monitor $server_count $redir_tcp $redir_udp $tunnel_enable $trojan_enable $xray_enable $local_enable $pdnsd_enable_flag $chinadnsng_enable_flag >/dev/null 2>&1 &
 		fi
 	fi
 }
@@ -656,11 +672,11 @@ clear_iptable() {
 }
 
 kill_process() {
-	v2ray_process=$(pidof v2ray || pidof xray)
-	if [ -n "$v2ray_process" ]; then
-		log "关闭 V2Ray 进程..."
+	xray_process=$(pidof v2ray || pidof xray)
+	if [ -n "$xray_process" ]; then
+		log "关闭 xray 进程..."
 		killall v2ray xray >/dev/null 2>&1
-		kill -9 "$v2ray_process" >/dev/null 2>&1
+		kill -9 "$xray_process" >/dev/null 2>&1
 	fi
 	ssredir=$(pidof ss-redir)
 	if [ -n "$ssredir" ]; then
