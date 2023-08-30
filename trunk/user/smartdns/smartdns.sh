@@ -96,10 +96,12 @@ Check_md5 () {
 
 
 Check_ss(){
-if [ $(nvram get ss_enable) = 1 ] && [ $(nvram get ss_run_mode) = "router" ] && [ $(nvram get pdnsd_enable) != 0 ]; then
-logger -t "SmartDNS" "系统检测到SS模式为绕过大陆模式，并且启用了dnsproxy或dns2tcp，请先调整SS解析使用正确DNS配置模式！程序将退出。"
-	#nvram set sdns_enable=0
-	exit 0
+if [ $(nvram get ss_enable) = 1 ]; then
+	if [ $(nvram get ss_run_mode) = "router" ] && [ $(nvram get pdnsd_enable) != 0 ] && [ $(nvram get tunnel_forward) != "127.0.0.1#6053" ]; then
+		logger -t "SmartDNS" "系统检测到SS模式为绕过大陆模式，并且启用了dnsproxy或dns2tcp，请先调整SS解析使用正确DNS配置模式！程序将退出。"
+		#nvram set sdns_enable=0
+		exit 0
+	fi
 fi
 }
 

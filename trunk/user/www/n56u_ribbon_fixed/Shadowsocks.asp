@@ -1772,7 +1772,6 @@
 														<td>
 															<select name="china_dns" class="input"
 																style="width: 200px;">
-																<option value="127.0.0.1#5353">SmartDNS (localhost:5353)</option>
 																<option value="223.5.5.5#53">阿里DNS (223.5.5.5)</option>
 																<option value="114.114.114.114#53">114 DNS (114.114.114.114)</option>
 																<option value="119.29.29.29#53">DNSPOD DNS (119.29.29.29)</option>

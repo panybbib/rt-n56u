@@ -477,7 +477,7 @@ EOF
 		ipset -! restore </tmp/china.ipset 2>/dev/null
 		rm -f /tmp/china.ipset
 		if [ "$(nvram get pdnsd_enable)" != 0 ]; then
-		sdns_off
+		[ "$dnsserver" != "127.0.0.1" ] && sdns_off
 		# 不论chinadns-ng打开与否，都重启dns_proxy 
 		# 原因是针对gfwlist ipset有一个专有的dnsmasq配置表（由ss-rule创建放在/tmp/dnsmasq.dom/gfwlist_list.conf)
 		# 需要查询上游dns_proxy在本地5353端口
@@ -490,7 +490,7 @@ EOF
 	;;
 	gfw)
 		if [ "$(nvram get pdnsd_enable)" != 0 ]; then
-		sdns_off
+		[ "$dnsserver" != "127.0.0.1" ] && sdns_off
 		stop_dns_proxy
 		start_dns_proxy
 		#start_chinadns
