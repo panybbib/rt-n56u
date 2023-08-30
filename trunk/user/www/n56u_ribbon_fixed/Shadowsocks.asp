@@ -1772,16 +1772,13 @@
 														<td>
 															<select name="china_dns" class="input"
 																style="width: 200px;">
+																<option value="127.0.0.1#5353">SmartDNS (localhost:5353)</option>
 																<option value="223.5.5.5#53">阿里DNS (223.5.5.5)</option>
-																<option value="114.114.114.114#53">114 DNS
-																	(114.114.114.114)</option>
-																<option value="117.50.11.11#53">OneDNS (117.50.11.11)
-																</option>
-																<option value="180.76.76.76#53">百度DNS (180.76.76.76)
-																</option>
-																<option value="119.29.29.29#53">DNSPOD DNS
-																	(119.29.29.29)</option>
-																<option value="1.2.4.8#53">cnnic DNS (1.2.4.8)</option>
+																<option value="114.114.114.114#53">114 DNS (114.114.114.114)</option>
+																<option value="119.29.29.29#53">DNSPOD DNS (119.29.29.29)</option>
+																<option value="180.76.76.76#53">百度DNS (180.76.76.76)</option>
+																<option value="117.50.11.11#53">OneDNS (117.50.11.11)</option>
+																<option value="1.2.4.8#53">CNNIC DNS (1.2.4.8)</option>
 															</select>
 														</td>
 													</tr>
@@ -1790,34 +1787,21 @@
 														<td>
 															<select name="tunnel_forward" class="input"
 																style="width: 200px;">
-																<option value="8.8.4.4#53">Google Public DNS (8.8.4.4)
-																</option>
-																<option value="8.8.8.8#53">Google Public DNS (8.8.8.8)
-																</option>
-																<option value="208.67.222.222#53">OpenDNS
-																	(208.67.222.222)</option>
-																<option value="208.67.220.220#53">OpenDNS
-																	(208.67.220.220)</option>
-																<option value="209.244.0.3#53">Level 3 Public DNS
-																	(209.244.0.3)</option>
-																<option value="209.244.0.4#53">Level 3 Public DNS
-																	(209.244.0.4)</option>
-																<option value="4.2.2.1#53">Level 3 Public DNS (4.2.2.1)
-																</option>
-																<option value="4.2.2.2#53">Level 3 Public DNS (4.2.2.2)
-																</option>
-																<option value="4.2.2.3#53">Level 3 Public DNS (4.2.2.3)
-																</option>
-																<option value="4.2.2.4#53">Level 3 Public DNS (4.2.2.4)
-																</option>
-																<option value="1.1.1.1#53">Cloudflare DNS (1.1.1.1)
-																</option>
-																<option value="1.0.0.1#53">Cloudflare DNS (1.0.0.1)
-																</option>
-																<option value="114.114.114.114#53">Oversea Mode DNS-1
-																	(114.114.114.114)</option>
-																<option value="114.114.115.115#53">Oversea Mode DNS-1
-																	(114.114.115.115)</option>
+																<option value="127.0.0.1#6053">SmartDNS (localhost:6053)</option>
+																<option value="8.8.4.4#53">Google Public DNS (8.8.4.4)</option>
+																<option value="8.8.8.8#53">Google Public DNS (8.8.8.8)</option>
+																<option value="208.67.222.222#53">OpenDNS (208.67.222.222)</option>
+																<option value="208.67.220.220#53">OpenDNS (208.67.220.220)</option>
+																<option value="1.1.1.1#53">Cloudflare DNS (1.1.1.1)</option>
+																<option value="1.0.0.1#53">Cloudflare DNS (1.0.0.1)</option>
+																<option value="209.244.0.3#53">Level 3 Public DNS (209.244.0.3)</option>
+																<option value="209.244.0.4#53">Level 3 Public DNS (209.244.0.4)</option>
+																<option value="4.2.2.1#53">Level 3 Public DNS (4.2.2.1)</option>
+																<option value="4.2.2.2#53">Level 3 Public DNS (4.2.2.2)</option>
+																<option value="4.2.2.3#53">Level 3 Public DNS (4.2.2.3)</option>
+																<option value="4.2.2.4#53">Level 3 Public DNS (4.2.2.4)</option>
+																<option value="114.114.114.114#53">Oversea Mode DNS1 (114.114.114.114)</option>
+																<option value="114.114.115.115#53">Oversea Mode DNS2 (114.114.115.115)</option>
 															</select>
 														</td>
 													</tr>
