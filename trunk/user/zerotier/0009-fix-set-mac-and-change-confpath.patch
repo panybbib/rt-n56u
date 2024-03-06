@@ -1,6 +1,6 @@
 --- a/osdep/LinuxEthernetTap.cpp	2022-06-28 05:13:57.000000000 +0800
 +++ b/osdep/LinuxEthernetTap.cpp	2022-10-31 14:15:42.626923438 +0800
-@@ -273,11 +273,11 @@
+@@ -275,11 +275,11 @@
  		if (!isOldLinuxKernel()) {
  			ifr.ifr_ifru.ifru_hwaddr.sa_family = ARPHRD_ETHER;
  			_mac.copyTo(ifr.ifr_ifru.ifru_hwaddr.sa_data,6);
