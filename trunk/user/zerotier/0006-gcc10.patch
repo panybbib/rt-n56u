@@ -1,11 +1,10 @@
 --- a/osdep/Binder.hpp
 +++ b/osdep/Binder.hpp
-@@ -453,9 +453,9 @@
+@@ -445,8 +445,9 @@
  					}
  #endif	 // __LINUX__
  					if (_bindingCount < ZT_BINDER_MAX_BINDINGS) {
 -						_bindings[_bindingCount].udpSock = udps;
--						_bindings[_bindingCount].tcpListenSock = tcps;
 -						_bindings[_bindingCount].address = ii->first;
 +						_bindings[(unsigned int)_bindingCount].udpSock = udps;
 +						_bindings[(unsigned int)_bindingCount].tcpListenSock = tcps;
