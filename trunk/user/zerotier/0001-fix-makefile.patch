@@ -38,7 +38,7 @@ Subject: [PATCH 1/2] fix makefile
  	RUSTFLAGS=--release
  endif
  
-@@ -316,7 +316,7 @@
+@@ -327,7 +327,7 @@
  endif
  
  # ARM32 hell -- use conservative CFLAGS
@@ -47,7 +47,7 @@ Subject: [PATCH 1/2] fix makefile
  	ifeq ($(shell if [ -e /usr/bin/dpkg ]; then dpkg --print-architecture; fi),armel)
  		override CFLAGS+=-march=armv5t -mfloat-abi=soft -msoft-float -mno-unaligned-access -marm
  		override CXXFLAGS+=-march=armv5t -mfloat-abi=soft -msoft-float -mno-unaligned-access -marm
-@@ -343,8 +343,8 @@
+@@ -354,8 +354,8 @@
  endif
  
  # Position Independence
@@ -56,5 +56,5 @@ Subject: [PATCH 1/2] fix makefile
 +#override CFLAGS+=-fPIC -fPIE
 +#override CXXFLAGS+=-fPIC -fPIE
  
- .PHONY: all
- all:	one
+# Non-executable stack
+override ASFLAGS+=--noexecstack
