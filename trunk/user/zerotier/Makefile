@@ -11,7 +11,7 @@ extract_test:
 	 if [ ! -d $(SRC_NAME) ] ; then \
 		tar xf $(SRC_NAME).tar.gz ; \
 		#patch -d $(SRC_NAME) -p1 -i ../0002-remove-pie.patch; \
-		#patch -d $(SRC_NAME) -p1 -i ../0001-fix-makefile.patch ; \
+		patch -d $(SRC_NAME) -p1 -i ../0001-fix-makefile.patch ; \
 		patch -d $(SRC_NAME) -p1 -i ../0002-fix-compilation-for-arm_cortex-a7-neon.patch ; \
 		patch -d $(SRC_NAME) -p1 -i ../0006-gcc10.patch ; \
 		patch -d $(SRC_NAME) -p1 -i ../0007-add-cerrno-header-for-str-errno.patch ; \
